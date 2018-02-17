@@ -10,6 +10,7 @@ jobs:
       - image: circleci/android:api-27-alpha
     environment:
       TERM: dumb
+      GRADLE_OPTS: '-Dorg.gradle.daemon=false'
     steps:
       - checkout
       - restore_cache:
@@ -23,7 +24,7 @@ jobs:
             - ~/.gradle
       - run:
           name: Run Lint and Tests
-          command: ./gradlew lintDebug ktlintDebugCheck testDebug --no-daemon
+          command: ./gradlew lintDebug ktlintDebugCheck testDebug
       - store_artifacts:
           path: lifecycle/extensions/build/reports
       - store_artifacts:
