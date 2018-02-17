@@ -1,0 +1,8 @@
+include 'lifecycle:extensions'
+include 'lifecycle:livedata'
+include 'lifecycle:viewmodel'
+include 'lifecycle:reactivestreams'
+
+include 'room:runtime'
+
+include 'paging:runtime'

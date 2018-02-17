@@ -1,0 +1,96 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'org.jetbrains.dokka-android'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'org.jlleitschuh.gradle.ktlint'
+apply plugin: 'com.getkeepsafe.dexcount'
+
+apply from: "$rootDir/gradle/version.gradle"
+
+version = version_name
+
+def isOnCi = System.getenv('CI') as boolean
+
+android {
+    compileSdkVersion 27
+    defaultConfig {
+        minSdkVersion 14
+    }
+    kotlinOptions {
+        allWarningsAsErrors = !isOnCi
+        freeCompilerArgs += ['-Xno-param-assertions', '-Xno-call-assertions']
+    }
+    libraryVariants.all {
+        it.generateBuildConfig.enabled = false
+    }
+}
+
+repositories {
+    google()
+    jcenter()
+}
+
+dependencies {
+    api deps.kotlin.stdlib
+    testImplementation deps.junit
+    testImplementation deps.kotlin.test
+}
+
+ktlint {
+    version = versions.ktlint
+    android = true
+    reporter = 'checkstyle'
+    ignoreFailures = isOnCi
+}
+
+dexcount {
+    includeClasses = true
+}
+
+task javadoc(type: Javadoc)
+
+dokka {
+    outputFormat = 'html'
+    outputDirectory = javadoc.destinationDir
+    externalDocumentationLink {
+        url = 'https://developer.android.com/reference/'.toURL()
+        packageListUrl = 'https://developer.android.com/reference/android/arch/package-list'.toURL()
+    }
+}
+javadoc.dependsOn dokka
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.source
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+
+install {
+    repositories.mavenInstaller {
+        pom.project {
+            inceptionYear '2018'
+            licenses {
+                license {
+                    name 'The Apache Software License, Version 2.0'
+                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    distribution 'repo'
+                }
+            }
+            developers {
+                developer {
+                    id 'tmurakami'
+                    name 'Tsuyoshi Murakami'
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,13 @@
+apply from: "$rootDir/gradle/android-library.gradle"
+
+group = 'com.github.tmurakami.aackt.lifecycle'
+
+dependencies {
+    api deps.arch.lifecycle.reactivestreams
+}
+
+dokka {
+    externalDocumentationLink {
+        url = 'http://www.reactive-streams.org/reactive-streams-1.0.0-javadoc/'.toURL()
+    }
+}
