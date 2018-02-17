@@ -1,8 +1,8 @@
-include 'aackt-lifecycle-extensions'
-include 'aackt-lifecycle-livedata'
-include 'aackt-lifecycle-viewmodel'
-include 'aackt-lifecycle-reactivestreams'
+include 'lifecycle-extensions'
+include 'lifecycle-livedata'
+include 'lifecycle-viewmodel'
+include 'lifecycle-reactivestreams'
 
-include 'aackt-persistence-room-runtime'
+include 'persistence-room-runtime'
 
-include 'aackt-paging-runtime'
+include 'paging-runtime'

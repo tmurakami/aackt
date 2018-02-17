@@ -2,6 +2,6 @@ apply from: "$rootDir/gradle/android-library.gradle"
 
 dependencies {
     api deps.arch.lifecycle.extensions
-    api project(':aackt-lifecycle-livedata')
-    api project(':aackt-lifecycle-viewmodel')
+    api project(':lifecycle-livedata')
+    api project(':lifecycle-viewmodel')
 }

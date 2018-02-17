@@ -26,26 +26,26 @@ jobs:
           name: Run Lint and Tests
           command: ./gradlew lintDebug ktlintDebugCheck testDebug
       - store_artifacts:
-          path: aackt-lifecycle-extensions/build/reports
+          path: lifecycle-extensions/build/reports
       - store_artifacts:
-          path: aackt-lifecycle-livedata/build/reports
+          path: lifecycle-livedata/build/reports
       - store_artifacts:
-          path: aackt-lifecycle-viewmodel/build/reports
+          path: lifecycle-viewmodel/build/reports
       - store_artifacts:
-          path: aackt-lifecycle-reactivestreams/build/reports
+          path: lifecycle-reactivestreams/build/reports
       - store_artifacts:
-          path: aackt-persistence-room-runtime/build/reports
+          path: persistence-room-runtime/build/reports
       - store_artifacts:
-          path: aackt-paging-runtime/build/reports
+          path: paging-runtime/build/reports
       - store_test_results:
-          path: aackt-lifecycle-extensions/build/test-results
+          path: lifecycle-extensions/build/test-results
       - store_test_results:
-          path: aackt-lifecycle-livedata/build/test-results
+          path: lifecycle-livedata/build/test-results
       - store_test_results:
-          path: aackt-lifecycle-viewmodel/build/test-results
+          path: lifecycle-viewmodel/build/test-results
       - store_test_results:
-          path: aackt-lifecycle-reactivestreams/build/test-results
+          path: lifecycle-reactivestreams/build/test-results
       - store_test_results:
-          path: aackt-persistence-room-runtime/build/test-results
+          path: persistence-room-runtime/build/test-results
       - store_test_results:
-          path: aackt-paging-runtime/build/test-results
+          path: paging-runtime/build/test-results
