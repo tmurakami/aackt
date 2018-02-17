@@ -7,6 +7,7 @@ apply plugin: 'com.getkeepsafe.dexcount'
 
 apply from: "$rootDir/gradle/version.gradle"
 
+group = 'com.github.tmurakami'
 version = version_name
 
 def isOnCi = System.getenv('CI') as boolean
