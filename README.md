@@ -1,7 +1,7 @@
 # AAC.kt
 
 [![CircleCI](https://circleci.com/gh/tmurakami/aackt.svg?style=shield)](https://circleci.com/gh/tmurakami/aackt)
-[![Release](https://jitpack.io/v/tmurakami/aackt.svg)](https://jitpack.io/#tmurakami/aackt)<br>
+[![Release](https://jitpack.io/v/tmurakami/aackt.svg)](https://jitpack.io/#tmurakami/aackt)
 ![Kotlin](https://img.shields.io/badge/Kotlin-1.2.21%2B-blue.svg)
 ![Android](https://img.shields.io/badge/Android-4.0%2B-blue.svg)
 
@@ -48,7 +48,7 @@ class FooActivity: AppCompatActivity() {
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     // Lazy fetching with the property name
-    private val fooViewModel: FooViewModel by ViewModels {
+    private val fooViewModel by viewModel<FooViewModel> {
         viewModelProvider(viewModelFactory)
     }
 
@@ -60,11 +60,11 @@ class BarFragment : Fragment() {
 
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private val fooViewModel: FooViewModel by ViewModels {
+    private val fooViewModel by viewModel<FooViewModel> {
         activity.viewModelProvider(viewModelFactory)
     }
 
-    private val barViewModel: BarViewModel by ViewModels {
+    private val barViewModel by viewModel<BarViewModel> {
         viewModelProvider(viewModelFactory)
     }
 
@@ -134,18 +134,18 @@ dependencies {
 
 ### Lifecycle
 
-- [Extensions](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-extensions/0.2.1/javadoc/lifecycle-extensions/)
-- [LiveData](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-livedata/0.2.1/javadoc/lifecycle-livedata/)
-- [ViewModel](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-viewmodel/0.2.1/javadoc/lifecycle-viewmodel/)
-- [Reactive Streams](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-reactivestreams/0.2.1/javadoc/lifecycle-reactivestreams/)
+- [Extensions](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-extensions/0.3.0/javadoc/lifecycle-extensions/)
+- [LiveData](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-livedata/0.3.0/javadoc/lifecycle-livedata/)
+- [ViewModel](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-viewmodel/0.3.0/javadoc/lifecycle-viewmodel/)
+- [Reactive Streams](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-reactivestreams/0.3.0/javadoc/lifecycle-reactivestreams/)
 
 ### Room
 
-- [Runtime](https://jitpack.io/com/github/tmurakami/aackt/persistence-room-runtime/0.2.1/javadoc/persistence-room-runtime/)
+- [Runtime](https://jitpack.io/com/github/tmurakami/aackt/persistence-room-runtime/0.3.0/javadoc/persistence-room-runtime/)
 
 ### Paging
 
-- [Runtime](https://jitpack.io/com/github/tmurakami/aackt/paging-runtime/0.2.1/javadoc/paging-runtime/)
+- [Runtime](https://jitpack.io/com/github/tmurakami/aackt/paging-runtime/0.3.0/javadoc/paging-runtime/)
 
 ## License
 
