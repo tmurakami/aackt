@@ -53,6 +53,7 @@ task javadoc(type: Javadoc)
 dokka {
     outputFormat = 'html'
     outputDirectory = javadoc.destinationDir
+    skipDeprecated = true
     externalDocumentationLink {
         url = 'https://developer.android.com/reference/'.toURL()
         packageListUrl = 'https://developer.android.com/reference/android/arch/package-list'.toURL()

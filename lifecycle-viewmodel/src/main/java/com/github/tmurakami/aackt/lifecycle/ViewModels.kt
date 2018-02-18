@@ -7,7 +7,7 @@ import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
 
 /**
- * A class that provides view models for a scope.
+ * Represents a collection of [ViewModel].
  */
 @MainThread
 class ViewModels(provider: () -> ViewModelProvider) {
