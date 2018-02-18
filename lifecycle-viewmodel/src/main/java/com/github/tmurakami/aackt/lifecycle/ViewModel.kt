@@ -19,22 +19,21 @@ package com.github.tmurakami.aackt.lifecycle
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import android.support.annotation.MainThread
+import kotlin.properties.ReadOnlyProperty
+import kotlin.reflect.KProperty
 
 /**
- * Creates a [Lazy] of the [ViewModel] returned from the given [provider].
+ *  Creates a property delegate for a read property that gets a [ViewModel] with the property name.
  */
-@Deprecated(message = "", replaceWith = ReplaceWith("ViewModels(provider)"))
 @MainThread
 inline fun <reified T : ViewModel> viewModel(
     crossinline provider: () -> ViewModelProvider
-): Lazy<T> = lazy(LazyThreadSafetyMode.NONE) { provider().get(T::class.java) }
-
-/**
- * Creates a [Lazy] of the [ViewModel] returned from the given [provider] with the [key].
- */
-@Deprecated(message = "", replaceWith = ReplaceWith("ViewModels(provider)"))
-@MainThread
-inline fun <reified T : ViewModel> viewModel(
-    key: String,
-    crossinline provider: () -> ViewModelProvider
-): Lazy<T> = lazy(LazyThreadSafetyMode.NONE) { provider().get(key, T::class.java) }
+): ReadOnlyProperty<Any?, T> = object : ReadOnlyProperty<Any?, T> {
+    private var viewModel: T? = null
+    override fun getValue(thisRef: Any?, property: KProperty<*>): T {
+        if (viewModel == null) {
+            viewModel = provider().get(property.name, T::class.java)
+        }
+        return viewModel!!
+    }
+}

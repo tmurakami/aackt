@@ -19,12 +19,12 @@ package com.github.tmurakami.aackt.lifecycle.viewmodel
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelStore
-import com.github.tmurakami.aackt.lifecycle.ViewModels
+import com.github.tmurakami.aackt.lifecycle.viewModel
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertSame
 
-class ViewModelsTest {
+class ViewModelTest {
 
     private lateinit var provider: ViewModelProvider
 
@@ -41,6 +41,6 @@ class ViewModelsTest {
 
     class TestViewModel : ViewModel()
     class TestViewModelHolder(provider: ViewModelProvider) {
-        val testViewModel: TestViewModel by ViewModels { provider }
+        val testViewModel by viewModel<TestViewModel> { provider }
     }
 }
