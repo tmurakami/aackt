@@ -28,11 +28,40 @@ import android.support.v4.app.FragmentActivity
  * Creates a [ViewModelProvider] that uses the default factory to instantiate new view models.
  */
 @MainThread
+inline fun Fragment.viewModelProvider(): ViewModelProvider = ViewModelProviders.of(this)
+
+/**
+ * Creates a [ViewModelProvider] that uses the given [factory] to instantiate new view models.
+ */
+@MainThread
+inline fun Fragment.viewModelProvider(factory: ViewModelProvider.Factory): ViewModelProvider =
+    ViewModelProviders.of(this, factory)
+
+/**
+ * Creates a [ViewModelProvider] that uses the default factory to instantiate new view models.
+ */
+@MainThread
+inline fun FragmentActivity.viewModelProvider(): ViewModelProvider = ViewModelProviders.of(this)
+
+/**
+ * Creates a [ViewModelProvider] that uses the given [factory] to instantiate new view models.
+ */
+@MainThread
+inline fun FragmentActivity.viewModelProvider(
+    factory: ViewModelProvider.Factory
+): ViewModelProvider = ViewModelProviders.of(this, factory)
+
+/**
+ * Creates a [ViewModelProvider] that uses the default factory to instantiate new view models.
+ */
+@Deprecated(message = "", replaceWith = ReplaceWith("viewModelProvider()"))
+@MainThread
 inline fun Fragment.viewModels(): ViewModelProvider = ViewModelProviders.of(this)
 
 /**
  * Creates a [ViewModelProvider] that uses the given [factory] to instantiate new view models.
  */
+@Deprecated(message = "", replaceWith = ReplaceWith("viewModelProvider(factory)"))
 @MainThread
 inline fun Fragment.viewModels(factory: ViewModelProvider.Factory): ViewModelProvider =
     ViewModelProviders.of(this, factory)
@@ -40,12 +69,14 @@ inline fun Fragment.viewModels(factory: ViewModelProvider.Factory): ViewModelPro
 /**
  * Creates a [ViewModelProvider] that uses the default factory to instantiate new view models.
  */
+@Deprecated(message = "", replaceWith = ReplaceWith("viewModelProvider()"))
 @MainThread
 inline fun FragmentActivity.viewModels(): ViewModelProvider = ViewModelProviders.of(this)
 
 /**
  * Creates a [ViewModelProvider] that uses the given [factory] to instantiate new view models.
  */
+@Deprecated(message = "", replaceWith = ReplaceWith("viewModelProvider(factory)"))
 @MainThread
 inline fun FragmentActivity.viewModels(factory: ViewModelProvider.Factory): ViewModelProvider =
     ViewModelProviders.of(this, factory)
