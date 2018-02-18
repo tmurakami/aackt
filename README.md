@@ -134,18 +134,18 @@ dependencies {
 
 ### Lifecycle
 
-- [Extensions](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-extensions/0.2.0/javadoc/lifecycle-extensions/)
-- [LiveData](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-livedata/0.2.0/javadoc/lifecycle-livedata/)
-- [ViewModel](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-viewmodel/0.2.0/javadoc/lifecycle-viewmodel/)
-- [Reactive Streams](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-reactivestreams/0.2.0/javadoc/lifecycle-reactivestreams/)
+- [Extensions](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-extensions/0.2.1/javadoc/lifecycle-extensions/)
+- [LiveData](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-livedata/0.2.1/javadoc/lifecycle-livedata/)
+- [ViewModel](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-viewmodel/0.2.1/javadoc/lifecycle-viewmodel/)
+- [Reactive Streams](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-reactivestreams/0.2.1/javadoc/lifecycle-reactivestreams/)
 
 ### Room
 
-- [Runtime](https://jitpack.io/com/github/tmurakami/aackt/persistence-room-runtime/0.2.0/javadoc/persistence-room-runtime/)
+- [Runtime](https://jitpack.io/com/github/tmurakami/aackt/persistence-room-runtime/0.2.1/javadoc/persistence-room-runtime/)
 
 ### Paging
 
-- [Runtime](https://jitpack.io/com/github/tmurakami/aackt/paging-runtime/0.2.0/javadoc/paging-runtime/)
+- [Runtime](https://jitpack.io/com/github/tmurakami/aackt/paging-runtime/0.2.1/javadoc/paging-runtime/)
 
 ## License
 
