@@ -23,12 +23,14 @@ import android.support.annotation.MainThread
 /**
  * Returns an existing [ViewModel] or creates a new one.
  */
+@Deprecated(message = "", replaceWith = ReplaceWith("get(T::class.java)"))
 @MainThread
 inline fun <reified T : ViewModel> ViewModelProvider.get(): T = get(T::class.java)
 
 /**
  * Returns an existing [ViewModel] with the given [key], or creates a new one.
  */
+@Deprecated(message = "", replaceWith = ReplaceWith("get(key, T::class.java)"))
 @MainThread
 inline operator fun <reified T : ViewModel> ViewModelProvider.get(key: String): T =
     get(key, T::class.java)

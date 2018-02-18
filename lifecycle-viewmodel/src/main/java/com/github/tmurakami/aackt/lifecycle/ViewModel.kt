@@ -23,16 +23,18 @@ import android.support.annotation.MainThread
 /**
  * Creates a [Lazy] of the [ViewModel] returned from the given [provider].
  */
+@Deprecated(message = "", replaceWith = ReplaceWith("ViewModels(provider)"))
 @MainThread
 inline fun <reified T : ViewModel> viewModel(
     crossinline provider: () -> ViewModelProvider
-): Lazy<T> = lazy(LazyThreadSafetyMode.NONE) { provider().get<T>() }
+): Lazy<T> = lazy(LazyThreadSafetyMode.NONE) { provider().get(T::class.java) }
 
 /**
  * Creates a [Lazy] of the [ViewModel] returned from the given [provider] with the [key].
  */
+@Deprecated(message = "", replaceWith = ReplaceWith("ViewModels(provider)"))
 @MainThread
 inline fun <reified T : ViewModel> viewModel(
     key: String,
     crossinline provider: () -> ViewModelProvider
-): Lazy<T> = lazy(LazyThreadSafetyMode.NONE) { provider().get<T>(key) }
+): Lazy<T> = lazy(LazyThreadSafetyMode.NONE) { provider().get(key, T::class.java) }
