@@ -47,7 +47,6 @@ class FooActivity: AppCompatActivity() {
 
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    // Lazy fetching with the property name
     private val fooViewModel by viewModel<FooViewModel> {
         viewModelProvider(viewModelFactory)
     }
@@ -59,10 +58,6 @@ class FooActivity: AppCompatActivity() {
 class BarFragment : Fragment() {
 
     lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    private val fooViewModel by viewModel<FooViewModel> {
-        activity.viewModelProvider(viewModelFactory)
-    }
 
     private val barViewModel by viewModel<BarViewModel> {
         viewModelProvider(viewModelFactory)
