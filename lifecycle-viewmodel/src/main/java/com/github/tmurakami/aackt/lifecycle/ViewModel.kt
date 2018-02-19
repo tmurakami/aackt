@@ -23,17 +23,16 @@ import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
 /**
- *  Creates a property delegate for a read property that gets a [ViewModel] with the property name.
+ * Creates a property delegate for a read property that gets a [ViewModel] with the property name.
  */
 @MainThread
 inline fun <reified T : ViewModel> viewModel(
     crossinline provider: () -> ViewModelProvider
 ): ReadOnlyProperty<Any?, T> = object : ReadOnlyProperty<Any?, T> {
     private var viewModel: T? = null
-    override fun getValue(thisRef: Any?, property: KProperty<*>): T {
-        if (viewModel == null) {
-            viewModel = provider().get(property.name, T::class.java)
-        }
-        return viewModel!!
-    }
+    @MainThread
+    override fun getValue(thisRef: Any?, property: KProperty<*>): T =
+        viewModel ?: T::class.java
+            .let { provider().get("${it.name}:${property.name}", it) }
+            .also { viewModel = it }
 }
