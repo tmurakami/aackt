@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.github.tmurakami.aackt.lifecycle
+package com.github.tmurakami.aackt.lifecycle.livedata
 
 import android.arch.lifecycle.MediatorLiveData
 import java.util.LinkedList

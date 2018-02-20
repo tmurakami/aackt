@@ -16,7 +16,7 @@
 
 @file:Suppress("NOTHING_TO_INLINE")
 
-package com.github.tmurakami.aackt.paging
+package com.github.tmurakami.aackt.paging.runtime
 
 import android.arch.paging.DataSource
 import android.arch.paging.LivePagedListBuilder
