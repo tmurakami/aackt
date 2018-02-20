@@ -19,29 +19,32 @@ package com.github.tmurakami.aackt.lifecycle.viewmodel
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelStore
-import com.github.tmurakami.aackt.lifecycle.viewModel
-import org.junit.Before
+import com.github.tmurakami.aackt.lifecycle.getValue
+import org.junit.After
 import org.junit.Test
+import kotlin.test.assertNotSame
 import kotlin.test.assertSame
 
-class ViewModelTest {
+class ViewModelProviderTest {
 
-    private lateinit var provider: ViewModelProvider
+    private val store = ViewModelStore()
+    private val provider = ViewModelProvider(store, ViewModelProvider.NewInstanceFactory())
 
-    @Before
-    fun setUp() {
-        provider = ViewModelProvider(ViewModelStore(), ViewModelProvider.NewInstanceFactory())
+    @After
+    fun tearDown() {
+        store.clear()
     }
 
     @Test
-    fun viewModel() = assertSame(
-        TestViewModelHolder(provider).testViewModel,
-        TestViewModelHolder(provider).testViewModel
-    )
+    fun getValue() {
+        val holder = TestViewModelHolder(provider)
+        assertSame(holder.viewModel1, holder.viewModel1)
+        assertNotSame(holder.viewModel1, holder.viewModel2)
+    }
 
     class TestViewModel : ViewModel()
-    class TestViewModelHolder(provider: ViewModelProvider) {
-        @Suppress("DEPRECATION")
-        val testViewModel by viewModel<TestViewModel> { provider }
+    class TestViewModelHolder(viewModelProvider: ViewModelProvider) {
+        val viewModel1: TestViewModel by viewModelProvider
+        val viewModel2: TestViewModel by viewModelProvider
     }
 }

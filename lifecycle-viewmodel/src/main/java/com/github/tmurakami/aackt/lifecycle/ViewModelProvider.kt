@@ -19,21 +19,26 @@ package com.github.tmurakami.aackt.lifecycle
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import android.support.annotation.MainThread
-import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
 /**
- * Creates a property delegate for a read property that gets a [ViewModel] with the property name.
+ * Returns an existing [ViewModel] or creates a new one.
  */
-@Deprecated(message = "")
 @MainThread
-inline fun <reified T : ViewModel> viewModel(
-    crossinline provider: () -> ViewModelProvider
-): ReadOnlyProperty<Any?, T> = object : ReadOnlyProperty<Any?, T> {
-    private var viewModel: T? = null
-    @MainThread
-    override fun getValue(thisRef: Any?, property: KProperty<*>): T =
-        viewModel ?: T::class.java
-            .let { provider().get("${it.name}:${property.name}", it) }
-            .also { viewModel = it }
-}
+inline fun <reified T : ViewModel> ViewModelProvider.get(): T = get(T::class.java)
+
+/**
+ * Returns an existing [ViewModel] with the given [key], or creates a new one.
+ */
+@MainThread
+inline operator fun <reified T : ViewModel> ViewModelProvider.get(key: String): T =
+    get(key, T::class.java)
+
+/**
+ * Returns an existing [ViewModel] with the given [property] name, or creates a new one.
+ */
+@MainThread
+inline operator fun <reified T : ViewModel> ViewModelProvider.getValue(
+    thisRef: Any?,
+    property: KProperty<*>
+): T = get(property.name)
