@@ -25,22 +25,26 @@ task clean(type: Delete) {
 }
 
 ext {
-    deps = [kotlin: [stdlib: "org.jetbrains.kotlin:kotlin-stdlib:${versions.kotlin}",
-                     test  : "org.jetbrains.kotlin:kotlin-test:${versions.kotlin}",],
-            junit : 'junit:junit:4.12',]
+    deps = [junit: 'junit:junit:4.12',]
 
-    def arch = [paging: [runtime: "android.arch.paging:runtime:1.0.0-alpha5",]]
+    deps.kotlin = [stdlib: "org.jetbrains.kotlin:kotlin-stdlib:${versions.kotlin}",
+                   test  : "org.jetbrains.kotlin:kotlin-test:${versions.kotlin}",]
+
+    def arch = [:]
     deps.arch = arch
 
     def lifecycleVersion = '1.1.0'
-    arch.core = [testing: "android.arch.core:core-testing:$lifecycleVersion"]
-    arch.lifecycle = [runtime        : "android.arch.lifecycle:runtime:$lifecycleVersion",
-                      extensions     : "android.arch.lifecycle:extensions:$lifecycleVersion",
+    arch.core = [testing: "android.arch.core:core-testing:$lifecycleVersion",]
+    arch.lifecycle = [extensions     : "android.arch.lifecycle:extensions:$lifecycleVersion",
                       livedata       : "android.arch.lifecycle:livedata:$lifecycleVersion",
                       reactivestreams: "android.arch.lifecycle:reactivestreams:$lifecycleVersion",
                       viewmodel      : "android.arch.lifecycle:viewmodel:$lifecycleVersion",]
 
     def roomVersion = '1.0.0'
-    arch.persistence = [room: [runtime: "android.arch.persistence.room:runtime:$roomVersion",
-                               testing: "android.arch.persistence.room:testing:$roomVersion",],]
+    def room = [runtime: "android.arch.persistence.room:runtime:$roomVersion",
+                testing: "android.arch.persistence.room:testing:$roomVersion",]
+    arch.persistence = [:]
+    arch.persistence.room = room
+
+    arch.paging = [runtime: "android.arch.paging:runtime:1.0.0-alpha5",]
 }
