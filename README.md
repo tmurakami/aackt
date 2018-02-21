@@ -47,11 +47,18 @@ class FooActivity : FragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val fooViewModel: FooViewModel by viewModelProvider()
+        val fooViewModel = viewModelProvider().get<FooViewModel>()
 
         ...
     }
 }
+```
+
+You can also use a ViewModelProvider as the delegate for a delegated
+property.
+
+```kotlin
+val fooViewModel: FooViewModel by viewModelProvider
 ```
 
 ## Room
