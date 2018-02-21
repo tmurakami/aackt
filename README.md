@@ -44,24 +44,13 @@ assertEquals(listOf(3, 4), received)
 
 ```kotlin
 class FooActivity : FragmentActivity() {
-
-    private lateinit var fooViewModel: FooViewModel
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        fooViewModel = viewModelProvider().get()
+
+        val fooViewModel: FooViewModel by viewModelProvider()
 
         ...
     }
-}
-```
-
-You can also use a ViewModelProvider as the delegate for a delegated
-property.
-
-```kotlin
-class ViewModels(viewModelProvider: ViewModelProvider) {
-    val fooViewModel: FooViewModel by viewModelProvider
 }
 ```
 
