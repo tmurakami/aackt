@@ -17,6 +17,8 @@
 package com.github.tmurakami.aackt.lifecycle.livedata
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule
+import com.github.tmurakami.aackt.lifecycle.LiveDataOnLifecycle
+import com.github.tmurakami.aackt.lifecycle.addObserver
 import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals

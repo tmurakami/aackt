@@ -16,8 +16,9 @@
 
 @file:Suppress("NOTHING_TO_INLINE")
 
-package com.github.tmurakami.aackt.lifecycle.livedata
+package com.github.tmurakami.aackt.lifecycle
 
+import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MediatorLiveData
 import android.arch.lifecycle.MutableLiveData
@@ -25,6 +26,35 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.Transformations
 import android.support.annotation.MainThread
 import java.util.LinkedList
+
+/**
+ * Binds the given [data] to this and returns the registered [Observer]. The [observer] will receive
+ * values only while [this] is active. You can manually stop observing by calling
+ * [LiveData.removeObserver] with the resulting [Observer].
+ */
+@MainThread
+inline fun <T> LifecycleOwner.bindLiveData(
+    data: LiveData<T>,
+    crossinline observer: (T) -> Unit
+): Observer<T> = bindLiveData(data, Observer {
+    @Suppress("UNCHECKED_CAST")
+    observer(it as T)
+})
+
+/**
+ * Binds the given [data] to this and returns the [observer]. The [observer] will receive values
+ * only while [this] is active. You can manually stop observing by calling [LiveData.removeObserver]
+ * with the resulting [Observer].
+ */
+@MainThread
+inline fun <T> LifecycleOwner.bindLiveData(data: LiveData<T>, observer: Observer<T>): Observer<T> =
+    observer.also { data.observe(this, it) }
+
+/**
+ * Unbinds the given [data] from [this].
+ */
+@MainThread
+inline fun <T> LifecycleOwner.unbindLiveData(data: LiveData<T>) = data.removeObservers(this)
 
 /**
  * Returns a [LiveData] that emits [this] as a value.

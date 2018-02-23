@@ -16,7 +16,7 @@
 
 @file:Suppress("NOTHING_TO_INLINE")
 
-package com.github.tmurakami.aackt.lifecycle.livedata
+package com.github.tmurakami.aackt.lifecycle
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MediatorLiveData

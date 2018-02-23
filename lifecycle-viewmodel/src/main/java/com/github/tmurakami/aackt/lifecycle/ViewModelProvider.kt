@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.github.tmurakami.aackt.lifecycle.viewmodel
+package com.github.tmurakami.aackt.lifecycle
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider

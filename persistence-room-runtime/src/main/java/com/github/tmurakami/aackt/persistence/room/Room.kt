@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.github.tmurakami.aackt.persistence.room.runtime
+package com.github.tmurakami.aackt.persistence.room
 
 import android.arch.persistence.room.Room
 import android.arch.persistence.room.RoomDatabase

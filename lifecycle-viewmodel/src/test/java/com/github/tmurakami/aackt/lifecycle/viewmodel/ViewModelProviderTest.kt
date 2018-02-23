@@ -14,11 +14,14 @@
  * limitations under the License.
  */
 
+@file:Suppress("UnusedImport")
+
 package com.github.tmurakami.aackt.lifecycle.viewmodel
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelStore
+import com.github.tmurakami.aackt.lifecycle.getValue
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotSame

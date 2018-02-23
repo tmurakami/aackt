@@ -16,12 +16,26 @@
 
 @file:[Suppress("NOTHING_TO_INLINE")]
 
-package com.github.tmurakami.aackt.lifecycle.extensions
+package com.github.tmurakami.aackt.lifecycle
 
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.support.annotation.MainThread
+import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
+
+/**
+ * Creates a [ViewModelProvider] that uses the default factory to instantiate new view models.
+ */
+@MainThread
+inline fun Fragment.viewModelProvider(): ViewModelProvider = ViewModelProviders.of(this)
+
+/**
+ * Creates a [ViewModelProvider] that uses the given [factory] to instantiate new view models.
+ */
+@MainThread
+inline fun Fragment.viewModelProvider(factory: ViewModelProvider.Factory): ViewModelProvider =
+    ViewModelProviders.of(this, factory)
 
 /**
  * Creates a [ViewModelProvider] that uses the default factory to instantiate new view models.

@@ -14,22 +14,18 @@
  * limitations under the License.
  */
 
-@file:Suppress("NOTHING_TO_INLINE")
+package com.github.tmurakami.aackt.persistence.room.migration
 
-package com.github.tmurakami.aackt.lifecycle.reactivestreams
-
-import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.LiveDataReactiveStreams
-import org.reactivestreams.Publisher
+import android.arch.persistence.db.SupportSQLiteDatabase
+import android.arch.persistence.room.migration.Migration
 
 /**
- * Creates a lifecycle-aware [Publisher] linked to the given [owner].
+ * Creates a [Migration] between [startVersion] and [endVersion].
  */
-inline fun <T> LiveData<T>.toPublisher(owner: LifecycleOwner): Publisher<T> =
-    LiveDataReactiveStreams.toPublisher(owner, this)
-
-/**
- * Creates a [LiveData].
- */
-inline fun <T> Publisher<T>.toLiveData(): LiveData<T> = LiveDataReactiveStreams.fromPublisher(this)
+inline fun migration(
+    startVersion: Int,
+    endVersion: Int,
+    crossinline migrate: (SupportSQLiteDatabase) -> Unit
+): Migration = object : Migration(startVersion, endVersion) {
+    override fun migrate(database: SupportSQLiteDatabase) = migrate(database)
+}
