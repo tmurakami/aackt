@@ -156,16 +156,6 @@ class LiveDataTest {
     }
 
     @Test
-    fun test() {
-        val src = MutableLiveData<Int>()
-        val take = src.take(2)
-        val observer = take.addObserver { println(it) }
-        src.values(1, 2, 3, 4)
-        take.removeObserver(observer)
-        take.addObserver { println(it) }
-    }
-
-    @Test
     fun takeWhile() {
         val src = MutableLiveData<Int>()
         val received = src.takeWhile { it < 3 }.readyToObserve()
