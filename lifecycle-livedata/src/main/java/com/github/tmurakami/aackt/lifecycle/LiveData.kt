@@ -28,6 +28,34 @@ import android.support.annotation.MainThread
 import java.util.LinkedList
 
 /**
+ * Returns a [LiveData] that emits [this] as a value.
+ */
+@MainThread
+inline fun <T> T.toLiveData(): LiveData<T> {
+    // To save method count, we prefer MutableLiveData rather than `object: LiveData() {}`.
+    return MutableLiveData<T>().also { it.value = this }
+}
+
+/**
+ * Adds the given [observer] to [this] and returns a registered [Observer]. The [observer] will
+ * receive values until explicitly unregistered via the [LiveData.removeObserver].
+ */
+@MainThread
+inline fun <T> LiveData<T>.addObserver(crossinline observer: (T) -> Unit): Observer<T> =
+    addObserver(Observer {
+        @Suppress("UNCHECKED_CAST")
+        observer(it as T)
+    })
+
+/**
+ * Adds the given [observer] to [this] and returns the [observer]. The [observer] will receive
+ * values until explicitly unregistered via the [LiveData.removeObserver].
+ */
+@MainThread
+inline fun <T> LiveData<T>.addObserver(observer: Observer<T>): Observer<T> =
+    observer.also { observeForever(it) }
+
+/**
  * Binds the given [data] to this and returns the registered [Observer]. The [observer] will receive
  * values only while [this] is active. You can manually stop observing by calling
  * [LiveData.removeObserver] with the resulting [Observer].
@@ -55,34 +83,6 @@ inline fun <T> LifecycleOwner.bindLiveData(data: LiveData<T>, observer: Observer
  */
 @MainThread
 inline fun <T> LifecycleOwner.unbindLiveData(data: LiveData<T>) = data.removeObservers(this)
-
-/**
- * Returns a [LiveData] that emits [this] as a value.
- */
-@MainThread
-inline fun <T> T.toLiveData(): LiveData<T> {
-    // To save method count, we prefer MutableLiveData rather than `object: LiveData() {}`.
-    return MutableLiveData<T>().also { it.value = this }
-}
-
-/**
- * Adds the given [observer] to [this] and returns a registered [Observer]. The [observer] will
- * receive values until explicitly unregistered via the [LiveData.removeObserver].
- */
-@MainThread
-inline fun <T> LiveData<T>.addObserver(crossinline observer: (T) -> Unit): Observer<T> =
-    addObserver(Observer {
-        @Suppress("UNCHECKED_CAST")
-        observer(it as T)
-    })
-
-/**
- * Adds the given [observer] to [this] and returns the [observer]. The [observer] will receive
- * values until explicitly unregistered via the [LiveData.removeObserver].
- */
-@MainThread
-inline fun <T> LiveData<T>.addObserver(observer: Observer<T>): Observer<T> =
-    observer.also { observeForever(it) }
 
 /**
  * Returns a [LiveData] that emits the results of applying the given [transform] function.
