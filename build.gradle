@@ -1,6 +1,6 @@
 buildscript {
     ext.versions = [kotlin: '1.2.21',
-                    ktlint: '0.15.0',]
+                    ktlint: '0.15.1',]
     repositories {
         google()
         jcenter()
@@ -18,6 +18,13 @@ buildscript {
 }
 
 apply plugin: 'com.github.ben-manes.versions'
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+    }
+}
 
 task clean(type: Delete) {
     delete rootProject.buildDir

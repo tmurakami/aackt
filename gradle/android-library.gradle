@@ -26,11 +26,6 @@ android {
     }
 }
 
-repositories {
-    google()
-    jcenter()
-}
-
 dependencies {
     api deps.kotlin.stdlib
     testImplementation deps.junit
