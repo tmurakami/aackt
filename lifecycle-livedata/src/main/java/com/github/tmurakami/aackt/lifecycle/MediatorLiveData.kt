@@ -24,6 +24,14 @@ import android.arch.lifecycle.Observer
 import android.support.annotation.MainThread
 
 /**
+ * Returns a [MediatorLiveData] whose value is the given [value].
+ */
+@Suppress("FunctionName")
+@MainThread
+inline fun <T> MediatorLiveData(value: T): MediatorLiveData<T> =
+    MediatorLiveData<T>().also { it.value = value }
+
+/**
  * Binds the given [source] to [this]. The given [observer] will receive values whenever the
  * [source] is changed.
  */

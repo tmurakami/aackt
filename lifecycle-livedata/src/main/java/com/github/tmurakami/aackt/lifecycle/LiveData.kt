@@ -21,7 +21,6 @@ package com.github.tmurakami.aackt.lifecycle
 import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MediatorLiveData
-import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.Transformations
 import android.support.annotation.MainThread
@@ -32,8 +31,8 @@ import java.util.LinkedList
  */
 @MainThread
 inline fun <T> T.toLiveData(): LiveData<T> {
-    // To save method count, we prefer MutableLiveData rather than `object: LiveData() {}`.
-    return MutableLiveData<T>().also { it.value = this }
+    // To save method count, we prefer MutableLiveData rather than `object : LiveData<T>() {}`.
+    return MutableLiveData(this)
 }
 
 /**
