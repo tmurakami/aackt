@@ -102,31 +102,20 @@ inline fun <X, Y> LiveData<X>.switchMap(crossinline transform: (X) -> LiveData<Y
  * the resulting [LiveData] becomes active.
  */
 @MainThread
-fun <T> LiveData<T>.doOnActive(onActive: () -> Unit): LiveData<T> =
-    doOnLifecycle(onActive = onActive)
+fun <T> LiveData<T>.doOnActive(onActive: () -> Unit): LiveData<T> {
+    val result = this as? LiveDataOnLifecycle ?: LiveDataOnLifecycle(this)
+    result.onActiveListeners += onActive
+    return result
+}
 
 /**
  * Returns a [LiveData] with the given [onInactive] function. The given function will be called when
  * the resulting [LiveData] becomes inactive.
  */
 @MainThread
-fun <T> LiveData<T>.doOnInactive(onInactive: () -> Unit): LiveData<T> =
-    doOnLifecycle(onInactive = onInactive)
-
-private fun <T> LiveData<T>.doOnLifecycle(
-    onActive: (() -> Unit)? = null,
-    onInactive: (() -> Unit)? = null
-): LiveData<T> {
-    val result =
-        if (this is LiveDataOnLifecycle) {
-            this
-        } else {
-            val data = LiveDataOnLifecycle<T>()
-            data.addSource(this) { data.value = it }
-            data
-        }
-    onActive?.let { result.onActiveListeners += it }
-    onInactive?.let { result.onInactiveListeners += it }
+fun <T> LiveData<T>.doOnInactive(onInactive: () -> Unit): LiveData<T> {
+    val result = this as? LiveDataOnLifecycle ?: LiveDataOnLifecycle(this)
+    result.onInactiveListeners += onInactive
     return result
 }
 

@@ -16,18 +16,21 @@
 
 package com.github.tmurakami.aackt.lifecycle
 
+import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MediatorLiveData
 import java.util.LinkedList
 
-internal typealias LifecycleListener = () -> Unit
-
-internal class LiveDataOnLifecycle<T> : MediatorLiveData<T>() {
+internal class LiveDataOnLifecycle<T>(source: LiveData<T>) : MediatorLiveData<T>() {
 
     @JvmField // Not to increase method count
-    val onActiveListeners = LinkedList<LifecycleListener>()
+    val onActiveListeners = LinkedList<() -> Unit>()
 
     @JvmField // Not to increase method count
-    val onInactiveListeners = LinkedList<LifecycleListener>()
+    val onInactiveListeners = LinkedList<() -> Unit>()
+
+    init {
+        addSource(source) { value = it }
+    }
 
     override fun onActive() {
         super.onActive()
