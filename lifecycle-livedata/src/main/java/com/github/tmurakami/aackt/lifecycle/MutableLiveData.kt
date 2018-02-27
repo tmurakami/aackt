@@ -22,7 +22,7 @@ import android.arch.lifecycle.MutableLiveData
 import android.support.annotation.MainThread
 
 /**
- * Returns a [MutableLiveData] whose value is the given [value].
+ * Creates a [MutableLiveData] whose value is the given [value].
  */
 @Suppress("FunctionName")
 @MainThread

@@ -24,7 +24,7 @@ import android.arch.lifecycle.Observer
 import android.support.annotation.MainThread
 
 /**
- * Returns a [MediatorLiveData] whose value is the given [value].
+ * Creates a [MediatorLiveData] whose value is the given [value].
  */
 @Suppress("FunctionName")
 @MainThread
