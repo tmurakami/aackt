@@ -1,6 +1,6 @@
 buildscript {
     ext.versions = [kotlin: '1.2.21',
-                    ktlint: '0.15.1',]
+                    ktlint: '0.16.1',]
     repositories {
         google()
         jcenter()
@@ -52,5 +52,5 @@ ext {
     arch.persistence = [:]
     arch.persistence.room = room
 
-    arch.paging = [runtime: "android.arch.paging:runtime:1.0.0-alpha5",]
+    arch.paging = [runtime: "android.arch.paging:runtime:1.0.0-alpha6",]
 }
