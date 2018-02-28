@@ -18,7 +18,6 @@ package com.github.tmurakami.aackt.lifecycle.livedata
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.Observer
 import com.github.tmurakami.aackt.lifecycle.LiveDataOnLifecycle
 import org.junit.Rule
 import org.junit.Test
@@ -26,41 +25,34 @@ import kotlin.test.assertEquals
 
 class LiveDataOnLifecycleTest {
 
-    @Suppress("unused")
-    @get:Rule
+    @[Rule JvmField]
     val instantTaskExecutorRule: InstantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Test
     fun onActive() {
-        val data = LiveDataOnLifecycle<Unit>(MutableLiveData())
+        val data = LiveDataOnLifecycle(MutableLiveData<Unit>())
         var count = 0
-        for (i in 0..2) {
-            data.onActiveListeners += { count++ }
-        }
+        for (i in 0..2) data.onActiveListeners += { count++ }
         assertEquals(0, count)
-        data.observeForever { }
+        data.test()
         assertEquals(3, count)
     }
 
     @Test
     fun onChanged() {
         val src = MutableLiveData<Int>()
-        val data = LiveDataOnLifecycle<Int>(src)
-        var received: Int? = null
-        data.observeForever { received = it }
+        val data = LiveDataOnLifecycle(src)
+        val observer = data.test()
         src.value = 0
-        assertEquals(0, received)
+        observer.assertValues(0)
     }
 
     @Test
     fun onInactive() {
-        val data = LiveDataOnLifecycle<Unit>(MutableLiveData())
+        val data = LiveDataOnLifecycle(MutableLiveData<Unit>())
         var count = 0
-        for (i in 0..2) {
-            data.onInactiveListeners += { count++ }
-        }
-        val observer = Observer<Unit> {}
-        data.observeForever(observer)
+        for (i in 0..2) data.onInactiveListeners += { count++ }
+        val observer = data.test()
         assertEquals(0, count)
         data.removeObserver(observer)
         assertEquals(3, count)
