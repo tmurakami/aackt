@@ -1,6 +1,6 @@
 buildscript {
-    ext.versions = [kotlin: '1.2.21',
-                    ktlint: '0.16.1',]
+    ext.versions = [kotlin: '1.2.30',
+                    ktlint: '0.18.0',]
     repositories {
         google()
         jcenter()
