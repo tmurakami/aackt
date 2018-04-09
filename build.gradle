@@ -1,16 +1,16 @@
 buildscript {
     ext.versions = [kotlin: '1.2.31',
-                    ktlint: '0.20.0',]
+                    ktlint: '0.21.0',]
     repositories {
         google()
         jcenter()
         maven { url 'https://plugins.gradle.org/m2/' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath 'com.android.tools.build:gradle:3.1.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
         classpath 'org.jetbrains.dokka:dokka-android-gradle-plugin:0.9.16'
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
         classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.8.2'
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.17.0'
         classpath 'gradle.plugin.org.jlleitschuh.gradle:ktlint-gradle:3.2.0'
@@ -52,5 +52,6 @@ ext {
     arch.persistence = [:]
     arch.persistence.room = room
 
-    arch.paging = [runtime: "android.arch.paging:runtime:1.0.0-alpha7",]
+    arch.paging = [runtime: 'android.arch.paging:runtime:1.0.0-beta1',
+                   rxjava2: 'android.arch.paging:rxjava2:1.0.0-alpha1',]
 }

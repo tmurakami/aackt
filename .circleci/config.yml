@@ -37,6 +37,8 @@ jobs:
           path: persistence-room-runtime/build/reports
       - store_artifacts:
           path: paging-runtime/build/reports
+      - store_artifacts:
+          path: paging-rxjava2/build/reports
       - store_test_results:
           path: lifecycle-extensions/build/test-results
       - store_test_results:
@@ -49,3 +51,5 @@ jobs:
           path: persistence-room-runtime/build/test-results
       - store_test_results:
           path: paging-runtime/build/test-results
+      - store_test_results:
+          path: paging-rxjava2/build/test-results
