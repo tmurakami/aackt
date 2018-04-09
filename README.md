@@ -141,7 +141,7 @@ dependencies {
 ### Paging
 
 - [Runtime](https://jitpack.io/com/github/tmurakami/aackt/paging-runtime/0.6.1/javadoc/paging-runtime/)
-- [Runtime](https://jitpack.io/com/github/tmurakami/aackt/paging-rxjava2/0.6.1/javadoc/paging-rxjava2/)
+- [RxJava2](https://jitpack.io/com/github/tmurakami/aackt/paging-rxjava2/0.6.1/javadoc/paging-rxjava2/)
 
 ## License
 
