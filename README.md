@@ -77,9 +77,13 @@ val db =
 ## Paging
 
 ```kotlin
-val dataSourceFactory: DataSource.Factory<Int, MyData> = ...
+val dsFactory: DataSource.Factory<Int, MyData> = ...
 
-val livePagedList = dataSourceFactory.livePagedListBuilder(10).build()
+// With LiveData
+val livePagedList = dsFactory.livePagedListBuilder(10).build()
+
+// With RxJava2
+val rxPagedList = dsFactory.rxPagedListBuilder(10).buildObservable()
 ```
 
 ## Installation
@@ -112,6 +116,9 @@ dependencies {
 
     // Paging
     implementation 'com.github.tmurakami.aackt:paging-runtime:x.y.z'
+    
+    // Paging with RxJava2
+    implementation 'com.github.tmurakami.aackt:paging-rxjava2:x.y.z'
 
 }
 ```
@@ -122,18 +129,19 @@ dependencies {
 
 ### Lifecycle
 
-- [Extensions](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-extensions/0.6.0/javadoc/lifecycle-extensions/)
-- [LiveData](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-livedata/0.6.0/javadoc/lifecycle-livedata/)
-- [ViewModel](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-viewmodel/0.6.0/javadoc/lifecycle-viewmodel/)
-- [Reactive Streams](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-reactivestreams/0.6.0/javadoc/lifecycle-reactivestreams/)
+- [Extensions](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-extensions/0.6.1/javadoc/lifecycle-extensions/)
+- [LiveData](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-livedata/0.6.1/javadoc/lifecycle-livedata/)
+- [ViewModel](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-viewmodel/0.6.1/javadoc/lifecycle-viewmodel/)
+- [Reactive Streams](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-reactivestreams/0.6.1/javadoc/lifecycle-reactivestreams/)
 
 ### Room
 
-- [Runtime](https://jitpack.io/com/github/tmurakami/aackt/persistence-room-runtime/0.6.0/javadoc/persistence-room-runtime/)
+- [Runtime](https://jitpack.io/com/github/tmurakami/aackt/persistence-room-runtime/0.6.1/javadoc/persistence-room-runtime/)
 
 ### Paging
 
-- [Runtime](https://jitpack.io/com/github/tmurakami/aackt/paging-runtime/0.6.0/javadoc/paging-runtime/)
+- [Runtime](https://jitpack.io/com/github/tmurakami/aackt/paging-runtime/0.6.1/javadoc/paging-runtime/)
+- [Runtime](https://jitpack.io/com/github/tmurakami/aackt/paging-rxjava2/0.6.1/javadoc/paging-rxjava2/)
 
 ## License
 
