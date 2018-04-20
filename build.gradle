@@ -1,5 +1,5 @@
 buildscript {
-    ext.versions = [kotlin: '1.2.31',
+    ext.versions = [kotlin: '1.2.40',
                     ktlint: '0.21.0',]
     repositories {
         google()
@@ -7,7 +7,7 @@ buildscript {
         maven { url 'https://plugins.gradle.org/m2/' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.0'
+        classpath 'com.android.tools.build:gradle:3.1.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
         classpath 'org.jetbrains.dokka:dokka-android-gradle-plugin:0.9.16'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
