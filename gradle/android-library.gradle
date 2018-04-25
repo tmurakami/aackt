@@ -10,7 +10,7 @@ apply from: "$rootDir/gradle/version.gradle"
 group = 'com.github.tmurakami.aackt'
 version = version_name
 
-def isOnCi = System.getenv('CI') as boolean
+def isOnCI = System.getenv('CI') as boolean
 
 android {
     compileSdkVersion 27
@@ -18,8 +18,10 @@ android {
         minSdkVersion 14
     }
     kotlinOptions {
-        allWarningsAsErrors = !isOnCi
-        freeCompilerArgs += ['-Xno-param-assertions', '-Xno-call-assertions']
+        allWarningsAsErrors = !isOnCI
+        freeCompilerArgs += ['-Xno-call-assertions',
+                             '-Xno-param-assertions',
+                             '-Xno-receiver-assertions',]
     }
     libraryVariants.all {
         it.generateBuildConfig.enabled = false
@@ -35,8 +37,8 @@ dependencies {
 ktlint {
     version = versions.ktlint
     android = true
-    reporter = 'checkstyle'
-    ignoreFailures = isOnCi
+    reporters = ['PLAIN', 'CHECKSTYLE']
+    ignoreFailures = isOnCI
 }
 
 dexcount {
