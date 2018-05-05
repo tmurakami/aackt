@@ -91,6 +91,19 @@ inline fun <T, R> LiveData<T>.map(crossinline transform: (T) -> R): LiveData<R> 
     Transformations.map(this) { transform(it) }
 
 /**
+ * Returns a [LiveData] that emits the non-null results of applying the given [transform] function.
+ */
+@MainThread
+inline fun <T, R : Any> LiveData<T>.mapNotNull(crossinline transform: (T) -> R?): LiveData<R> {
+    val result = MediatorLiveData<R>()
+    result.addSource(this) {
+        @Suppress("UNCHECKED_CAST")
+        transform(it as T)?.let { result.value = it }
+    }
+    return result
+}
+
+/**
  * Returns a [LiveData] whose source is switched by the given [transform] function.
  */
 @MainThread
