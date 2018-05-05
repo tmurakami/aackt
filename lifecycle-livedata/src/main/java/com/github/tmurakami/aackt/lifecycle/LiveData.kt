@@ -69,9 +69,8 @@ inline fun <T> LifecycleOwner.bindLiveData(
 })
 
 /**
- * Binds the given [data] to [this] and returns the [observer]. The [observer] will receive values
- * only while [this] is active. You can manually stop observing by calling [LiveData.removeObserver]
- * with the resulting [Observer].
+ * Binds the given [data] to [this] and returns the given [observer]. The [observer] will receive
+ * values only while [this] is active.
  */
 @MainThread
 inline fun <T> LifecycleOwner.bindLiveData(data: LiveData<T>, observer: Observer<T>): Observer<T> =
