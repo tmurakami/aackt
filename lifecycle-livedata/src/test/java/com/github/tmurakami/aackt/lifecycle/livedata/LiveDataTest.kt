@@ -17,7 +17,11 @@
 package com.github.tmurakami.aackt.lifecycle.livedata
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule
+import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.Observer
+import com.github.tmurakami.aackt.lifecycle.addObserver
+import com.github.tmurakami.aackt.lifecycle.bindLiveData
 import com.github.tmurakami.aackt.lifecycle.distinct
 import com.github.tmurakami.aackt.lifecycle.distinctBy
 import com.github.tmurakami.aackt.lifecycle.doOnActive
@@ -29,16 +33,21 @@ import com.github.tmurakami.aackt.lifecycle.filter
 import com.github.tmurakami.aackt.lifecycle.filterIsInstance
 import com.github.tmurakami.aackt.lifecycle.filterNot
 import com.github.tmurakami.aackt.lifecycle.filterNotNull
+import com.github.tmurakami.aackt.lifecycle.map
+import com.github.tmurakami.aackt.lifecycle.mapNotNull
 import com.github.tmurakami.aackt.lifecycle.plus
+import com.github.tmurakami.aackt.lifecycle.switchMap
 import com.github.tmurakami.aackt.lifecycle.take
 import com.github.tmurakami.aackt.lifecycle.takeWhile
 import com.github.tmurakami.aackt.lifecycle.toLiveData
+import com.github.tmurakami.aackt.lifecycle.unbindLiveData
 import com.github.tmurakami.aackt.lifecycle.zip
 import com.github.tmurakami.aackt.lifecycle.zipWithNext
 import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertSame
 import kotlin.test.assertTrue
 
 class LiveDataTest {
@@ -48,6 +57,97 @@ class LiveDataTest {
 
     @Test
     fun toLiveData() = assertEquals("test", "test".toLiveData().value)
+
+    @Test
+    fun addObserver() {
+        val src = MutableLiveData<Int>()
+        val results = ArrayList<Int>()
+        val observer = src.addObserver { results += it }
+        src.value = 0
+        src.removeObserver(observer)
+        src.value = 1
+        assertSame(0, results.single())
+    }
+
+    @Test
+    fun addObserver_Observer() {
+        val src = MutableLiveData<Int>()
+        val results = ArrayList<Int?>()
+        val observer = src.addObserver(Observer { results += it })
+        src.value = 0
+        src.removeObserver(observer)
+        src.value = 1
+        assertSame(0, results.single())
+    }
+
+    @Test
+    fun bindLiveData() {
+        val owner = TestLifecycleOwner()
+        val src = MutableLiveData<Int>()
+        val results = ArrayList<Int>()
+        owner.bindLiveData(src) { results += it }
+        owner.lifecycle.markState(Lifecycle.State.RESUMED)
+        src.value = 0
+        owner.lifecycle.markState(Lifecycle.State.DESTROYED)
+        src.value = 1
+        assertSame(0, results.single())
+    }
+
+    @Test
+    fun bindLiveData_Observer() {
+        val owner = TestLifecycleOwner()
+        val src = MutableLiveData<Int>()
+        val results = ArrayList<Int?>()
+        owner.bindLiveData(src, Observer { results += it })
+        owner.lifecycle.markState(Lifecycle.State.RESUMED)
+        src.value = 0
+        owner.lifecycle.markState(Lifecycle.State.DESTROYED)
+        src.value = 1
+        assertSame(0, results.single())
+    }
+
+    @Test
+    fun unbindLiveData() {
+        val owner = TestLifecycleOwner()
+        val src = MutableLiveData<Int>()
+        val results = ArrayList<Int>()
+        owner.bindLiveData(src) { results += it }
+        owner.lifecycle.markState(Lifecycle.State.RESUMED)
+        src.value = 0
+        owner.unbindLiveData(src)
+        src.value = 1
+        assertSame(0, results.single())
+    }
+
+    @Test
+    fun map() {
+        val src = MutableLiveData<Int>()
+        val observer = src.map { it * it }.test()
+        src.values(1, 2, 3, 4, 5)
+        observer.assertValues(1, 4, 9, 16, 25)
+    }
+
+    @Test
+    fun mapNotNull() {
+        val src = MutableLiveData<Int>()
+        val observer = src.mapNotNull { if (it % 2 == 0) null else it }.test()
+        src.values(1, 2, 3, 4, 5)
+        observer.assertValues(1, 3, 5)
+    }
+
+    @Test
+    fun switchMap() {
+        val src = MutableLiveData<Int>()
+        var activeCount = 0
+        var inactiveCount = 0
+        val observer = src.switchMap {
+            it.toLiveData().doOnActive { activeCount++ }.doOnInactive { inactiveCount++ }
+        }.test()
+        src.values(1, 2, 3, 4, 5)
+        observer.assertValues(1, 2, 3, 4, 5)
+        assertSame(5, activeCount)
+        assertSame(4, inactiveCount)
+    }
 
     @Test
     fun doOnActive() {

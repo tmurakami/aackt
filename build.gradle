@@ -41,7 +41,8 @@ ext {
 
     def lifecycleVersion = '1.1.1'
     arch.core = [testing: "android.arch.core:core-testing:$lifecycleVersion",]
-    arch.lifecycle = [extensions     : "android.arch.lifecycle:extensions:$lifecycleVersion",
+    arch.lifecycle = [runtime        : "android.arch.lifecycle:runtime:$lifecycleVersion",
+                      extensions     : "android.arch.lifecycle:extensions:$lifecycleVersion",
                       livedata       : "android.arch.lifecycle:livedata:$lifecycleVersion",
                       reactivestreams: "android.arch.lifecycle:reactivestreams:$lifecycleVersion",
                       viewmodel      : "android.arch.lifecycle:viewmodel:$lifecycleVersion",]
