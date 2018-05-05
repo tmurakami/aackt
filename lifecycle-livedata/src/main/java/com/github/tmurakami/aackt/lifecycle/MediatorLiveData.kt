@@ -36,7 +36,7 @@ inline fun <T> MediatorLiveData(value: T): MediatorLiveData<T> =
  * [source] is changed.
  */
 @MainThread
-inline fun <T, S> MediatorLiveData<T>.bindSource(
+inline fun <S> MediatorLiveData<*>.bindSource(
     source: LiveData<S>,
     crossinline observer: (S) -> Unit
 ) = bindSource(source, Observer {
@@ -49,11 +49,11 @@ inline fun <T, S> MediatorLiveData<T>.bindSource(
  * [source] is changed.
  */
 @MainThread
-inline fun <T, S> MediatorLiveData<T>.bindSource(source: LiveData<S>, observer: Observer<S>) =
+inline fun <S> MediatorLiveData<*>.bindSource(source: LiveData<S>, observer: Observer<S>) =
     addSource(source, observer)
 
 /**
  * Unbinds the given [source] from [this].
  */
 @MainThread
-inline fun <T> MediatorLiveData<T>.unbindSource(source: LiveData<*>) = removeSource(source)
+inline fun MediatorLiveData<*>.unbindSource(source: LiveData<*>) = removeSource(source)

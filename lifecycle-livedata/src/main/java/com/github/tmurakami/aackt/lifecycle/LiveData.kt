@@ -81,20 +81,20 @@ inline fun <T> LifecycleOwner.bindLiveData(data: LiveData<T>, observer: Observer
  * Unbinds the given [data] from [this].
  */
 @MainThread
-inline fun <T> LifecycleOwner.unbindLiveData(data: LiveData<T>) = data.removeObservers(this)
+inline fun LifecycleOwner.unbindLiveData(data: LiveData<*>) = data.removeObservers(this)
 
 /**
  * Returns a [LiveData] that emits the results of applying the given [transform] function.
  */
 @MainThread
-inline fun <X, Y> LiveData<X>.map(crossinline transform: (X) -> Y): LiveData<Y> =
+inline fun <T, R> LiveData<T>.map(crossinline transform: (T) -> R): LiveData<R> =
     Transformations.map(this) { transform(it) }
 
 /**
  * Returns a [LiveData] whose source is switched by the given [transform] function.
  */
 @MainThread
-inline fun <X, Y> LiveData<X>.switchMap(crossinline transform: (X) -> LiveData<Y>?): LiveData<Y> =
+inline fun <T, R> LiveData<T>.switchMap(crossinline transform: (T) -> LiveData<R>?): LiveData<R> =
     Transformations.switchMap(this) { transform(it) }
 
 /**
