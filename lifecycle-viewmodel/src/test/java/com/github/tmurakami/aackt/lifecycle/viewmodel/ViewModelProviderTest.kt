@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-@file:Suppress("UnusedImport")
-
 package com.github.tmurakami.aackt.lifecycle.viewmodel
 
 import android.arch.lifecycle.ViewModel
