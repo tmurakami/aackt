@@ -47,12 +47,12 @@ ext {
                       reactivestreams: "android.arch.lifecycle:reactivestreams:$lifecycleVersion",
                       viewmodel      : "android.arch.lifecycle:viewmodel:$lifecycleVersion",]
 
-    def roomVersion = '1.0.0'
+    def roomVersion = '1.1.0'
     def room = [runtime: "android.arch.persistence.room:runtime:$roomVersion",
                 testing: "android.arch.persistence.room:testing:$roomVersion",]
     arch.persistence = [:]
     arch.persistence.room = room
 
-    arch.paging = [runtime: 'android.arch.paging:runtime:1.0.0-rc1',
+    arch.paging = [runtime: 'android.arch.paging:runtime:1.0.0',
                    rxjava2: 'android.arch.paging:rxjava2:1.0.0-alpha1',]
 }
