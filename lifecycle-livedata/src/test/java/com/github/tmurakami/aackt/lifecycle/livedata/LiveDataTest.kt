@@ -40,7 +40,6 @@ import com.github.tmurakami.aackt.lifecycle.plus
 import com.github.tmurakami.aackt.lifecycle.switchMap
 import com.github.tmurakami.aackt.lifecycle.take
 import com.github.tmurakami.aackt.lifecycle.takeWhile
-import com.github.tmurakami.aackt.lifecycle.toLiveData
 import com.github.tmurakami.aackt.lifecycle.unbindLiveData
 import com.github.tmurakami.aackt.lifecycle.zip
 import com.github.tmurakami.aackt.lifecycle.zipWithNext
