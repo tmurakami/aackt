@@ -20,8 +20,8 @@ import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.arch.lifecycle.MediatorLiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Observer
-import com.github.tmurakami.aackt.lifecycle.MediatorLiveData
 import com.github.tmurakami.aackt.lifecycle.bindSource
+import com.github.tmurakami.aackt.lifecycle.mediatorLiveData
 import com.github.tmurakami.aackt.lifecycle.unbindSource
 import org.junit.Rule
 import org.junit.Test
@@ -34,7 +34,7 @@ class MediatorLiveDataTest {
     val instantTaskExecutorRule: InstantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Test
-    fun instantiate() = assertEquals("test", MediatorLiveData("test").value)
+    fun mediatorLiveData() = assertEquals("test", mediatorLiveData("test").value)
 
     @Test
     fun bindSource() {

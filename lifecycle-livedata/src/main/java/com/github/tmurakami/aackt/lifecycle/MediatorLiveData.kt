@@ -23,12 +23,16 @@ import android.arch.lifecycle.MediatorLiveData
 import android.arch.lifecycle.Observer
 import android.support.annotation.MainThread
 
+@Deprecated("", ReplaceWith("mediatorLiveData(value)"))
+@Suppress("FunctionName")
+@MainThread
+inline fun <T> MediatorLiveData(value: T): MediatorLiveData<T> = mediatorLiveData(value)
+
 /**
  * Creates a [MediatorLiveData] whose value is the given [value].
  */
-@Suppress("FunctionName")
 @MainThread
-inline fun <T> MediatorLiveData(value: T): MediatorLiveData<T> =
+inline fun <T> mediatorLiveData(value: T): MediatorLiveData<T> =
     MediatorLiveData<T>().also { it.value = value }
 
 /**
