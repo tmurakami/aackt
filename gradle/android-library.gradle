@@ -19,9 +19,7 @@ android {
     }
     kotlinOptions {
         allWarningsAsErrors = !isOnCI
-        freeCompilerArgs += ['-Xno-call-assertions',
-                             '-Xno-param-assertions',
-                             '-Xno-receiver-assertions',]
+        freeCompilerArgs += ['-Xno-param-assertions']
     }
     libraryVariants.all {
         it.generateBuildConfig.enabled = false
