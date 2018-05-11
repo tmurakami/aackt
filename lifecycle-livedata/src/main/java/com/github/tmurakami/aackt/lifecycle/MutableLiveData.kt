@@ -21,10 +21,14 @@ package com.github.tmurakami.aackt.lifecycle
 import android.arch.lifecycle.MutableLiveData
 import android.support.annotation.MainThread
 
+@Deprecated("", ReplaceWith("mutableLiveData(value)"))
+@Suppress("FunctionName")
+@MainThread
+inline fun <T> MutableLiveData(value: T): MutableLiveData<T> = mutableLiveData(value)
+
 /**
  * Creates a [MutableLiveData] whose value is the given [value].
  */
-@Suppress("FunctionName")
 @MainThread
-inline fun <T> MutableLiveData(value: T): MutableLiveData<T> =
+inline fun <T> mutableLiveData(value: T): MutableLiveData<T> =
     MutableLiveData<T>().also { it.value = value }

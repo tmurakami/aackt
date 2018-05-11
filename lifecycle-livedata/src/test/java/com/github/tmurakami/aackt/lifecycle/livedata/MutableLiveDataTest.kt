@@ -17,7 +17,7 @@
 package com.github.tmurakami.aackt.lifecycle.livedata
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule
-import com.github.tmurakami.aackt.lifecycle.MutableLiveData
+import com.github.tmurakami.aackt.lifecycle.mutableLiveData
 import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -28,5 +28,5 @@ class MutableLiveDataTest {
     val instantTaskExecutorRule: InstantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Test
-    fun instantiate() = assertEquals("test", MutableLiveData("test").value)
+    fun mutableLiveData() = assertEquals("test", mutableLiveData("test").value)
 }
