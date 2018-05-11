@@ -33,6 +33,7 @@ import com.github.tmurakami.aackt.lifecycle.filter
 import com.github.tmurakami.aackt.lifecycle.filterIsInstance
 import com.github.tmurakami.aackt.lifecycle.filterNot
 import com.github.tmurakami.aackt.lifecycle.filterNotNull
+import com.github.tmurakami.aackt.lifecycle.liveData
 import com.github.tmurakami.aackt.lifecycle.map
 import com.github.tmurakami.aackt.lifecycle.mapNotNull
 import com.github.tmurakami.aackt.lifecycle.plus
@@ -56,7 +57,7 @@ class LiveDataTest {
     val instantTaskExecutorRule: InstantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Test
-    fun toLiveData() = assertEquals("test", "test".toLiveData().value)
+    fun liveData() = assertEquals("test", liveData("test").value)
 
     @Test
     fun addObserver() {
@@ -141,7 +142,7 @@ class LiveDataTest {
         var activeCount = 0
         var inactiveCount = 0
         val observer = src.switchMap {
-            it.toLiveData().doOnActive { activeCount++ }.doOnInactive { inactiveCount++ }
+            liveData(it).doOnActive { activeCount++ }.doOnInactive { inactiveCount++ }
         }.test()
         src.values(1, 2, 3, 4, 5)
         observer.assertValues(1, 2, 3, 4, 5)

@@ -26,13 +26,17 @@ import android.arch.lifecycle.Transformations
 import android.support.annotation.MainThread
 import java.util.LinkedList
 
+@Deprecated("", ReplaceWith("liveData(this)"))
+@MainThread
+inline fun <T> T.toLiveData(): LiveData<T> = liveData(this)
+
 /**
- * Returns a [LiveData] that emits [this] as a value.
+ * Creates a [LiveData] whose value is the given [value].
  */
 @MainThread
-inline fun <T> T.toLiveData(): LiveData<T> {
+inline fun <T> liveData(value: T): LiveData<T> {
     // To save method count, we prefer MutableLiveData rather than `object : LiveData<T>() {}`.
-    return MutableLiveData(this)
+    return mutableLiveData(value)
 }
 
 /**
