@@ -23,19 +23,19 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.LiveDataReactiveStreams
 import org.reactivestreams.Publisher
 
-@Deprecated("", ReplaceWith("asPublisher(owner)"))
-inline fun <T> LiveData<T>.toPublisher(owner: LifecycleOwner): Publisher<T> = asPublisher(owner)
-
-@Deprecated("", ReplaceWith("asLiveData()"))
-inline fun <T> Publisher<T>.toLiveData(): LiveData<T> = asLiveData()
-
 /**
  * Creates a lifecycle-aware [Publisher] linked to the given [owner].
  */
-inline fun <T> LiveData<T>.asPublisher(owner: LifecycleOwner): Publisher<T> =
+inline fun <T> LiveData<T>.toPublisher(owner: LifecycleOwner): Publisher<T> =
     LiveDataReactiveStreams.toPublisher(owner, this)
 
 /**
  * Creates a [LiveData].
  */
-inline fun <T> Publisher<T>.asLiveData(): LiveData<T> = LiveDataReactiveStreams.fromPublisher(this)
+inline fun <T> Publisher<T>.toLiveData(): LiveData<T> = LiveDataReactiveStreams.fromPublisher(this)
+
+@Deprecated("", ReplaceWith("toPublisher(owner)"))
+inline fun <T> LiveData<T>.asPublisher(owner: LifecycleOwner): Publisher<T> = toPublisher(owner)
+
+@Deprecated("", ReplaceWith("toLiveData()"))
+inline fun <T> Publisher<T>.asLiveData(): LiveData<T> = toLiveData()
