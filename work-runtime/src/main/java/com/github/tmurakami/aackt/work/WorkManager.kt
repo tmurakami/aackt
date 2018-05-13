@@ -18,4 +18,7 @@ package com.github.tmurakami.aackt.work
 
 import androidx.work.WorkManager
 
+/**
+ * Returns the singleton instance of [WorkManager].
+ */
 inline val workManager: WorkManager get() = WorkManager.getInstance()
