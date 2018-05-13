@@ -7,3 +7,5 @@ include ':persistence-room-runtime'
 
 include ':paging-runtime'
 include ':paging-rxjava2'
+
+include ':work-runtime'
