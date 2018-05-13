@@ -45,8 +45,8 @@ inline fun <T> LiveData<T>.addObserver(crossinline observer: (T) -> Unit): Obser
     observe(observer)
 
 /**
- * Adds an [onChanged] callback to [this] and returns a registered [Observer]. To stop observing
- * [this], you need to call [LiveData.removeObserver] with the resulting [Observer].
+ * Adds the given [onChanged] callback to [this] and returns a registered [Observer]. To stop
+ * observing [this], you need to call [LiveData.removeObserver] with the resulting [Observer].
  */
 @MainThread
 inline fun <T> LiveData<T>.observe(crossinline onChanged: (T) -> Unit): Observer<T> =
@@ -61,7 +61,7 @@ inline fun <T> LiveData<T>.addObserver(observer: Observer<T>): Observer<T> =
     observer.also { observe(it) }
 
 /**
- * Adds an [onChanged] callback to [this]. To stop observing [this], you need to call
+ * Adds the given [onChanged] callback to [this]. To stop observing [this], you need to call
  * [LiveData.removeObserver] with the callback.
  */
 @MainThread
@@ -75,9 +75,9 @@ inline fun <T> LifecycleOwner.bindLiveData(
 ): Observer<T> = data.observe(this, observer)
 
 /**
- * Adds an [onChanged] callback to [this] and returns a registered [Observer]. The callback will
- * receive values only while the given [owner] is active. You can manually stop observing by calling
- * [LiveData.removeObserver] with the resulting [Observer].
+ * Adds the given [onChanged] callback to [this] and returns a registered [Observer]. The callback
+ * will receive values only while the given [owner] is active. You can manually stop observing by
+ * calling [LiveData.removeObserver] with the resulting [Observer].
  */
 @MainThread
 inline fun <T> LiveData<T>.observe(
