@@ -15,27 +15,22 @@ val owner = object : LifecycleOwner {
     override fun getLifecycle(): Lifecycle = registry
 }
 
-val src = MutableLiveData<Any?>()
-
-// Filter out non-int values
-val filtered = src.filterIsInstance<Int>()
-
-// Drop values less than 3
-val dropped = filtered.dropWhile { it < 3 }
+val data = MutableLiveData<Any?>()
 
 val received = ArrayList<Int>()
 
-// Observe the LiveData
-owner.bindLiveData(dropped) { received += it }
+data.filterIsInstance<Int>() // Filter out non-int values
+    .dropWhile { it < 3 } // Drop values less than 3
+    .observe(owner) { received += it }
 
 owner.registry.markState(Lifecycle.State.RESUMED)
 
-src.value = 1
-src.value = 2
-src.value = null
-src.value = 3
-src.value = Unit
-src.value = 4
+data.value = 1
+data.value = 2
+data.value = null
+data.value = 3
+data.value = Unit
+data.value = 4
 
 assertEquals(listOf(3, 4), received)
 ```
@@ -129,19 +124,19 @@ dependencies {
 
 ### Lifecycle
 
-- [Extensions](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-extensions/0.8.0/javadoc/lifecycle-extensions/)
-- [LiveData](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-livedata/0.8.0/javadoc/lifecycle-livedata/)
-- [ViewModel](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-viewmodel/0.8.0/javadoc/lifecycle-viewmodel/)
-- [Reactive Streams](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-reactivestreams/0.8.0/javadoc/lifecycle-reactivestreams/)
+- [Extensions](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-extensions/0.8.1/javadoc/lifecycle-extensions/)
+- [LiveData](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-livedata/0.8.1/javadoc/lifecycle-livedata/)
+- [ViewModel](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-viewmodel/0.8.1/javadoc/lifecycle-viewmodel/)
+- [Reactive Streams](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-reactivestreams/0.8.1/javadoc/lifecycle-reactivestreams/)
 
 ### Room
 
-- [Runtime](https://jitpack.io/com/github/tmurakami/aackt/persistence-room-runtime/0.8.0/javadoc/persistence-room-runtime/)
+- [Runtime](https://jitpack.io/com/github/tmurakami/aackt/persistence-room-runtime/0.8.1/javadoc/persistence-room-runtime/)
 
 ### Paging
 
-- [Runtime](https://jitpack.io/com/github/tmurakami/aackt/paging-runtime/0.8.0/javadoc/paging-runtime/)
-- [RxJava2](https://jitpack.io/com/github/tmurakami/aackt/paging-rxjava2/0.8.0/javadoc/paging-rxjava2/)
+- [Runtime](https://jitpack.io/com/github/tmurakami/aackt/paging-runtime/0.8.1/javadoc/paging-runtime/)
+- [RxJava2](https://jitpack.io/com/github/tmurakami/aackt/paging-rxjava2/0.8.1/javadoc/paging-rxjava2/)
 
 ## License
 
