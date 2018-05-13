@@ -20,9 +20,8 @@ import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.arch.lifecycle.MediatorLiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Observer
-import com.github.tmurakami.aackt.lifecycle.bindSource
 import com.github.tmurakami.aackt.lifecycle.mediatorLiveData
-import com.github.tmurakami.aackt.lifecycle.unbindSource
+import com.github.tmurakami.aackt.lifecycle.observeSource
 import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -37,34 +36,20 @@ class MediatorLiveDataTest {
     fun mediatorLiveData() = assertEquals("test", mediatorLiveData("test").value)
 
     @Test
-    fun bindSource() {
+    fun observeSource() {
         val data = MediatorLiveData<Unit>().apply { test() }
         val results = ArrayList<Int>()
-        val src = MutableLiveData<Int>().also { data.bindSource(it) { results += it } }
+        val src = MutableLiveData<Int>().also { data.observeSource(it) { results += it } }
         src.value = 1
         assertSame(1, results.single())
     }
 
     @Test
-    fun bindSource_Observer() {
+    fun observeSource_Observer() {
         val data = MediatorLiveData<Unit>().apply { test() }
         val results = ArrayList<Int?>()
-        val src = MutableLiveData<Int>().also { data.bindSource(it, Observer { results += it }) }
+        val src = MutableLiveData<Int>().also { data.observeSource(it, Observer { results += it }) }
         src.value = 1
         assertSame(1, results.single())
-    }
-
-    @Test
-    fun unbindSource() {
-        val data = MediatorLiveData<Unit>().apply { test() }
-        val results = ArrayList<Int>()
-        val src = MutableLiveData<Int>().also { data.bindSource(it) { results += it } }
-        val observer = src.test()
-        src.value = 1
-        data.unbindSource(src)
-        src.value = 2
-        assertSame(1, results.size)
-        assertSame(1, results[0])
-        observer.assertValues(1, 2)
     }
 }

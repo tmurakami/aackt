@@ -35,29 +35,42 @@ inline fun <T> MediatorLiveData(value: T): MediatorLiveData<T> = mediatorLiveDat
 inline fun <T> mediatorLiveData(value: T): MediatorLiveData<T> =
     MediatorLiveData<T>().also { it.value = value }
 
-/**
- * Binds the given [source] to [this]. The given [observer] will receive values whenever the
- * [source] is changed.
- */
+@Deprecated("", ReplaceWith("observeSource(source, onChanged)"))
 @MainThread
 inline fun <S> MediatorLiveData<*>.bindSource(
     source: LiveData<S>,
-    crossinline observer: (S) -> Unit
-) = bindSource(source, Observer {
+    crossinline onChanged: (S) -> Unit
+) = observeSource(source, Observer {
     @Suppress("UNCHECKED_CAST")
-    observer(it as S)
+    onChanged(it as S)
 })
 
 /**
- * Binds the given [source] to [this]. The given [observer] will receive values whenever the
- * [source] is changed.
+ * Start observing the given [source]. The [onChanged] callback will receive values whenever the
+ * [source] is changed. The callback will be called only when [this] is active.
  */
 @MainThread
-inline fun <S> MediatorLiveData<*>.bindSource(source: LiveData<S>, observer: Observer<S>) =
-    addSource(source, observer)
+inline fun <S> MediatorLiveData<*>.observeSource(
+    source: LiveData<S>,
+    crossinline onChanged: (S) -> Unit
+) = observeSource(source, Observer {
+    @Suppress("UNCHECKED_CAST")
+    onChanged(it as S)
+})
+
+@Deprecated("", ReplaceWith("observeSource(source, onChanged)"))
+@MainThread
+inline fun <S> MediatorLiveData<*>.bindSource(source: LiveData<S>, onChanged: Observer<S>) =
+    addSource(source, onChanged)
 
 /**
- * Unbinds the given [source] from [this].
+ * Start observing the given [source]. The [onChanged] callback will receive values whenever the
+ * [source] is changed. The callback will be called only when [this] is active.
  */
+@MainThread
+inline fun <S> MediatorLiveData<*>.observeSource(source: LiveData<S>, onChanged: Observer<S>) =
+    addSource(source, onChanged)
+
+@Deprecated("", ReplaceWith("removeSource(source)"))
 @MainThread
 inline fun MediatorLiveData<*>.unbindSource(source: LiveData<*>) = removeSource(source)
