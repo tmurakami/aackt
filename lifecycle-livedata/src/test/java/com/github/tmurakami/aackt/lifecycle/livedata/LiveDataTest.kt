@@ -19,6 +19,7 @@ package com.github.tmurakami.aackt.lifecycle.livedata
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.Observer
 import com.github.tmurakami.aackt.lifecycle.distinct
 import com.github.tmurakami.aackt.lifecycle.distinctBy
 import com.github.tmurakami.aackt.lifecycle.doOnActive
@@ -60,6 +61,17 @@ class LiveDataTest {
         val src = MutableLiveData<Int>()
         val results = ArrayList<Int>()
         val observer = src.observe { results += it }
+        src.value = 0
+        src.removeObserver(observer)
+        src.value = 1
+        assertSame(0, results.single())
+    }
+
+    @Test
+    fun observe_Observer() {
+        val src = MutableLiveData<Int>()
+        val results = ArrayList<Int?>()
+        val observer = Observer<Int> { results += it }.also { src.observe(it) }
         src.value = 0
         src.removeObserver(observer)
         src.value = 1
