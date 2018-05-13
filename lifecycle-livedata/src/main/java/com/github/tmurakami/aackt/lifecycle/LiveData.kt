@@ -39,50 +39,62 @@ inline fun <T> liveData(value: T): LiveData<T> {
     return mutableLiveData(value)
 }
 
-/**
- * Adds the given [observer] to [this] and returns a registered [Observer]. The [observer] will
- * receive values until explicitly unregistered via the [LiveData.removeObserver].
- */
+@Deprecated("", ReplaceWith("observe(observer)"))
 @MainThread
 inline fun <T> LiveData<T>.addObserver(crossinline observer: (T) -> Unit): Observer<T> =
-    addObserver(Observer {
-        @Suppress("UNCHECKED_CAST")
-        observer(it as T)
-    })
+    observe(observer)
 
 /**
- * Adds the given [observer] to [this] and returns the [observer]. The [observer] will receive
- * values until explicitly unregistered via the [LiveData.removeObserver].
+ * Adds an [onChanged] callback to [this] and returns a registered [Observer]. To stop observing
+ * [this], you need to call [LiveData.removeObserver] with the resulting [Observer].
  */
 @MainThread
+inline fun <T> LiveData<T>.observe(crossinline onChanged: (T) -> Unit): Observer<T> =
+    Observer<T> {
+        @Suppress("UNCHECKED_CAST")
+        onChanged(it as T)
+    }.also { observeForever(it) }
+
+@Deprecated("", ReplaceWith("observer.also { observe(it) }"))
+@MainThread
 inline fun <T> LiveData<T>.addObserver(observer: Observer<T>): Observer<T> =
-    observer.also { observeForever(it) }
+    observer.also { observe(it) }
 
 /**
- * Binds the given [data] to [this] and returns the registered [Observer]. The [observer] will
- * receive values only while [this] is active. You can manually stop observing by calling
- * [LiveData.removeObserver] with the resulting [Observer].
+ * Adds an [onChanged] callback to [this]. To stop observing [this], you need to call
+ * [LiveData.removeObserver] with the callback.
  */
+@MainThread
+inline fun <T> LiveData<T>.observe(onChanged: Observer<T>) = observeForever(onChanged)
+
+@Deprecated("", ReplaceWith("data.observe(this, observer)"))
 @MainThread
 inline fun <T> LifecycleOwner.bindLiveData(
     data: LiveData<T>,
     crossinline observer: (T) -> Unit
-): Observer<T> = bindLiveData(data, Observer {
-    @Suppress("UNCHECKED_CAST")
-    observer(it as T)
-})
+): Observer<T> = data.observe(this, observer)
 
 /**
- * Binds the given [data] to [this] and returns the given [observer]. The [observer] will receive
- * values only while [this] is active.
+ * Adds an [onChanged] callback to [this] and returns a registered [Observer]. The callback will
+ * receive values only while the given [owner] is active. You can manually stop observing by calling
+ * [LiveData.removeObserver] with the resulting [Observer].
  */
+@MainThread
+inline fun <T> LiveData<T>.observe(
+    owner: LifecycleOwner,
+    crossinline onChanged: (T) -> Unit
+): Observer<T> =
+    Observer<T> {
+        @Suppress("UNCHECKED_CAST")
+        onChanged(it as T)
+    }.also { observe(owner, it) }
+
+@Deprecated("", ReplaceWith("observer.also { data.observe(this, it) }"))
 @MainThread
 inline fun <T> LifecycleOwner.bindLiveData(data: LiveData<T>, observer: Observer<T>): Observer<T> =
     observer.also { data.observe(this, it) }
 
-/**
- * Unbinds the given [data] from [this].
- */
+@Deprecated("", ReplaceWith("data.removeObservers(this)"))
 @MainThread
 inline fun LifecycleOwner.unbindLiveData(data: LiveData<*>) = data.removeObservers(this)
 

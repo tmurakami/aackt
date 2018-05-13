@@ -19,9 +19,6 @@ package com.github.tmurakami.aackt.lifecycle.livedata
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.Observer
-import com.github.tmurakami.aackt.lifecycle.addObserver
-import com.github.tmurakami.aackt.lifecycle.bindLiveData
 import com.github.tmurakami.aackt.lifecycle.distinct
 import com.github.tmurakami.aackt.lifecycle.distinctBy
 import com.github.tmurakami.aackt.lifecycle.doOnActive
@@ -36,11 +33,11 @@ import com.github.tmurakami.aackt.lifecycle.filterNotNull
 import com.github.tmurakami.aackt.lifecycle.liveData
 import com.github.tmurakami.aackt.lifecycle.map
 import com.github.tmurakami.aackt.lifecycle.mapNotNull
+import com.github.tmurakami.aackt.lifecycle.observe
 import com.github.tmurakami.aackt.lifecycle.plus
 import com.github.tmurakami.aackt.lifecycle.switchMap
 import com.github.tmurakami.aackt.lifecycle.take
 import com.github.tmurakami.aackt.lifecycle.takeWhile
-import com.github.tmurakami.aackt.lifecycle.unbindLiveData
 import com.github.tmurakami.aackt.lifecycle.zip
 import com.github.tmurakami.aackt.lifecycle.zipWithNext
 import org.junit.Rule
@@ -59,10 +56,10 @@ class LiveDataTest {
     fun liveData() = assertEquals("test", liveData("test").value)
 
     @Test
-    fun addObserver() {
+    fun observe() {
         val src = MutableLiveData<Int>()
         val results = ArrayList<Int>()
-        val observer = src.addObserver { results += it }
+        val observer = src.observe { results += it }
         src.value = 0
         src.removeObserver(observer)
         src.value = 1
@@ -70,51 +67,14 @@ class LiveDataTest {
     }
 
     @Test
-    fun addObserver_Observer() {
-        val src = MutableLiveData<Int>()
-        val results = ArrayList<Int?>()
-        val observer = src.addObserver(Observer { results += it })
-        src.value = 0
-        src.removeObserver(observer)
-        src.value = 1
-        assertSame(0, results.single())
-    }
-
-    @Test
-    fun bindLiveData() {
+    fun observe_LifecycleOwner() {
         val owner = TestLifecycleOwner()
         val src = MutableLiveData<Int>()
         val results = ArrayList<Int>()
-        owner.bindLiveData(src) { results += it }
+        src.observe(owner) { results += it }
         owner.lifecycle.markState(Lifecycle.State.RESUMED)
         src.value = 0
         owner.lifecycle.markState(Lifecycle.State.DESTROYED)
-        src.value = 1
-        assertSame(0, results.single())
-    }
-
-    @Test
-    fun bindLiveData_Observer() {
-        val owner = TestLifecycleOwner()
-        val src = MutableLiveData<Int>()
-        val results = ArrayList<Int?>()
-        owner.bindLiveData(src, Observer { results += it })
-        owner.lifecycle.markState(Lifecycle.State.RESUMED)
-        src.value = 0
-        owner.lifecycle.markState(Lifecycle.State.DESTROYED)
-        src.value = 1
-        assertSame(0, results.single())
-    }
-
-    @Test
-    fun unbindLiveData() {
-        val owner = TestLifecycleOwner()
-        val src = MutableLiveData<Int>()
-        val results = ArrayList<Int>()
-        owner.bindLiveData(src) { results += it }
-        owner.lifecycle.markState(Lifecycle.State.RESUMED)
-        src.value = 0
-        owner.unbindLiveData(src)
         src.value = 1
         assertSame(0, results.single())
     }
