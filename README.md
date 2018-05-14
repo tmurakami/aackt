@@ -81,6 +81,18 @@ val livePagedList = dsFactory.livePagedListBuilder(10).build()
 val rxPagedList = dsFactory.rxPagedListBuilder(10).buildObservable()
 ```
 
+## WorkManager
+
+```kotlin
+class MyWorker : Worker() {
+    ...
+}
+
+val workRequest = OneTimeWorkRequestBuilder<MyWorker>().build()
+workManager.enqueue(workRequest)
+workManager.getStatusById(workRequest.id).observe(owner) { ... }
+```
+
 ## Installation
 
 Add the following to your `build.gradle`:
@@ -115,6 +127,9 @@ dependencies {
     // Paging with RxJava2
     implementation 'com.github.tmurakami.aackt:paging-rxjava2:x.y.z'
 
+    // WorkManager
+    implementation 'com.github.tmurakami.aackt:work-runtime:x.y.z'
+
 }
 ```
 
@@ -137,6 +152,10 @@ dependencies {
 
 - [Runtime](https://jitpack.io/com/github/tmurakami/aackt/paging-runtime/0.8.1/javadoc/paging-runtime/)
 - [RxJava2](https://jitpack.io/com/github/tmurakami/aackt/paging-rxjava2/0.8.1/javadoc/paging-rxjava2/)
+
+### WorkManager
+
+- [Runtime](https://jitpack.io/com/github/tmurakami/aackt/work-runtime/0.8.1/javadoc/work-runtime/)
 
 ## License
 
