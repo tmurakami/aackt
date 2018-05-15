@@ -3,3 +3,10 @@ apply from: "$rootDir/gradle/android-library.gradle"
 dependencies {
     api deps.arch.work.runtime
 }
+
+dokka {
+    externalDocumentationLink {
+        url = 'https://developer.android.com/reference/'.toURL()
+        packageListUrl = 'https://developer.android.com/reference/androidx/package-list'.toURL()
+    }
+}
