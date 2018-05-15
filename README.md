@@ -90,7 +90,6 @@ class MyWorker : Worker() {
 
 val workRequest = OneTimeWorkRequestBuilder<MyWorker>().build()
 workManager.enqueue(workRequest)
-workManager.getStatusById(workRequest.id).observe(owner) { ... }
 ```
 
 ## Installation
