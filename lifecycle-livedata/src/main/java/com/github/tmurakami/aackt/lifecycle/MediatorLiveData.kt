@@ -46,8 +46,10 @@ inline fun <S> MediatorLiveData<*>.bindSource(
 })
 
 /**
- * Start observing the given [source]. The [onChanged] callback will receive values whenever the
- * [source] is changed. The callback will be called only when [this] is active.
+ * Starts observing the given [source].
+ *
+ * The [onChanged] callback will receive values whenever the [source] is changed. The callback will
+ * be called only when [this] is active.
  */
 @MainThread
 inline fun <S> MediatorLiveData<*>.observeSource(
@@ -64,8 +66,12 @@ inline fun <S> MediatorLiveData<*>.bindSource(source: LiveData<S>, onChanged: Ob
     addSource(source, onChanged)
 
 /**
- * Start observing the given [source]. The [onChanged] callback will receive values whenever the
- * [source] is changed. The callback will be called only when [this] is active.
+ * Starts observing the given [source].
+ *
+ * The [onChanged] callback will receive values whenever the [source] is changed. The callback will
+ * be called only when [this] is active.
+ *
+ * This extension is an alias of [MediatorLiveData.addSource].
  */
 @MainThread
 inline fun <S> MediatorLiveData<*>.observeSource(source: LiveData<S>, onChanged: Observer<S>) =
