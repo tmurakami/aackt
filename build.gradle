@@ -31,10 +31,10 @@ task clean(type: Delete) {
 }
 
 ext {
-    deps = [junit: 'junit:junit:4.12',]
+    deps = [:]
 
     deps.kotlin = [stdlib: "org.jetbrains.kotlin:kotlin-stdlib:${versions.kotlin}",
-                   test  : "org.jetbrains.kotlin:kotlin-test:${versions.kotlin}",]
+                   junit4: "org.jetbrains.kotlin:kotlin-test-junit:${versions.kotlin}",]
 
     def arch = [:]
     deps.arch = arch

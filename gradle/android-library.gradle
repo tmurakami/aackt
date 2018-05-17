@@ -28,8 +28,7 @@ android {
 
 dependencies {
     api deps.kotlin.stdlib
-    testImplementation deps.junit
-    testImplementation deps.kotlin.test
+    testImplementation deps.kotlin.junit4
 }
 
 ktlint {
