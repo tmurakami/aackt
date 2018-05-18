@@ -198,18 +198,16 @@ inline fun <reified T : Any> LiveData<T?>.filterNotNull(): LiveData<T> = filterI
  * Returns a [LiveData] that emits only values of the given type [R]. If [R] is nullable type, null
  * will be notified, otherwise dropped.
  */
+@Suppress("UNCHECKED_CAST")
 @MainThread
-inline fun <reified R> LiveData<*>.filterIsInstance(): LiveData<R> {
-    val result = MediatorLiveData<R>()
-    result.addSource(this) { if (it is R) result.value = it }
-    return result
-}
+inline fun <reified R> LiveData<*>.filterIsInstance(): LiveData<R> =
+    filter { it is R } as LiveData<R>
 
 /**
  * Returns a [LiveData] that emits only distinct values.
  */
 @MainThread
-inline fun <T> LiveData<T>.distinct(): LiveData<T> = distinctBy { it }
+fun <T> LiveData<T>.distinct(): LiveData<T> = distinctBy { it }
 
 /**
  * Returns a [LiveData] that emits only values having distinct keys returned by the given
