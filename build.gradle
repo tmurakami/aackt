@@ -54,7 +54,7 @@ ext {
     arch.persistence.room = room
 
     arch.paging = [runtime: 'android.arch.paging:runtime:1.0.0',
-                   rxjava2: 'android.arch.paging:rxjava2:1.0.0-alpha1',]
+                   rxjava2: 'android.arch.paging:rxjava2:1.0.0-rc1',]
 
     arch.work = [runtime: 'android.arch.work:work-runtime-ktx:1.0.0-alpha01',]
 }
