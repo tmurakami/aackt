@@ -191,8 +191,9 @@ inline fun <T> LiveData<T>.filterNot(crossinline predicate: (T) -> Boolean): Liv
 /**
  * Returns a [LiveData] that emits only non-null values.
  */
+@Suppress("UNCHECKED_CAST")
 @MainThread
-inline fun <reified T : Any> LiveData<T?>.filterNotNull(): LiveData<T> = filterIsInstance()
+fun <T : Any> LiveData<T?>.filterNotNull(): LiveData<T> = filter { it != null } as LiveData<T>
 
 /**
  * Returns a [LiveData] that emits only values of the given type [R]. If [R] is nullable type, null
