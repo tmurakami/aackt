@@ -189,16 +189,16 @@ class LiveDataTest {
     fun distinct() {
         val src = MutableLiveData<Int>()
         val observer = src.distinct().test()
-        src.values(1, 2, 2, 1, 3)
-        observer.assertValues(1, 2, 3)
+        src.values(0, 2, 1, 2, 1, 1)
+        observer.assertValues(0, 2, 1)
     }
 
     @Test
     fun distinctBy() {
         val src = MutableLiveData<Int>()
-        val observer = src.distinctBy { it % 3 }.test()
-        src.values(0, 1, 2, 3, 4, 5)
-        observer.assertValues(0, 1, 2)
+        val observer = src.distinctBy { it % 2 }.test()
+        src.values(0, 2, 1, 2, 1, 1)
+        observer.assertValues(0, 1)
     }
 
     @Test
