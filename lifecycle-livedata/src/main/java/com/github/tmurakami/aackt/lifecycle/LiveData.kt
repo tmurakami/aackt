@@ -211,8 +211,7 @@ inline fun <reified R> LiveData<*>.filterIsInstance(): LiveData<R> =
 fun <T> LiveData<T>.distinct(): LiveData<T> = distinctBy { it }
 
 /**
- * Returns a [LiveData] that emits only values having distinct keys returned by the given
- * [selector].
+ * Returns a [LiveData] that emits only distinct values according to the given [selector].
  */
 @MainThread
 inline fun <T, K> LiveData<T>.distinctBy(crossinline selector: (T) -> K): LiveData<T> {
