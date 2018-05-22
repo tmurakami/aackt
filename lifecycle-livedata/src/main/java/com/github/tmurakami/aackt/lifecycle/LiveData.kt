@@ -221,6 +221,24 @@ inline fun <T, K> LiveData<T>.distinctBy(crossinline selector: (T) -> K): LiveDa
 }
 
 /**
+ * Returns a [LiveData] that emits only distinct contiguous values.
+ */
+@MainThread
+fun <T> LiveData<T>.distinctUntilChanged(): LiveData<T> = distinctUntilChangedBy { it }
+
+private val NOT_SET = Any()
+
+/**
+ * Returns a [LiveData] that emits only distinct contiguous values according to the given
+ * [selector].
+ */
+@MainThread
+fun <T, K> LiveData<T>.distinctUntilChangedBy(selector: (T) -> K): LiveData<T> {
+    var previous: Any? = NOT_SET
+    return filter { previous != selector(it).also { previous = it } }
+}
+
+/**
  * Returns a [LiveData] that emits values except first [n] items.
  */
 @MainThread

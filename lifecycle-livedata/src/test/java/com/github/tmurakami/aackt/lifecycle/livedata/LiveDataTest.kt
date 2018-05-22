@@ -22,6 +22,8 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Observer
 import com.github.tmurakami.aackt.lifecycle.distinct
 import com.github.tmurakami.aackt.lifecycle.distinctBy
+import com.github.tmurakami.aackt.lifecycle.distinctUntilChanged
+import com.github.tmurakami.aackt.lifecycle.distinctUntilChangedBy
 import com.github.tmurakami.aackt.lifecycle.doOnActive
 import com.github.tmurakami.aackt.lifecycle.doOnChanged
 import com.github.tmurakami.aackt.lifecycle.doOnInactive
@@ -197,6 +199,22 @@ class LiveDataTest {
         val observer = src.distinctBy { it % 3 }.test()
         src.values(0, 1, 2, 3, 4, 5)
         observer.assertValues(0, 1, 2)
+    }
+
+    @Test
+    fun distinctUntilChanged() {
+        val src = MutableLiveData<Int>()
+        val observer = src.distinctUntilChanged().test()
+        src.values(0, 2, 1, 2, 1, 1)
+        observer.assertValues(0, 2, 1, 2, 1)
+    }
+
+    @Test
+    fun distinctUntilChangedBy() {
+        val src = MutableLiveData<Int>()
+        val observer = src.distinctUntilChangedBy { it % 2 }.test()
+        src.values(0, 2, 1, 2, 1, 1)
+        observer.assertValues(0, 1, 2, 1)
     }
 
     @Test
