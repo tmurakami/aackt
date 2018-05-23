@@ -169,7 +169,7 @@ inline fun <T> LiveData<T>.doOnChanged(crossinline onChanged: (T) -> Unit): Live
 }
 
 /**
- * Returns a [LiveData] that emits only values matching the given [predicate].
+ * Returns a [LiveData] that emits only values matching the given [predicate] function.
  */
 @MainThread
 inline fun <T> LiveData<T>.filter(crossinline predicate: (T) -> Boolean): LiveData<T> {
@@ -182,7 +182,7 @@ inline fun <T> LiveData<T>.filter(crossinline predicate: (T) -> Boolean): LiveDa
 }
 
 /**
- * Returns a [LiveData] that emits only values not matching the given [predicate].
+ * Returns a [LiveData] that emits only values not matching the given [predicate] function.
  */
 @MainThread
 inline fun <T> LiveData<T>.filterNot(crossinline predicate: (T) -> Boolean): LiveData<T> =
@@ -211,7 +211,7 @@ inline fun <reified R> LiveData<*>.filterIsInstance(): LiveData<R> =
 fun <T> LiveData<T>.distinct(): LiveData<T> = distinctBy { it }
 
 /**
- * Returns a [LiveData] that emits only distinct values according to the given [selector].
+ * Returns a [LiveData] that emits only distinct values according to the given [selector] function.
  */
 @MainThread
 inline fun <T, K> LiveData<T>.distinctBy(crossinline selector: (T) -> K): LiveData<T> {
@@ -228,8 +228,8 @@ fun <T> LiveData<T>.distinctUntilChanged(): LiveData<T> = distinctUntilChangedBy
 private val NOT_SET = Any()
 
 /**
- * Returns a [LiveData] that emits only distinct contiguous values according to the given
- * [selector].
+ * Returns a [LiveData] that emits only distinct contiguous values according to the given [selector]
+ * function.
  */
 @MainThread
 fun <T, K> LiveData<T>.distinctUntilChangedBy(selector: (T) -> K): LiveData<T> {
@@ -247,7 +247,8 @@ fun <T> LiveData<T>.drop(n: Int): LiveData<T> {
 }
 
 /**
- * Returns a [LiveData] that emits values except first items satisfying the given [predicate].
+ * Returns a [LiveData] that emits values except first items satisfying the given [predicate]
+ * function.
  */
 @MainThread
 inline fun <T> LiveData<T>.dropWhile(crossinline predicate: (T) -> Boolean): LiveData<T> {
@@ -271,7 +272,7 @@ fun <T> LiveData<T>.take(n: Int): LiveData<T> {
 }
 
 /**
- * Returns a [LiveData] that emits first values satisfying the given [predicate].
+ * Returns a [LiveData] that emits first values satisfying the given [predicate] function.
  */
 @MainThread
 inline fun <T> LiveData<T>.takeWhile(crossinline predicate: (T) -> Boolean): LiveData<T> {
