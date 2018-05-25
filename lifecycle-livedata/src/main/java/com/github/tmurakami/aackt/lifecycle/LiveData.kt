@@ -37,10 +37,10 @@ inline fun <T> liveData(value: T): LiveData<T> {
 }
 
 /**
- * Adds the given [observer] callback to [this]. If [this] already has a value, it will first be
- * notified to the callback.
+ * Adds the given [observer] callback to this [LiveData]. If this [LiveData] already has a value, it
+ * will first be notified to the callback.
  *
- * To stop observing [this], you need to call [LiveData.removeObserver] with the resulting
+ * To stop observing this [LiveData], you need to call [LiveData.removeObserver] with the resulting
  * [Observer] of this extension.
  */
 @MainThread
@@ -55,10 +55,10 @@ inline fun <T> LiveData<T>.observe(crossinline observer: (T) -> Unit): Observer<
 inline fun <T> LiveData<T>.observe(onChanged: Observer<T>) = observeForever(onChanged)
 
 /**
- * Adds the given [onChanged] callback to [this]. Unlike [observe] extension, the callback will only
- * receive updated values after calling this extension.
+ * Adds the given [onChanged] callback to this [LiveData]. Unlike [observe] extension, the callback
+ * will only receive updated values after calling this extension.
  *
- * To stop observing [this], you need to call [LiveData.removeObserver] with the resulting
+ * To stop observing this [LiveData], you need to call [LiveData.removeObserver] with the resulting
  * [Observer] of this extension.
  */
 @MainThread
@@ -71,8 +71,8 @@ fun <T> LiveData<T>.observeChanges(onChanged: (T) -> Unit): Observer<T> {
 }
 
 /**
- * Adds the given [observer] callback to [this]. If [this] already has a value, it will first be
- * notified to the callback.
+ * Adds the given [observer] callback to this [LiveData]. If this [LiveData] already has a value, it
+ * will first be notified to the callback.
  *
  * The callback will receive values only while the given [owner] is active. You can manually stop
  * observing by calling [LiveData.removeObserver] with the resulting [Observer] of this extension.
@@ -88,8 +88,8 @@ inline fun <T> LiveData<T>.observe(
     }.also { observe(owner, it) }
 
 /**
- * Adds the given [onChanged] callback to [this]. Unlike [observe] extension, the callback will only
- * receive updated values after calling this extension.
+ * Adds the given [onChanged] callback to this [LiveData]. Unlike [observe] extension, the callback
+ * will only receive updated values after calling this extension.
  *
  * The callback will receive values only while the given [owner] is active. You can manually stop
  * observing by calling [LiveData.removeObserver] with the resulting [Observer] of this extension.
@@ -327,14 +327,14 @@ inline fun <T, R, V> LiveData<T>.zip(
 }
 
 /**
- * Returns a [LiveData] that emits pairs of each two adjacent values emitted by [this].
+ * Returns a [LiveData] that emits pairs of each two adjacent values emitted by this [LiveData].
  */
 @MainThread
 fun <T> LiveData<T>.zipWithNext(): LiveData<Pair<T, T>> = zipWithNext { a, b -> a to b }
 
 /**
  * Returns a [LiveData] that emits the results of applying the given [transform] function to each
- * pair of two adjacent values emitted by [this].
+ * pair of two adjacent values emitted by this [LiveData].
  */
 @MainThread
 inline fun <T, R> LiveData<T>.zipWithNext(crossinline transform: (a: T, b: T) -> R): LiveData<R> {

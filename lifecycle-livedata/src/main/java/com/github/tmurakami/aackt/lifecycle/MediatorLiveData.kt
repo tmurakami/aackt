@@ -34,7 +34,7 @@ inline fun <T> mediatorLiveData(value: T): MediatorLiveData<T> =
  * Starts observing the given [source].
  *
  * The [onChanged] callback will receive values whenever the [source] is changed. The callback will
- * be called only when [this] is active.
+ * be called only when this [LiveData] is active.
  */
 @MainThread
 inline fun <S> MediatorLiveData<*>.observeSource(
