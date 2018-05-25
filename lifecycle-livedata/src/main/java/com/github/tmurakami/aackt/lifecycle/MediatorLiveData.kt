@@ -23,27 +23,12 @@ import android.arch.lifecycle.MediatorLiveData
 import android.arch.lifecycle.Observer
 import android.support.annotation.MainThread
 
-@Deprecated("", ReplaceWith("mediatorLiveData(value)"))
-@Suppress("FunctionName")
-@MainThread
-inline fun <T> MediatorLiveData(value: T): MediatorLiveData<T> = mediatorLiveData(value)
-
 /**
  * Creates a [MediatorLiveData] whose value is the given [value].
  */
 @MainThread
 inline fun <T> mediatorLiveData(value: T): MediatorLiveData<T> =
     MediatorLiveData<T>().also { it.value = value }
-
-@Deprecated("", ReplaceWith("observeSource(source, onChanged)"))
-@MainThread
-inline fun <S> MediatorLiveData<*>.bindSource(
-    source: LiveData<S>,
-    crossinline onChanged: (S) -> Unit
-) = observeSource(source, Observer {
-    @Suppress("UNCHECKED_CAST")
-    onChanged(it as S)
-})
 
 /**
  * Starts observing the given [source].
@@ -60,11 +45,6 @@ inline fun <S> MediatorLiveData<*>.observeSource(
     onChanged(it as S)
 })
 
-@Deprecated("", ReplaceWith("observeSource(source, onChanged)"))
-@MainThread
-inline fun <S> MediatorLiveData<*>.bindSource(source: LiveData<S>, onChanged: Observer<S>) =
-    addSource(source, onChanged)
-
 /**
  * Starts observing the given [source].
  *
@@ -76,7 +56,3 @@ inline fun <S> MediatorLiveData<*>.bindSource(source: LiveData<S>, onChanged: Ob
 @MainThread
 inline fun <S> MediatorLiveData<*>.observeSource(source: LiveData<S>, onChanged: Observer<S>) =
     addSource(source, onChanged)
-
-@Deprecated("", ReplaceWith("removeSource(source)"))
-@MainThread
-inline fun MediatorLiveData<*>.unbindSource(source: LiveData<*>) = removeSource(source)

@@ -26,10 +26,6 @@ import android.arch.lifecycle.Transformations
 import android.support.annotation.MainThread
 import java.util.LinkedList
 
-@Deprecated("", ReplaceWith("liveData(this)"))
-@MainThread
-inline fun <T> T.toLiveData(): LiveData<T> = liveData(this)
-
 /**
  * Creates a [LiveData] whose value is the given [value].
  */
@@ -38,11 +34,6 @@ inline fun <T> liveData(value: T): LiveData<T> {
     // To save method count, we prefer MutableLiveData rather than `object : LiveData<T>() {}`.
     return mutableLiveData(value)
 }
-
-@Deprecated("", ReplaceWith("observe(observer)"))
-@MainThread
-inline fun <T> LiveData<T>.addObserver(crossinline observer: (T) -> Unit): Observer<T> =
-    observe(observer)
 
 /**
  * Adds the given [onChanged] callback to [this].
@@ -57,11 +48,6 @@ inline fun <T> LiveData<T>.observe(crossinline onChanged: (T) -> Unit): Observer
         onChanged(it as T)
     }.also { observeForever(it) }
 
-@Deprecated("", ReplaceWith("observer.also { observe(it) }"))
-@MainThread
-inline fun <T> LiveData<T>.addObserver(observer: Observer<T>): Observer<T> =
-    observer.also { observe(it) }
-
 /**
  * Adds the given [onChanged] callback to [this].
  *
@@ -71,13 +57,6 @@ inline fun <T> LiveData<T>.addObserver(observer: Observer<T>): Observer<T> =
  */
 @MainThread
 inline fun <T> LiveData<T>.observe(onChanged: Observer<T>) = observeForever(onChanged)
-
-@Deprecated("", ReplaceWith("data.observe(this, observer)"))
-@MainThread
-inline fun <T> LifecycleOwner.bindLiveData(
-    data: LiveData<T>,
-    crossinline observer: (T) -> Unit
-): Observer<T> = data.observe(this, observer)
 
 /**
  * Adds the given [onChanged] callback to [this].
@@ -94,15 +73,6 @@ inline fun <T> LiveData<T>.observe(
         @Suppress("UNCHECKED_CAST")
         onChanged(it as T)
     }.also { observe(owner, it) }
-
-@Deprecated("", ReplaceWith("observer.also { data.observe(this, it) }"))
-@MainThread
-inline fun <T> LifecycleOwner.bindLiveData(data: LiveData<T>, observer: Observer<T>): Observer<T> =
-    observer.also { data.observe(this, it) }
-
-@Deprecated("", ReplaceWith("data.removeObservers(this)"))
-@MainThread
-inline fun LifecycleOwner.unbindLiveData(data: LiveData<*>) = data.removeObservers(this)
 
 /**
  * Returns a [LiveData] that emits the results of applying the given [transform] function.
