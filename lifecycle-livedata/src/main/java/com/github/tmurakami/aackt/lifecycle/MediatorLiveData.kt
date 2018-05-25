@@ -40,19 +40,12 @@ inline fun <T> mediatorLiveData(value: T): MediatorLiveData<T> =
 inline fun <S> MediatorLiveData<*>.observeSource(
     source: LiveData<S>,
     crossinline onChanged: (S) -> Unit
-) = observeSource(source, Observer {
+) = addSource(source) {
     @Suppress("UNCHECKED_CAST")
     onChanged(it as S)
-})
+}
 
-/**
- * Starts observing the given [source].
- *
- * The [onChanged] callback will receive values whenever the [source] is changed. The callback will
- * be called only when [this] is active.
- *
- * This extension is an alias of [MediatorLiveData.addSource].
- */
+@Deprecated("", ReplaceWith("addSource(source, onChanged)"))
 @MainThread
 inline fun <S> MediatorLiveData<*>.observeSource(source: LiveData<S>, onChanged: Observer<S>) =
     addSource(source, onChanged)

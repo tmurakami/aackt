@@ -19,7 +19,6 @@ package com.github.tmurakami.aackt.lifecycle.livedata
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.arch.lifecycle.MediatorLiveData
 import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.Observer
 import com.github.tmurakami.aackt.lifecycle.mediatorLiveData
 import com.github.tmurakami.aackt.lifecycle.observeSource
 import org.junit.Rule
@@ -40,15 +39,6 @@ class MediatorLiveDataTest {
         val data = MediatorLiveData<Unit>().apply { test() }
         val results = ArrayList<Int>()
         val src = MutableLiveData<Int>().also { data.observeSource(it) { results += it } }
-        src.value = 1
-        assertSame(1, results.single())
-    }
-
-    @Test
-    fun observeSource_Observer() {
-        val data = MediatorLiveData<Unit>().apply { test() }
-        val results = ArrayList<Int?>()
-        val src = MutableLiveData<Int>().also { data.observeSource(it, Observer { results += it }) }
         src.value = 1
         assertSame(1, results.single())
     }
