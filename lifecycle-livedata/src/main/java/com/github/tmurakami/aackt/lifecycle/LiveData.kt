@@ -37,16 +37,17 @@ inline fun <T> liveData(value: T): LiveData<T> {
 }
 
 /**
- * Adds the given [onChanged] callback to [this].
+ * Adds the given [observer] callback to [this]. If [this] already has a value, it will first be
+ * notified to the callback.
  *
  * To stop observing [this], you need to call [LiveData.removeObserver] with the resulting
  * [Observer] of this extension.
  */
 @MainThread
-inline fun <T> LiveData<T>.observe(crossinline onChanged: (T) -> Unit): Observer<T> =
+inline fun <T> LiveData<T>.observe(crossinline observer: (T) -> Unit): Observer<T> =
     Observer<T> {
         @Suppress("UNCHECKED_CAST")
-        onChanged(it as T)
+        observer(it as T)
     }.also { observeForever(it) }
 
 @Deprecated("", ReplaceWith("observeForever(onChanged)"))
@@ -70,7 +71,8 @@ fun <T> LiveData<T>.observeChanges(onChanged: (T) -> Unit): Observer<T> {
 }
 
 /**
- * Adds the given [onChanged] callback to [this].
+ * Adds the given [observer] callback to [this]. If [this] already has a value, it will first be
+ * notified to the callback.
  *
  * The callback will receive values only while the given [owner] is active. You can manually stop
  * observing by calling [LiveData.removeObserver] with the resulting [Observer] of this extension.
@@ -78,11 +80,11 @@ fun <T> LiveData<T>.observeChanges(onChanged: (T) -> Unit): Observer<T> {
 @MainThread
 inline fun <T> LiveData<T>.observe(
     owner: LifecycleOwner,
-    crossinline onChanged: (T) -> Unit
+    crossinline observer: (T) -> Unit
 ): Observer<T> =
     Observer<T> {
         @Suppress("UNCHECKED_CAST")
-        onChanged(it as T)
+        observer(it as T)
     }.also { observe(owner, it) }
 
 /**
