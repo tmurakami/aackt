@@ -48,13 +48,7 @@ inline fun <T> LiveData<T>.observe(crossinline onChanged: (T) -> Unit): Observer
         onChanged(it as T)
     }.also { observeForever(it) }
 
-/**
- * Adds the given [onChanged] callback to [this].
- *
- * To stop observing [this], you need to call [LiveData.removeObserver] with the callback.
- *
- * This extension is an alias of [LiveData.observeForever].
- */
+@Deprecated("", ReplaceWith("observeForever(onChanged)"))
 @MainThread
 inline fun <T> LiveData<T>.observe(onChanged: Observer<T>) = observeForever(onChanged)
 
