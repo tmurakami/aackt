@@ -59,14 +59,13 @@ val fooViewModel: FooViewModel by viewModelProvider
 ## Room
 
 ```kotlin
-val MIGRATION_1_2 = migration(1, 2) {
-    it.execSQL(...)
-}
+// Create a new Migration instance
+val MIGRATION_1_2 = migration(1, 2) { ... }
 
-val db =
-    context.databaseBuilder<MyDatabase>("app.db")
-        .addMigrations(MIGRATION_1_2)
-        .build()
+// Create a new RoomDatabase instance
+val db = context.databaseBuilder<MyRoomDatabase>("app.db")
+    .addMigrations(MIGRATION_1_2)
+    .build()
 ```
 
 ## Paging
@@ -74,11 +73,11 @@ val db =
 ```kotlin
 val dsFactory: DataSource.Factory<Int, MyData> = ...
 
-// With LiveData
-val livePagedList = dsFactory.livePagedListBuilder(10).build()
+// Create a new LiveData<PagedList> instance
+val liveData = dsFactory.livePagedListBuilder(10).build()
 
-// With RxJava2
-val rxPagedList = dsFactory.rxPagedListBuilder(10).buildObservable()
+// Create a new Observable<PagedList> instance
+val observable = dsFactory.rxPagedListBuilder(10).buildObservable()
 ```
 
 ## WorkManager
@@ -89,6 +88,9 @@ class MyWorker : Worker() {
 }
 
 val workRequest = OneTimeWorkRequestBuilder<MyWorker>().build()
+
+// `workManager` is a top-level property that returns the singleton
+// instance of `WorkManager`.
 workManager.enqueue(workRequest)
 ```
 
