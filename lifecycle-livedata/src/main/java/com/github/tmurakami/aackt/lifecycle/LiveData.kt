@@ -23,6 +23,7 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MediatorLiveData
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.Transformations
+import android.arch.lifecycle.hasValue
 import android.support.annotation.MainThread
 import java.util.LinkedList
 
@@ -53,6 +54,22 @@ inline fun <T> LiveData<T>.observe(crossinline onChanged: (T) -> Unit): Observer
 inline fun <T> LiveData<T>.observe(onChanged: Observer<T>) = observeForever(onChanged)
 
 /**
+ * Adds the given [onChanged] callback to [this]. Unlike [observe] extension, the callback will only
+ * receive updated values after calling this extension.
+ *
+ * To stop observing [this], you need to call [LiveData.removeObserver] with the resulting
+ * [Observer] of this extension.
+ */
+@MainThread
+fun <T> LiveData<T>.observeChanges(onChanged: (T) -> Unit): Observer<T> {
+    var shouldNotify = !hasValue()
+    return observe {
+        if (shouldNotify) onChanged(it)
+        shouldNotify = true
+    }
+}
+
+/**
  * Adds the given [onChanged] callback to [this].
  *
  * The callback will receive values only while the given [owner] is active. You can manually stop
@@ -67,6 +84,22 @@ inline fun <T> LiveData<T>.observe(
         @Suppress("UNCHECKED_CAST")
         onChanged(it as T)
     }.also { observe(owner, it) }
+
+/**
+ * Adds the given [onChanged] callback to [this]. Unlike [observe] extension, the callback will only
+ * receive updated values after calling this extension.
+ *
+ * The callback will receive values only while the given [owner] is active. You can manually stop
+ * observing by calling [LiveData.removeObserver] with the resulting [Observer] of this extension.
+ */
+@MainThread
+fun <T> LiveData<T>.observeChanges(owner: LifecycleOwner, onChanged: (T) -> Unit): Observer<T> {
+    var shouldNotify = !hasValue()
+    return observe(owner) {
+        if (shouldNotify) onChanged(it)
+        shouldNotify = true
+    }
+}
 
 /**
  * Returns a [LiveData] that emits the results of applying the given [transform] function.

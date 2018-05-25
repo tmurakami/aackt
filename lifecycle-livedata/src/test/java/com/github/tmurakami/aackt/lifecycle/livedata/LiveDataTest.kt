@@ -36,6 +36,7 @@ import com.github.tmurakami.aackt.lifecycle.liveData
 import com.github.tmurakami.aackt.lifecycle.map
 import com.github.tmurakami.aackt.lifecycle.mapNotNull
 import com.github.tmurakami.aackt.lifecycle.observe
+import com.github.tmurakami.aackt.lifecycle.observeChanges
 import com.github.tmurakami.aackt.lifecycle.plus
 import com.github.tmurakami.aackt.lifecycle.switchMap
 import com.github.tmurakami.aackt.lifecycle.take
@@ -69,11 +70,36 @@ class LiveDataTest {
     }
 
     @Test
+    fun observeChanges() {
+        val src = MutableLiveData<Int>().apply { value = -1 }
+        val results = ArrayList<Int>()
+        val observer = src.observeChanges { results += it }
+        assertTrue(results.isEmpty())
+        src.value = 0
+        src.removeObserver(observer)
+        src.value = 1
+        assertSame(0, results.single())
+    }
+
+    @Test
     fun observe_LifecycleOwner() {
         val owner = TestLifecycleOwner()
         val src = MutableLiveData<Int>()
         val results = ArrayList<Int>()
         src.observe(owner) { results += it }
+        owner.lifecycle.markState(Lifecycle.State.RESUMED)
+        src.value = 0
+        owner.lifecycle.markState(Lifecycle.State.DESTROYED)
+        src.value = 1
+        assertSame(0, results.single())
+    }
+
+    @Test
+    fun observeChanges_LifecycleOwner() {
+        val owner = TestLifecycleOwner()
+        val src = MutableLiveData<Int>().apply { value = -1 }
+        val results = ArrayList<Int>()
+        src.observeChanges(owner) { results += it }
         owner.lifecycle.markState(Lifecycle.State.RESUMED)
         src.value = 0
         owner.lifecycle.markState(Lifecycle.State.DESTROYED)
