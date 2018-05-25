@@ -23,7 +23,7 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MediatorLiveData
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.Transformations
-import android.arch.lifecycle.hasValue
+import android.arch.lifecycle.currentVersion
 import android.support.annotation.MainThread
 import java.util.LinkedList
 
@@ -63,11 +63,8 @@ inline fun <T> LiveData<T>.observe(onChanged: Observer<T>) = observeForever(onCh
  */
 @MainThread
 fun <T> LiveData<T>.observeChanges(onChanged: (T) -> Unit): Observer<T> {
-    var shouldNotify = !hasValue()
-    return observe {
-        if (shouldNotify) onChanged(it)
-        shouldNotify = true
-    }
+    val startVersion = currentVersion
+    return observe { if (currentVersion > startVersion) onChanged(it) }
 }
 
 /**
@@ -96,11 +93,8 @@ inline fun <T> LiveData<T>.observe(
  */
 @MainThread
 fun <T> LiveData<T>.observeChanges(owner: LifecycleOwner, onChanged: (T) -> Unit): Observer<T> {
-    var shouldNotify = !hasValue()
-    return observe(owner) {
-        if (shouldNotify) onChanged(it)
-        shouldNotify = true
-    }
+    val startVersion = currentVersion
+    return observe(owner) { if (currentVersion > startVersion) onChanged(it) }
 }
 
 /**

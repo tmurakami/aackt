@@ -16,4 +16,4 @@
 
 package android.arch.lifecycle
 
-internal fun LiveData<*>.hasValue(): Boolean = version > LiveData.START_VERSION
+internal val LiveData<*>.currentVersion: Int get() = version

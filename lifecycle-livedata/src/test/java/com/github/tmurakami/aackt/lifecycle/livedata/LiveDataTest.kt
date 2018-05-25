@@ -18,6 +18,7 @@ package com.github.tmurakami.aackt.lifecycle.livedata
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.arch.lifecycle.Lifecycle
+import android.arch.lifecycle.MediatorLiveData
 import android.arch.lifecycle.MutableLiveData
 import com.github.tmurakami.aackt.lifecycle.distinct
 import com.github.tmurakami.aackt.lifecycle.distinctBy
@@ -82,6 +83,15 @@ class LiveDataTest {
     }
 
     @Test
+    fun observeChanges_observe_MediatorLiveData() {
+        val src = MediatorLiveData<Int>().apply { addSource(liveData(-1)) { value = it } }
+        src.value = 0
+        val results = ArrayList<Int>()
+        src.observeChanges { results += it }
+        assertSame(-1, results.single())
+    }
+
+    @Test
     fun observe_LifecycleOwner() {
         val owner = TestLifecycleOwner()
         val src = MutableLiveData<Int>()
@@ -105,6 +115,17 @@ class LiveDataTest {
         owner.lifecycle.markState(Lifecycle.State.DESTROYED)
         src.value = 1
         assertSame(0, results.single())
+    }
+
+    @Test
+    fun observeChanges_LifecycleOwner_observe_MediatorLiveData() {
+        val owner = TestLifecycleOwner()
+        val src = MediatorLiveData<Int>().apply { addSource(liveData(-1)) { value = it } }
+        src.value = 0
+        val results = ArrayList<Int>()
+        src.observeChanges(owner) { results += it }
+        owner.lifecycle.markState(Lifecycle.State.RESUMED)
+        assertSame(-1, results.single())
     }
 
     @Test
