@@ -15,22 +15,21 @@ val owner = object : LifecycleOwner {
     override fun getLifecycle(): Lifecycle = registry
 }
 
-val data = MutableLiveData<Any?>()
+val src = MutableLiveData<Any?>()
 
 val received = ArrayList<Int>()
 
-data.filterIsInstance<Int>() // Filter out non-int values
-    .dropWhile { it < 3 } // Drop values less than 3
-    .observe(owner) { received += it }
+val data = src.filterIsInstance<Int>().dropWhile { it < 3 }
+data.observe(owner) { received += it }
 
 owner.registry.markState(Lifecycle.State.RESUMED)
 
-data.value = 1
-data.value = 2
-data.value = null
-data.value = 3
-data.value = Unit
-data.value = 4
+src.value = 1
+src.value = 2
+src.value = null
+src.value = 3
+src.value = Unit
+src.value = 4
 
 assertEquals(listOf(3, 4), received)
 ```
@@ -140,23 +139,23 @@ dependencies {
 
 ### Lifecycle
 
-- [Extensions](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-extensions/0.9.0/javadoc/lifecycle-extensions/)
-- [LiveData](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-livedata/0.9.0/javadoc/lifecycle-livedata/)
-- [ViewModel](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-viewmodel/0.9.0/javadoc/lifecycle-viewmodel/)
-- [Reactive Streams](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-reactivestreams/0.9.0/javadoc/lifecycle-reactivestreams/)
+- [Extensions](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-extensions/0.9.1/javadoc/lifecycle-extensions/)
+- [LiveData](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-livedata/0.9.1/javadoc/lifecycle-livedata/)
+- [ViewModel](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-viewmodel/0.9.1/javadoc/lifecycle-viewmodel/)
+- [Reactive Streams](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-reactivestreams/0.9.1/javadoc/lifecycle-reactivestreams/)
 
 ### Room
 
-- [Runtime](https://jitpack.io/com/github/tmurakami/aackt/persistence-room-runtime/0.9.0/javadoc/persistence-room-runtime/)
+- [Runtime](https://jitpack.io/com/github/tmurakami/aackt/persistence-room-runtime/0.9.1/javadoc/persistence-room-runtime/)
 
 ### Paging
 
-- [Runtime](https://jitpack.io/com/github/tmurakami/aackt/paging-runtime/0.9.0/javadoc/paging-runtime/)
-- [RxJava2](https://jitpack.io/com/github/tmurakami/aackt/paging-rxjava2/0.9.0/javadoc/paging-rxjava2/)
+- [Runtime](https://jitpack.io/com/github/tmurakami/aackt/paging-runtime/0.9.1/javadoc/paging-runtime/)
+- [RxJava2](https://jitpack.io/com/github/tmurakami/aackt/paging-rxjava2/0.9.1/javadoc/paging-rxjava2/)
 
 ### WorkManager
 
-- [Runtime](https://jitpack.io/com/github/tmurakami/aackt/work-runtime/0.9.0/javadoc/work-runtime/)
+- [Runtime](https://jitpack.io/com/github/tmurakami/aackt/work-runtime/0.9.1/javadoc/work-runtime/)
 
 ## License
 
