@@ -40,15 +40,12 @@ inline fun <T> liveData(value: T): LiveData<T> {
  * Adds the given [observer] callback to this [LiveData]. If this [LiveData] already has a value, it
  * will first be notified to the callback.
  *
- * To stop observing this [LiveData], you need to call [LiveData.removeObserver] with the resulting
- * [Observer] of this extension.
+ * To stop observing this [LiveData], you need to call [Observation.dispose] with the resulting
+ * [Observation] of this extension.
  */
 @MainThread
-inline fun <T> LiveData<T>.observe(crossinline observer: (T) -> Unit): Observer<T> =
-    Observer<T> {
-        @Suppress("UNCHECKED_CAST")
-        observer(it as T)
-    }.also { observeForever(it) }
+fun <T> LiveData<T>.observe(observer: (T) -> Unit): Observation =
+    ObservationImpl(this, observer).also { observeForever(it) }
 
 @Deprecated("", ReplaceWith("observeForever(onChanged)"))
 @MainThread
@@ -58,11 +55,11 @@ inline fun <T> LiveData<T>.observe(onChanged: Observer<T>) = observeForever(onCh
  * Adds the given [onChanged] callback to this [LiveData]. Unlike [observe] extension, the callback
  * will only receive updated values after calling this extension.
  *
- * To stop observing this [LiveData], you need to call [LiveData.removeObserver] with the resulting
- * [Observer] of this extension.
+ * To stop observing this [LiveData], you need to call [Observation.dispose] with the resulting
+ * [Observation] of this extension.
  */
 @MainThread
-fun <T> LiveData<T>.observeChanges(onChanged: (T) -> Unit): Observer<T> {
+fun <T> LiveData<T>.observeChanges(onChanged: (T) -> Unit): Observation {
     val startVersion = currentVersion
     return observe { if (currentVersion > startVersion) onChanged(it) }
 }
@@ -72,27 +69,24 @@ fun <T> LiveData<T>.observeChanges(onChanged: (T) -> Unit): Observer<T> {
  * will first be notified to the callback.
  *
  * The callback will receive values only while the given [owner] is active. You can manually stop
- * observing by calling [LiveData.removeObserver] with the resulting [Observer] of this extension.
+ * observing by calling [Observation.dispose] with the resulting [Observation] of this extension.
  */
 @MainThread
-inline fun <T> LiveData<T>.observe(
-    owner: LifecycleOwner,
-    crossinline observer: (T) -> Unit
-): Observer<T> =
-    Observer<T> {
-        @Suppress("UNCHECKED_CAST")
-        observer(it as T)
-    }.also { observe(owner, it) }
+fun <T> LiveData<T>.observe(owner: LifecycleOwner, observer: (T) -> Unit): Observation =
+    ObservationImpl(this, observer).also { observe(owner, it) }
 
 /**
  * Adds the given [onChanged] callback to this [LiveData]. Unlike [observe] extension, the callback
  * will only receive updated values after calling this extension.
  *
  * The callback will receive values only while the given [owner] is active. You can manually stop
- * observing by calling [LiveData.removeObserver] with the resulting [Observer] of this extension.
+ * observing by calling [Observation.dispose] with the resulting [Observation] of this extension.
  */
 @MainThread
-fun <T> LiveData<T>.observeChanges(owner: LifecycleOwner, onChanged: (T) -> Unit): Observer<T> {
+fun <T> LiveData<T>.observeChanges(
+    owner: LifecycleOwner,
+    onChanged: (T) -> Unit
+): Observation {
     val startVersion = currentVersion
     return observe(owner) { if (currentVersion > startVersion) onChanged(it) }
 }

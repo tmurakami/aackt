@@ -63,9 +63,9 @@ class LiveDataTest {
     fun observe() {
         val src = MutableLiveData<Int>()
         val results = ArrayList<Int>()
-        val observer = src.observe { results += it }
+        val observation = src.observe { results += it }
         src.value = 0
-        src.removeObserver(observer)
+        observation.dispose()
         src.value = 1
         assertSame(0, results.single())
     }
@@ -74,10 +74,10 @@ class LiveDataTest {
     fun observeChanges() {
         val src = MutableLiveData<Int>().apply { value = -1 }
         val results = ArrayList<Int>()
-        val observer = src.observeChanges { results += it }
+        val observation = src.observeChanges { results += it }
         assertTrue(results.isEmpty())
         src.value = 0
-        src.removeObserver(observer)
+        observation.dispose()
         src.value = 1
         assertSame(0, results.single())
     }
