@@ -15,21 +15,24 @@ val owner = object : LifecycleOwner {
     override fun getLifecycle(): Lifecycle = registry
 }
 
-val src = MutableLiveData<Any?>()
+// We recommend that the type argument of a LiveData allowing nulls
+// should be specified as nullable type (e.g. String?).
+val data = MutableLiveData<Any?>()
 
 val received = ArrayList<Int>()
 
-val data = src.filterIsInstance<Int>().dropWhile { it < 3 }
-data.observe(owner) { received += it }
+data.filterIsInstance<Int>() // Filter out non-int values
+    .dropWhile { it < 3 } // Drop values less than 3
+    .observe(owner) { received += it }
 
 owner.registry.markState(Lifecycle.State.RESUMED)
 
-src.value = 1
-src.value = 2
-src.value = null
-src.value = 3
-src.value = Unit
-src.value = 4
+data.value = 1
+data.value = 2
+data.value = null
+data.value = 3
+data.value = Unit
+data.value = 4
 
 assertEquals(listOf(3, 4), received)
 ```
