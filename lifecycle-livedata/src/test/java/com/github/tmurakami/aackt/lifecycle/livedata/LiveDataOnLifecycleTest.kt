@@ -32,7 +32,7 @@ class LiveDataOnLifecycleTest {
     fun onActive() {
         val data = LiveDataOnLifecycle(MutableLiveData<Unit>())
         var count = 0
-        for (i in 0..2) data.onActiveListeners += { count++ }
+        (0..2).forEach { data.onActiveListeners += { count++ } }
         assertEquals(0, count)
         data.test()
         assertEquals(3, count)
@@ -51,7 +51,7 @@ class LiveDataOnLifecycleTest {
     fun onInactive() {
         val data = LiveDataOnLifecycle(MutableLiveData<Unit>())
         var count = 0
-        for (i in 0..2) data.onInactiveListeners += { count++ }
+        (0..2).forEach { data.onInactiveListeners += { count++ } }
         val observer = data.test()
         assertEquals(0, count)
         data.removeObserver(observer)
