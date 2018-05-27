@@ -15,8 +15,6 @@ val owner = object : LifecycleOwner {
     override fun getLifecycle(): Lifecycle = registry
 }
 
-// We recommend that the type argument of a LiveData allowing nulls
-// should be specified as nullable type (e.g. String?).
 val data = MutableLiveData<Any?>()
 
 val received = ArrayList<Int>()
