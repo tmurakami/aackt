@@ -20,7 +20,6 @@ package com.github.tmurakami.aackt.lifecycle
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MediatorLiveData
-import android.arch.lifecycle.Observer
 import android.support.annotation.MainThread
 
 /**
@@ -44,8 +43,3 @@ inline fun <S> MediatorLiveData<*>.observeSource(
     @Suppress("UNCHECKED_CAST")
     onChanged(it as S)
 }
-
-@Deprecated("", ReplaceWith("addSource(source, onChanged)"))
-@MainThread
-inline fun <S> MediatorLiveData<*>.observeSource(source: LiveData<S>, onChanged: Observer<S>) =
-    addSource(source, onChanged)

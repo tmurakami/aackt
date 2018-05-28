@@ -33,9 +33,3 @@ inline fun <T> LiveData<T>.toPublisher(owner: LifecycleOwner): Publisher<T> =
  * Creates a [LiveData].
  */
 inline fun <T> Publisher<T>.toLiveData(): LiveData<T> = LiveDataReactiveStreams.fromPublisher(this)
-
-@Deprecated("", ReplaceWith("toPublisher(owner)"))
-inline fun <T> LiveData<T>.asPublisher(owner: LifecycleOwner): Publisher<T> = toPublisher(owner)
-
-@Deprecated("", ReplaceWith("toLiveData()"))
-inline fun <T> Publisher<T>.asLiveData(): LiveData<T> = toLiveData()

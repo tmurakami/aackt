@@ -47,10 +47,6 @@ inline fun <T> liveData(value: T): LiveData<T> {
 fun <T> LiveData<T>.observe(observer: (T) -> Unit): Observation =
     ObservationImpl(this, observer).also { observeForever(it) }
 
-@Deprecated("", ReplaceWith("observeForever(onChanged)"))
-@MainThread
-inline fun <T> LiveData<T>.observe(onChanged: Observer<T>) = observeForever(onChanged)
-
 /**
  * Adds the given [onChanged] callback to this [LiveData]. Unlike [observe] extension, the callback
  * will only receive updated values after calling this extension.
