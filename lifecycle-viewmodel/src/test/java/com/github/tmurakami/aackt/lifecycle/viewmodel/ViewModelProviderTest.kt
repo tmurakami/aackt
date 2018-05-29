@@ -21,7 +21,6 @@ import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelStore
 import com.github.tmurakami.aackt.lifecycle.getValue
 import org.junit.Test
-import kotlin.test.assertEquals
 import kotlin.test.assertNotSame
 import kotlin.test.assertSame
 
@@ -30,16 +29,12 @@ class ViewModelProviderTest {
     fun getValue() {
         class TestViewModel : ViewModel()
 
-        var count = 0
-        val viewModelProvider = {
-            count++
-            ViewModelProvider(ViewModelStore(), ViewModelProvider.NewInstanceFactory())
-        }
-        val viewModel1: TestViewModel by viewModelProvider()
-        assertEquals(1, count)
+        val viewModelStore = ViewModelStore()
+        val viewModelFactory = ViewModelProvider.NewInstanceFactory()
+        val viewModelProvider = ViewModelProvider(viewModelStore, viewModelFactory)
+        val viewModel1: TestViewModel by viewModelProvider
         assertSame(viewModel1, viewModel1)
-        val viewModel2: TestViewModel by viewModelProvider()
-        assertEquals(2, count)
+        val viewModel2: TestViewModel by viewModelProvider
         assertNotSame(viewModel1, viewModel2)
     }
 }

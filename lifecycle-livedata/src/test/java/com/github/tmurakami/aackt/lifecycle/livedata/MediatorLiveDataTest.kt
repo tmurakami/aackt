@@ -23,7 +23,6 @@ import com.github.tmurakami.aackt.lifecycle.mediatorLiveData
 import com.github.tmurakami.aackt.lifecycle.observeSource
 import org.junit.Rule
 import org.junit.Test
-import kotlin.test.assertEquals
 import kotlin.test.assertSame
 
 class MediatorLiveDataTest {
@@ -32,7 +31,7 @@ class MediatorLiveDataTest {
     val instantTaskExecutorRule: InstantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Test
-    fun mediatorLiveData() = assertEquals("test", mediatorLiveData("test").value)
+    fun mediatorLiveData() = assertSame(0, mediatorLiveData(0).value)
 
     @Test
     fun observeSource() {

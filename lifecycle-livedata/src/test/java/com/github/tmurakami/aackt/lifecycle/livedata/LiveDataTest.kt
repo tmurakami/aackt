@@ -46,7 +46,6 @@ import com.github.tmurakami.aackt.lifecycle.zip
 import com.github.tmurakami.aackt.lifecycle.zipWithNext
 import org.junit.Rule
 import org.junit.Test
-import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertSame
 import kotlin.test.assertTrue
@@ -57,7 +56,7 @@ class LiveDataTest {
     val instantTaskExecutorRule: InstantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Test
-    fun liveData() = assertEquals("test", liveData("test").value)
+    fun liveData() = assertSame(0, liveData(0).value)
 
     @Test
     fun observe() {
