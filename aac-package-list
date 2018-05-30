@@ -1,0 +1,10 @@
+android.arch.core.executor.testing
+android.arch.core.util
+android.arch.lifecycle
+android.arch.paging
+android.arch.persistence.db
+android.arch.persistence.db.framework
+android.arch.persistence.room
+android.arch.persistence.room.migration
+android.arch.persistence.room.testing
+

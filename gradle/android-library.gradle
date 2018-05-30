@@ -50,7 +50,8 @@ dokka {
     skipDeprecated = true
     externalDocumentationLink {
         url = 'https://developer.android.com/reference/'.toURL()
-        packageListUrl = 'https://developer.android.com/reference/android/arch/package-list'.toURL()
+        // https://github.com/Kotlin/dokka/issues/213
+        packageListUrl = file("$rootDir/aac-package-list").toURI().toURL()
     }
 }
 javadoc.dependsOn dokka
