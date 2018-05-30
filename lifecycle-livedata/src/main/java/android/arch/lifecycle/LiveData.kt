@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+@file:Suppress("ConflictingExtensionProperty")
+
 package android.arch.lifecycle
 
-internal val LiveData<*>.currentVersion: Int get() = version
+internal val LiveData<*>.version: Int get() = version

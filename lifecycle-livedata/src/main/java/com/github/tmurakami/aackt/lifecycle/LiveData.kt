@@ -23,7 +23,7 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MediatorLiveData
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.Transformations
-import android.arch.lifecycle.currentVersion
+import android.arch.lifecycle.version
 import android.support.annotation.MainThread
 import java.util.LinkedList
 
@@ -56,8 +56,8 @@ fun <T> LiveData<T>.observe(observer: (T) -> Unit): Observation =
  */
 @MainThread
 fun <T> LiveData<T>.observeChanges(onChanged: (T) -> Unit): Observation {
-    val startVersion = currentVersion
-    return observe { if (currentVersion > startVersion) onChanged(it) }
+    val startVersion = version
+    return observe { if (version > startVersion) onChanged(it) }
 }
 
 /**
@@ -83,8 +83,8 @@ fun <T> LiveData<T>.observeChanges(
     owner: LifecycleOwner,
     onChanged: (T) -> Unit
 ): Observation {
-    val startVersion = currentVersion
-    return observe(owner) { if (currentVersion > startVersion) onChanged(it) }
+    val startVersion = version
+    return observe(owner) { if (version > startVersion) onChanged(it) }
 }
 
 /**
