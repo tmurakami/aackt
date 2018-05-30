@@ -32,7 +32,7 @@ import java.util.LinkedList
  */
 @MainThread
 inline fun <T> liveData(value: T): LiveData<T> {
-    // To save method count, we prefer MutableLiveData rather than `object : LiveData<T>() {}`.
+    // To save methods count, we prefer MutableLiveData rather than `object : LiveData<T>() {}`.
     return mutableLiveData(value)
 }
 
@@ -318,11 +318,11 @@ inline fun <T, R, V> LiveData<T>.zip(
     crossinline transform: (a: T, b: R) -> V
 ): LiveData<V> {
     val result = MediatorLiveData<V>()
+    val sources = arrayOf(this, other)
     val values = arrayOf<LinkedList<Any?>>(LinkedList(), LinkedList())
-    val data = arrayOf(this, other)
     for (i in 0..1) {
-        result.addSource(data[i]) {
-            values[i].add(it)
+        result.addSource(sources[i]) {
+            values[i].plusAssign(it)
             if (values.all { it.isNotEmpty() }) {
                 @Suppress("UNCHECKED_CAST")
                 result.value = transform(values[0].pop() as T, values[1].pop() as R)

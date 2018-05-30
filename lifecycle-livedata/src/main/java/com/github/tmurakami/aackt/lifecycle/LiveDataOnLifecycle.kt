@@ -23,10 +23,10 @@ import java.util.LinkedList
 
 internal class LiveDataOnLifecycle<T>(source: LiveData<T>) : MediatorLiveData<T>(), Observer<T> {
 
-    @JvmField // Not to increase method count
+    @JvmField // Not to increase methods count
     val onActiveListeners = LinkedList<() -> Unit>()
 
-    @JvmField // Not to increase method count
+    @JvmField // Not to increase methods count
     val onInactiveListeners = LinkedList<() -> Unit>()
 
     init {
