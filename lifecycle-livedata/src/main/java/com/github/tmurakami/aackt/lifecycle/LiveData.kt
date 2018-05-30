@@ -208,16 +208,23 @@ inline fun <T, K> LiveData<T>.distinctBy(crossinline selector: (T) -> K): LiveDa
 @MainThread
 fun <T> LiveData<T>.distinctUntilChanged(): LiveData<T> = distinctUntilChangedBy { it }
 
-private val NOT_SET = Any()
-
 /**
  * Returns a [LiveData] that emits only distinct contiguous values according to the given [selector]
  * function.
  */
 @MainThread
-fun <T, K> LiveData<T>.distinctUntilChangedBy(selector: (T) -> K): LiveData<T> {
-    var previous: Any? = NOT_SET
-    return filter { previous != selector(it).also { previous = it } }
+inline fun <T, K> LiveData<T>.distinctUntilChangedBy(crossinline selector: (T) -> K): LiveData<T> {
+    val result = MediatorLiveData<T>()
+    result.addSource(this, object : Observer<T> {
+        private var previousKey: Any? = this // Not set
+        override fun onChanged(t: T?) {
+            @Suppress("UNCHECKED_CAST")
+            val key = selector(t as T)
+            if (key != previousKey) result.value = t
+            previousKey = key
+        }
+    })
+    return result
 }
 
 /**
@@ -225,8 +232,14 @@ fun <T, K> LiveData<T>.distinctUntilChangedBy(selector: (T) -> K): LiveData<T> {
  */
 @MainThread
 fun <T> LiveData<T>.drop(n: Int): LiveData<T> {
-    var count = 0
-    return dropWhile { count++ < n }
+    val result = MediatorLiveData<T>()
+    result.addSource(this, object : Observer<T> {
+        private var count = 0
+        override fun onChanged(t: T?) {
+            if (++count > n) result.value = t
+        }
+    })
+    return result
 }
 
 /**
@@ -236,12 +249,15 @@ fun <T> LiveData<T>.drop(n: Int): LiveData<T> {
 @MainThread
 inline fun <T> LiveData<T>.dropWhile(crossinline predicate: (T) -> Boolean): LiveData<T> {
     val result = MediatorLiveData<T>()
-    var drop = true
-    result.addSource(this) {
-        @Suppress("UNCHECKED_CAST")
-        if (drop) drop = predicate(it as T)
-        if (!drop) result.value = it
-    }
+    result.addSource(this, object : Observer<T> {
+        private var drop = true
+        override fun onChanged(t: T?) {
+            var drop = drop
+            @Suppress("UNCHECKED_CAST")
+            if (drop) drop = predicate(t as T).also { this.drop = it }
+            if (!drop) result.value = t
+        }
+    })
     return result
 }
 
@@ -250,8 +266,14 @@ inline fun <T> LiveData<T>.dropWhile(crossinline predicate: (T) -> Boolean): Liv
  */
 @MainThread
 fun <T> LiveData<T>.take(n: Int): LiveData<T> {
-    var count = 0
-    return takeWhile { count++ < n }
+    val result = MediatorLiveData<T>()
+    result.addSource(this, object : Observer<T> {
+        private var count = 0
+        override fun onChanged(t: T?) {
+            if (count++ < n) result.value = t
+        }
+    })
+    return result
 }
 
 /**
@@ -323,16 +345,14 @@ fun <T> LiveData<T>.zipWithNext(): LiveData<Pair<T, T>> = zipWithNext { a, b -> 
 @MainThread
 inline fun <T, R> LiveData<T>.zipWithNext(crossinline transform: (a: T, b: T) -> R): LiveData<R> {
     val result = MediatorLiveData<R>()
-    var hasValue = false
-    var previous: T? = null
-    result.addSource(this) {
-        if (hasValue) {
+    result.addSource(this, object : Observer<T> {
+        private var previous: Any? = this // Not set
+        override fun onChanged(t: T?) {
+            val previous = previous.apply { previous = t }
+            val notSet: Any = this // Avoid unnecessary CHECKCAST
             @Suppress("UNCHECKED_CAST")
-            result.value = transform(previous as T, it as T)
-        } else {
-            hasValue = true
+            if (previous !== notSet) result.value = transform(previous as T, t as T)
         }
-        previous = it
-    }
+    })
     return result
 }
