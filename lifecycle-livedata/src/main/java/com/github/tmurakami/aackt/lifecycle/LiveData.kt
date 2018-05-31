@@ -79,10 +79,7 @@ fun <T> LiveData<T>.observe(owner: LifecycleOwner, observer: (T) -> Unit): Obser
  * observing by calling [Observation.dispose] with the resulting [Observation] of this extension.
  */
 @MainThread
-fun <T> LiveData<T>.observeChanges(
-    owner: LifecycleOwner,
-    onChanged: (T) -> Unit
-): Observation {
+fun <T> LiveData<T>.observeChanges(owner: LifecycleOwner, onChanged: (T) -> Unit): Observation {
     val startVersion = version
     return observe(owner) { if (version > startVersion) onChanged(it) }
 }
