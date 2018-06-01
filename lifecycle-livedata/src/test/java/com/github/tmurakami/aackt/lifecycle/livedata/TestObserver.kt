@@ -14,20 +14,21 @@
  * limitations under the License.
  */
 
-@file:Suppress("NOTHING_TO_INLINE")
-
 package com.github.tmurakami.aackt.lifecycle.livedata
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.Observer
-import org.junit.Assert
+import kotlin.test.assertEquals
 
 class TestObserver<T> : Observer<T> {
 
-    private val actual = ArrayList<T?>()
+    private val actual = ArrayList<T>()
 
-    override fun onChanged(t: T?) = actual.plusAssign(t)
-    fun assertValues(vararg expected: T) = Assert.assertEquals(expected.toList(), actual)
+    @Suppress("UNCHECKED_CAST")
+    override fun onChanged(t: T?) = actual.plusAssign(t as T)
+
+    fun assertValues(vararg expected: T) = assertEquals(expected.toList(), actual)
 }
 
+@Suppress("NOTHING_TO_INLINE")
 inline fun <T> LiveData<T>.test(): TestObserver<T> = TestObserver<T>().also { observeForever(it) }

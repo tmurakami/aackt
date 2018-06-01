@@ -336,6 +336,7 @@ class LiveDataTest {
         src.values(1, "a", 2, "b", "c", 3, 4)
         observer.assertValues("1a", "a2", "2b", "bc", "c3", "34")
     }
-
-    private fun <T> MutableLiveData<T>.values(vararg values: T) = values.forEach { value = it }
 }
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun <T> MutableLiveData<T>.values(vararg values: T) = values.forEach { value = it }
