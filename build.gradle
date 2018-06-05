@@ -11,6 +11,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
         classpath 'org.jetbrains.dokka:dokka-android-gradle-plugin:0.9.17'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
+        classpath 'pl.allegro.tech.build:axion-release-plugin:1.8.1'
         classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.8.2'
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.17.0'
         classpath 'gradle.plugin.org.jlleitschuh.gradle:ktlint-gradle:4.0.0'
@@ -18,12 +19,27 @@ buildscript {
 }
 
 apply plugin: 'com.github.ben-manes.versions'
+apply plugin: 'pl.allegro.tech.build.axion-release'
+
+scmVersion {
+    tag {
+        prefix = ''
+    }
+    hooks {
+        pre 'fileUpdate', [file       : 'README.md',
+                           pattern    : { v, p -> /\/$v(\/javadoc\/)/ },
+                           replacement: { v, p -> "/$v\$1" }]
+        pre 'commit'
+    }
+}
 
 allprojects {
     repositories {
         google()
         jcenter()
     }
+    version = scmVersion.version
+    group = 'com.github.tmurakami.aackt'
 }
 
 task clean(type: Delete) {
