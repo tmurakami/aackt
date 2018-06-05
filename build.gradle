@@ -29,7 +29,7 @@ scmVersion {
         pre 'fileUpdate', [file       : 'README.md',
                            pattern    : { v, p -> /\/$v(\/javadoc\/)/ },
                            replacement: { v, p -> "/$v\$1" }]
-        pre 'commit'
+        pre 'commit', { v, p -> "Release version: $v [ci skip]" }
     }
 }
 
