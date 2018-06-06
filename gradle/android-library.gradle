@@ -8,7 +8,7 @@ apply plugin: 'com.getkeepsafe.dexcount'
 def isOnCI = System.getenv('CI') as boolean
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
     defaultConfig {
         minSdkVersion 14
     }
