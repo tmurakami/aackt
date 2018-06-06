@@ -29,12 +29,10 @@ class ViewModelProviderTest {
     fun getValue() {
         class TestViewModel : ViewModel()
 
-        val viewModelStore = ViewModelStore()
-        val viewModelFactory = ViewModelProvider.NewInstanceFactory()
-        val viewModelProvider = ViewModelProvider(viewModelStore, viewModelFactory)
-        val viewModel1: TestViewModel by viewModelProvider
-        assertSame(viewModel1, viewModel1)
-        val viewModel2: TestViewModel by viewModelProvider
-        assertNotSame(viewModel1, viewModel2)
+        val provider = ViewModelProvider(ViewModelStore(), ViewModelProvider.NewInstanceFactory())
+        val vm1: TestViewModel by provider
+        assertSame(vm1, vm1)
+        val vm2: TestViewModel by provider
+        assertNotSame(vm1, vm2)
     }
 }
