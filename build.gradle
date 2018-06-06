@@ -27,8 +27,8 @@ scmVersion {
     }
     hooks {
         pre 'fileUpdate', [file       : 'README.md',
-                           pattern    : { v, p -> /\/$v(\/javadoc\/)/ },
-                           replacement: { v, p -> "/$v\$1" }]
+                           pattern    : { v, p -> /(['\/])$v(['\/])/ },
+                           replacement: { v, p -> "\$1$v\$2" }]
         pre 'commit', { v, p -> "Release version: $v [ci skip]" }
     }
 }
