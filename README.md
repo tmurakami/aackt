@@ -35,6 +35,32 @@ data.value = 4
 assertEquals(listOf(3, 4), received)
 ```
 
+If a LiveData already has a value, the observer added via `observe` will
+receive that value first. If you would not like to receive it, you can
+use `observeChanges` to receive only updated values.
+
+```kotlin
+val owner = object : LifecycleOwner {
+    val registry = LifecycleRegistry(this)
+    override fun getLifecycle(): Lifecycle = registry
+}
+
+// Create a LiveData with a value
+val data = MutableLiveData<Int>().apply { value = -1 }
+
+val received = ArrayList<Int>()
+
+// Add an observer to receive only updated values
+data.observeChanges(owner) { received += it }
+data.value = 0
+
+owner.registry.markState(Lifecycle.State.RESUMED)
+
+data.value = 1
+
+assertEquals(listOf(0, 1), received)
+```
+
 ## ViewModel
 
 ```kotlin
@@ -107,34 +133,34 @@ repositories {
 
 dependencies {
 
+    def aacktVersion = '0.10.0'
+
     // LiveData and ViewModel
-    implementation 'com.github.tmurakami.aackt:lifecycle-extensions:x.y.z'
+    implementation "com.github.tmurakami.aackt:lifecycle-extensions:$aacktVersion"
 
     // Alternatively, just LiveData
-    implementation 'com.github.tmurakami.aackt:lifecycle-livedata:x.y.z'
+    implementation "com.github.tmurakami.aackt:lifecycle-livedata:$aacktVersion"
 
     // Alternatively, just ViewModel
-    implementation 'com.github.tmurakami.aackt:lifecycle-viewmodel:x.y.z'
+    implementation "com.github.tmurakami.aackt:lifecycle-viewmodel:$aacktVersion"
 
     // ReactiveStreams support for LiveData
-    implementation 'com.github.tmurakami.aackt:lifecycle-reactivestreams:x.y.z'
+    implementation "com.github.tmurakami.aackt:lifecycle-reactivestreams:$aacktVersion"
 
     // Room
-    implementation 'com.github.tmurakami.aackt:persistence-room-runtime:x.y.z'
+    implementation "com.github.tmurakami.aackt:persistence-room-runtime:$aacktVersion"
 
     // Paging
-    implementation 'com.github.tmurakami.aackt:paging-runtime:x.y.z'
+    implementation "com.github.tmurakami.aackt:paging-runtime:$aacktVersion"
     
     // Paging with RxJava2
-    implementation 'com.github.tmurakami.aackt:paging-rxjava2:x.y.z'
+    implementation "com.github.tmurakami.aackt:paging-rxjava2:$aacktVersion"
 
     // WorkManager
-    implementation 'com.github.tmurakami.aackt:work-runtime:x.y.z'
+    implementation "com.github.tmurakami.aackt:work-runtime:$aacktVersion"
 
 }
 ```
-
-[![Release](https://jitpack.io/v/tmurakami/aackt.svg)](https://jitpack.io/#tmurakami/aackt)
 
 ## API references
 
