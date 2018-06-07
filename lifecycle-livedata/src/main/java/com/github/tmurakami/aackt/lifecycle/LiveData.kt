@@ -186,12 +186,24 @@ inline fun <reified R> LiveData<*>.filterIsInstance(): LiveData<R> =
 
 /**
  * Returns a [LiveData] that emits only distinct values.
+ *
+ * Note that structurally equivalent values are regarded as identical. You can use [distinctBy] to
+ * treat structurally equivalent values as different.
  */
 @MainThread
 fun <T> LiveData<T>.distinct(): LiveData<T> = distinctBy { it }
 
 /**
  * Returns a [LiveData] that emits only distinct values according to the given [selector] function.
+ *
+ * Note that structurally equivalent keys are regarded as identical. If you need to treat
+ * structurally equivalent values as different, you can generate keys with [System.identityHashCode]
+ * as follows:
+ *
+ * ```kotlin
+ * val data: MutableLiveData<IntRange> = ...
+ * data.distinctBy { System.identityHashCode(it) }.observe { ... }
+ * ```
  */
 @MainThread
 inline fun <T, K> LiveData<T>.distinctBy(crossinline selector: (T) -> K): LiveData<T> {
@@ -201,6 +213,9 @@ inline fun <T, K> LiveData<T>.distinctBy(crossinline selector: (T) -> K): LiveDa
 
 /**
  * Returns a [LiveData] that emits only distinct contiguous values.
+ *
+ * Note that structurally equivalent values are regarded as identical. You can use
+ * [distinctUntilChangedBy] to treat structurally equivalent values as different.
  */
 @MainThread
 fun <T> LiveData<T>.distinctUntilChanged(): LiveData<T> = distinctUntilChangedBy { it }
@@ -208,6 +223,15 @@ fun <T> LiveData<T>.distinctUntilChanged(): LiveData<T> = distinctUntilChangedBy
 /**
  * Returns a [LiveData] that emits only distinct contiguous values according to the given [selector]
  * function.
+ *
+ * Note that structurally equivalent keys are regarded as identical. If you need to treat
+ * structurally equivalent values as different, you can generate keys with [System.identityHashCode]
+ * as follows:
+ *
+ * ```kotlin
+ * val data: MutableLiveData<IntRange> = ...
+ * data.distinctUntilChangedBy { System.identityHashCode(it) }.observe { ... }
+ * ```
  */
 @MainThread
 inline fun <T, K> LiveData<T>.distinctUntilChangedBy(crossinline selector: (T) -> K): LiveData<T> {
