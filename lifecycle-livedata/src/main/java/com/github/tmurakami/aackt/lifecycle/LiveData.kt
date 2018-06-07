@@ -201,8 +201,7 @@ fun <T> LiveData<T>.distinct(): LiveData<T> = distinctBy { it }
  * as follows:
  *
  * ```kotlin
- * val data: MutableLiveData<IntRange> = ...
- * data.distinctBy { System.identityHashCode(it) }.observe { ... }
+ * liveData.distinctBy { System.identityHashCode(it) }.observe(owner) { ... }
  * ```
  */
 @MainThread
@@ -229,8 +228,7 @@ fun <T> LiveData<T>.distinctUntilChanged(): LiveData<T> = distinctUntilChangedBy
  * as follows:
  *
  * ```kotlin
- * val data: MutableLiveData<IntRange> = ...
- * data.distinctUntilChangedBy { System.identityHashCode(it) }.observe { ... }
+ * liveData.distinctUntilChangedBy { System.identityHashCode(it) }.observe(owner) { ... }
  * ```
  */
 @MainThread
