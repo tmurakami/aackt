@@ -236,6 +236,18 @@ class LiveDataTest {
     }
 
     @Test
+    fun distinctBy_with_identityHashCode() {
+        val src = MutableLiveData<IntRange>()
+        val observer = src.distinctBy { System.identityHashCode(it) }.test()
+        val d1 = (0..1)
+        val d2 = (0..1)
+        assertTrue(d1 == d2)
+        assertFalse(d1 === d2)
+        src.values(d1, d2, d1, d2, d2)
+        observer.assertValues(d1, d2)
+    }
+
+    @Test
     fun distinctUntilChanged() {
         val src = MutableLiveData<Int>()
         val observer = src.distinctUntilChanged().test()
@@ -249,6 +261,18 @@ class LiveDataTest {
         val observer = src.distinctUntilChangedBy { it % 2 }.test()
         src.values(0, 2, 1, 2, 1, 1)
         observer.assertValues(0, 1, 2, 1)
+    }
+
+    @Test
+    fun distinctUntilChangedBy_with_identityHashCode() {
+        val src = MutableLiveData<IntRange>()
+        val observer = src.distinctUntilChangedBy { System.identityHashCode(it) }.test()
+        val d1 = (0..1)
+        val d2 = (0..1)
+        assertTrue(d1 == d2)
+        assertFalse(d1 === d2)
+        src.values(d1, d2, d1, d2, d2)
+        observer.assertValues(d1, d2, d1, d2)
     }
 
     @Test
