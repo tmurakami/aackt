@@ -35,9 +35,9 @@ class MediatorLiveDataTest {
 
     @Test
     fun observeSource() {
-        val data = MediatorLiveData<Unit>().apply { test() }
+        val src = MutableLiveData<Int>()
         val results = ArrayList<Int>()
-        val src = MutableLiveData<Int>().also { data.observeSource(it) { results += it } }
+        MediatorLiveData<Unit>().apply { observeSource(src) { results += it } }.test()
         src.value = 1
         assertSame(1, results.single())
     }
