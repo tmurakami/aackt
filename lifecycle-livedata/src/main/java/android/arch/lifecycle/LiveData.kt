@@ -16,4 +16,8 @@
 
 package android.arch.lifecycle
 
-internal val LiveData<*>.currentVersion: Int get() = version
+import android.support.annotation.MainThread
+
+@get:MainThread
+internal val LiveData<*>.currentVersion: Int
+    get() = version
