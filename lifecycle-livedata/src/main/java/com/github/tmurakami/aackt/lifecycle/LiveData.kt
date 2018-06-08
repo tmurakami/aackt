@@ -37,10 +37,10 @@ inline fun <T> liveData(value: T): LiveData<T> {
 }
 
 /**
- * Adds the given [observer] callback to this [LiveData]. If this [LiveData] already has a value, it
- * will first be notified to the callback.
+ * Adds the given [observer] callback to the receiver. If the receiver already has a value, it will
+ * first be notified to the callback.
  *
- * To stop observing this [LiveData], you need to call [Observation.dispose] with the resulting
+ * To stop observing the receiver, you will need to call [Observation.dispose] with the resulting
  * [Observation] of this extension.
  */
 @MainThread
@@ -48,10 +48,10 @@ fun <T> LiveData<T>.observe(observer: (T) -> Unit): Observation =
     ObservationImpl(this, observer).also { observeForever(it) }
 
 /**
- * Adds the given [onChanged] callback to this [LiveData]. Unlike [observe] extension, the callback
+ * Adds the given [onChanged] callback to the receiver. Unlike [observe] extension, the callback
  * will only receive updated values after calling this extension.
  *
- * To stop observing this [LiveData], you need to call [Observation.dispose] with the resulting
+ * To stop observing the receiver, you will need to call [Observation.dispose] with the resulting
  * [Observation] of this extension.
  */
 @MainThread
@@ -61,8 +61,8 @@ fun <T> LiveData<T>.observeChanges(onChanged: (T) -> Unit): Observation {
 }
 
 /**
- * Adds the given [observer] callback to this [LiveData]. If this [LiveData] already has a value, it
- * will first be notified to the callback.
+ * Adds the given [observer] callback to the receiver. If the receiver already has a value, it will
+ * first be notified to the callback.
  *
  * The callback will receive values only while the given [owner] is active. You can manually stop
  * observing by calling [Observation.dispose] with the resulting [Observation] of this extension.
@@ -72,7 +72,7 @@ fun <T> LiveData<T>.observe(owner: LifecycleOwner, observer: (T) -> Unit): Obser
     ObservationImpl(this, observer).also { observe(owner, it) }
 
 /**
- * Adds the given [onChanged] callback to this [LiveData]. Unlike [observe] extension, the callback
+ * Adds the given [onChanged] callback to the receiver. Unlike [observe] extension, the callback
  * will only receive updated values after calling this extension.
  *
  * The callback will receive values only while the given [owner] is active. You can manually stop
@@ -196,13 +196,10 @@ fun <T> LiveData<T>.distinct(): LiveData<T> = distinctBy { it }
 /**
  * Returns a [LiveData] that emits only distinct values according to the given [selector] function.
  *
- * Note that structurally equivalent keys are regarded as identical. If you need to treat
- * structurally equivalent values as different, you can generate keys with [System.identityHashCode]
- * as follows:
- *
- * ```kotlin
- * liveData.distinctBy { System.identityHashCode(it) }.observe(owner) { ... }
- * ```
+ * Note that structurally equivalent keys are regarded as identical. To treat structurally
+ * equivalent values emitted by the receiver as different, you will need to give a [selector] that
+ * returns the result of calling [System.identityHashCode], for instance
+ * `distinctBy { System.identityHashCode(it) }`.
  */
 @MainThread
 inline fun <T, K> LiveData<T>.distinctBy(crossinline selector: (T) -> K): LiveData<T> {
@@ -223,13 +220,10 @@ fun <T> LiveData<T>.distinctUntilChanged(): LiveData<T> = distinctUntilChangedBy
  * Returns a [LiveData] that emits only distinct contiguous values according to the given [selector]
  * function.
  *
- * Note that structurally equivalent keys are regarded as identical. If you need to treat
- * structurally equivalent values as different, you can generate keys with [System.identityHashCode]
- * as follows:
- *
- * ```kotlin
- * liveData.distinctUntilChangedBy { System.identityHashCode(it) }.observe(owner) { ... }
- * ```
+ * Note that structurally equivalent keys are regarded as identical. To treat structurally
+ * equivalent values emitted by the receiver as different, you will need to give a [selector] that
+ * returns the result of calling [System.identityHashCode], for instance
+ * `distinctUntilChangedBy { System.identityHashCode(it) }`.
  */
 @MainThread
 inline fun <T, K> LiveData<T>.distinctUntilChangedBy(crossinline selector: (T) -> K): LiveData<T> {
@@ -352,14 +346,14 @@ inline fun <T, R, V> LiveData<T>.zip(
 }
 
 /**
- * Returns a [LiveData] that emits pairs of each two adjacent values emitted by this [LiveData].
+ * Returns a [LiveData] that emits pairs of each two adjacent values emitted by the receiver.
  */
 @MainThread
 fun <T> LiveData<T>.zipWithNext(): LiveData<Pair<T, T>> = zipWithNext { a, b -> a to b }
 
 /**
  * Returns a [LiveData] that emits the results of applying the given [transform] function to each
- * pair of two adjacent values emitted by this [LiveData].
+ * pair of two adjacent values emitted by the receiver.
  */
 @MainThread
 inline fun <T, R> LiveData<T>.zipWithNext(crossinline transform: (a: T, b: T) -> R): LiveData<R> {
