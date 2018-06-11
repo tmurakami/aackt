@@ -20,6 +20,6 @@ import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.ProcessLifecycleOwner
 
 /**
- * Returns the singleton instance of [ProcessLifecycleOwner].
+ * Returns the [LifecycleOwner] for the whole application process.
  */
 inline val processLifecycleOwner: LifecycleOwner get() = ProcessLifecycleOwner.get()
