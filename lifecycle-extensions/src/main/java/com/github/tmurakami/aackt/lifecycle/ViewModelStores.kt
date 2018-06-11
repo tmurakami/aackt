@@ -22,11 +22,11 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 
 /**
- * Returns the [ViewModelStore] of the given [Fragment].
+ * Returns the [ViewModelStore].
  */
 inline val Fragment.viewModelStore: ViewModelStore get() = ViewModelStores.of(this)
 
 /**
- * Returns the [ViewModelStore] of the given [FragmentActivity].
+ * Returns the [ViewModelStore].
  */
 inline val FragmentActivity.viewModelStore: ViewModelStore get() = ViewModelStores.of(this)
