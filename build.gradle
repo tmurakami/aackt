@@ -52,8 +52,8 @@ ext {
     deps.kotlin = [stdlib: "org.jetbrains.kotlin:kotlin-stdlib:${versions.kotlin}",
                    junit4: "org.jetbrains.kotlin:kotlin-test-junit:${versions.kotlin}",]
 
-    def arch = [:]
-    deps.arch = arch
+    deps.android = [arch: [:]]
+    def arch = deps.android.arch
 
     def lifecycleVersion = '1.1.1'
     arch.core = [testing: "android.arch.core:core-testing:$lifecycleVersion",]

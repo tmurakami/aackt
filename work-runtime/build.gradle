@@ -1,7 +1,7 @@
 apply from: "$rootDir/gradle/android-library.gradle"
 
 dependencies {
-    api deps.arch.work.runtime
+    api deps.android.arch.work.runtime
 }
 
 dokka {
