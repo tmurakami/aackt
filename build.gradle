@@ -38,6 +38,9 @@ allprojects {
         google()
         jcenter()
     }
+}
+
+subprojects {
     version = scmVersion.version
     group = 'com.github.tmurakami.aackt'
 }
