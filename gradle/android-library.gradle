@@ -69,6 +69,7 @@ artifacts {
 install {
     repositories.mavenInstaller {
         pom.project {
+            url 'https://github.com/tmurakami/aackt'
             inceptionYear '2018'
             licenses {
                 license {
@@ -82,6 +83,10 @@ install {
                     id 'tmurakami'
                     name 'Tsuyoshi Murakami'
                 }
+            }
+            scm {
+                url 'https://github.com/tmurakami/aackt'
+                connection 'scm:git:git://github.com/tmurakami/aackt.git'
             }
         }
     }
