@@ -19,6 +19,10 @@ package com.github.tmurakami.aackt.work
 import androidx.work.WorkManager
 
 /**
- * Returns the singleton instance of [WorkManager].
+ * Returns the singleton instance of [WorkManager], or throws an [IllegalStateException] if it has
+ * not been initialized.
  */
-inline val workManager: WorkManager get() = WorkManager.getInstance()
+inline val workManager: WorkManager
+    get() = checkNotNull(WorkManager.getInstance()) {
+        "The singleton instance of WorkManager has not yet been initialized"
+    }
