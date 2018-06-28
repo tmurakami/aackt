@@ -18,15 +18,20 @@ package com.github.tmurakami.aackt.lifecycle
 
 import android.arch.lifecycle.ViewModelStore
 import android.arch.lifecycle.ViewModelStores
+import android.support.annotation.MainThread
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 
 /**
  * Returns the [ViewModelStore].
  */
-inline val Fragment.viewModelStore: ViewModelStore get() = ViewModelStores.of(this)
+@get:MainThread
+inline val Fragment.viewModelStore: ViewModelStore
+    get() = ViewModelStores.of(this)
 
 /**
  * Returns the [ViewModelStore].
  */
-inline val FragmentActivity.viewModelStore: ViewModelStore get() = ViewModelStores.of(this)
+@get:MainThread
+inline val FragmentActivity.viewModelStore: ViewModelStore
+    get() = ViewModelStores.of(this)
