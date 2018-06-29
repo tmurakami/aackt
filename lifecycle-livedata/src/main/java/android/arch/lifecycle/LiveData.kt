@@ -18,6 +18,7 @@ package android.arch.lifecycle
 
 import android.support.annotation.MainThread
 
+@Suppress("ConflictingExtensionProperty")
 @get:MainThread
-internal val LiveData<*>.currentVersion: Int
+internal val LiveData<*>.version: Int
     get() = version

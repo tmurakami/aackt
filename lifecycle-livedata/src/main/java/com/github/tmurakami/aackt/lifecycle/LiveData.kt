@@ -20,7 +20,7 @@ package com.github.tmurakami.aackt.lifecycle
 
 import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.currentVersion
+import android.arch.lifecycle.version
 import android.support.annotation.MainThread
 
 /**
@@ -52,8 +52,8 @@ fun <T> LiveData<T>.observe(observer: (T) -> Unit): Observation =
  */
 @MainThread
 fun <T> LiveData<T>.observeChanges(onChanged: (T) -> Unit): Observation {
-    val startVersion = currentVersion
-    return observe { if (currentVersion > startVersion) onChanged(it) }
+    val startVersion = version
+    return observe { if (version > startVersion) onChanged(it) }
 }
 
 /**
@@ -76,6 +76,6 @@ fun <T> LiveData<T>.observe(owner: LifecycleOwner, observer: (T) -> Unit): Obser
  */
 @MainThread
 fun <T> LiveData<T>.observeChanges(owner: LifecycleOwner, onChanged: (T) -> Unit): Observation {
-    val startVersion = currentVersion
-    return observe(owner) { if (currentVersion > startVersion) onChanged(it) }
+    val startVersion = version
+    return observe(owner) { if (version > startVersion) onChanged(it) }
 }
