@@ -16,15 +16,13 @@ jobs:
       - restore_cache:
           key: *cache_key
       - run:
-          name: Download Dependencies
-          command: ./gradlew androidDependencies
+          name: Run Lint and Tests
+          command: ./gradlew lintDebug ktlintDebugCheck testDebug
       - save_cache:
           key: *cache_key
           paths:
-            - ~/.gradle
-      - run:
-          name: Run Lint and Tests
-          command: ./gradlew lintDebug ktlintDebugCheck testDebug
+            - ~/.gradle/caches
+            - ~/.gradle/wrapper
       - store_artifacts:
           path: lifecycle-extensions/build/reports
       - store_artifacts:
