@@ -116,7 +116,7 @@ fun <T : Any> LiveData<T?>.filterNotNull(): LiveData<T> = filter { it != null } 
 
 /**
  * Returns a [LiveData] that emits only values of the given type [R].
- * 
+ *
  * If [R] is a nullable type then null will be notified otherwise null will be dropped.
  */
 @Suppress("UNCHECKED_CAST")
