@@ -24,29 +24,41 @@ import android.support.annotation.MainThread
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 
-/**
- * Creates a [ViewModelProvider] that uses the default factory to instantiate new view models.
- */
+@Deprecated("", replaceWith = ReplaceWith("createViewModelProvider()"))
 @MainThread
 inline fun Fragment.viewModelProvider(): ViewModelProvider = ViewModelProviders.of(this)
 
-/**
- * Creates a [ViewModelProvider] that uses the given [factory] to instantiate new view models.
- */
+@Deprecated("", replaceWith = ReplaceWith("createViewModelProvider(factory)"))
 @MainThread
 inline fun Fragment.viewModelProvider(factory: ViewModelProvider.Factory): ViewModelProvider =
     ViewModelProviders.of(this, factory)
 
-/**
- * Creates a [ViewModelProvider] that uses the default factory to instantiate new view models.
- */
+@Deprecated("", replaceWith = ReplaceWith("createViewModelProvider()"))
 @MainThread
 inline fun FragmentActivity.viewModelProvider(): ViewModelProvider = ViewModelProviders.of(this)
 
-/**
- * Creates a [ViewModelProvider] that uses the given [factory] to instantiate new view models.
- */
+@Deprecated("", replaceWith = ReplaceWith("createViewModelProvider(factory)"))
 @MainThread
 inline fun FragmentActivity.viewModelProvider(
     factory: ViewModelProvider.Factory
+): ViewModelProvider = ViewModelProviders.of(this, factory)
+
+/**
+ * Creates a [ViewModelProvider] that uses the given [factory] to instantiate new ViewModels.
+ *
+ * If the [factory] is null then [ViewModelProvider.AndroidViewModelFactory] will be used.
+ */
+@MainThread
+inline fun Fragment.createViewModelProvider(
+    factory: ViewModelProvider.Factory? = null
+): ViewModelProvider = ViewModelProviders.of(this, factory)
+
+/**
+ * Creates a [ViewModelProvider] that uses the given [factory] to instantiate new ViewModels.
+ *
+ * If the [factory] is null then [ViewModelProvider.AndroidViewModelFactory] will be used.
+ */
+@MainThread
+inline fun FragmentActivity.createViewModelProvider(
+    factory: ViewModelProvider.Factory? = null
 ): ViewModelProvider = ViewModelProviders.of(this, factory)
