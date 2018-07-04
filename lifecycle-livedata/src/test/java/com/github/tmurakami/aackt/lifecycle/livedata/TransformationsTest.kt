@@ -144,6 +144,14 @@ class TransformationsTest {
     }
 
     @Test
+    fun filterIsInstance_nullable() {
+        val src = MutableLiveData<Any?>()
+        val observer = src.filterIsInstance<Int?>().test()
+        src.values(null, true, 1.toByte(), 2.toChar(), 3.0, 4.0f, 5, 6L, 7.toShort(), "8")
+        observer.assertValues(null, 5)
+    }
+
+    @Test
     fun distinct() {
         val src = MutableLiveData<Int>()
         val observer = src.distinct().test()
