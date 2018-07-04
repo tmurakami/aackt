@@ -2,7 +2,7 @@
 
 [![CircleCI](https://circleci.com/gh/tmurakami/aackt.svg?style=shield)](https://circleci.com/gh/tmurakami/aackt)
 [![Release](https://jitpack.io/v/tmurakami/aackt.svg)](https://jitpack.io/#tmurakami/aackt)
-![Kotlin](https://img.shields.io/badge/Kotlin-1.2.50%2B-blue.svg)
+![Kotlin](https://img.shields.io/badge/Kotlin-1.2.51%2B-blue.svg)
 ![Android](https://img.shields.io/badge/Android-4.0%2B-blue.svg)
 
 A Kotlin library for [Android Architecture Components](https://developer.android.com/topic/libraries/architecture/).
@@ -68,18 +68,12 @@ class FooActivity : FragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val fooViewModel = viewModelProvider().get<FooViewModel>()
+        val viewModelProvider = createViewModelProvider()
+        val fooViewModel: FooViewModel by viewModelProvider
 
         ...
     }
 }
-```
-
-You can also use a ViewModelProvider as the delegate for a delegated
-property.
-
-```kotlin
-val fooViewModel: FooViewModel by viewModelProvider
 ```
 
 ## Room
