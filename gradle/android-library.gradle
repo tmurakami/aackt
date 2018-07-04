@@ -5,15 +5,13 @@ apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'org.jlleitschuh.gradle.ktlint'
 apply plugin: 'com.getkeepsafe.dexcount'
 
-def isOnCI = System.getenv('CI') as boolean
-
 android {
     compileSdkVersion 28
     defaultConfig {
         minSdkVersion 14
     }
     kotlinOptions {
-        allWarningsAsErrors = !isOnCI
+        allWarningsAsErrors = true
         freeCompilerArgs += ['-Xno-param-assertions']
     }
     libraryVariants.all {
@@ -30,7 +28,6 @@ ktlint {
     version = versions.ktlint
     android = true
     reporters = ['PLAIN', 'CHECKSTYLE']
-    ignoreFailures = isOnCI
 }
 
 dexcount {
