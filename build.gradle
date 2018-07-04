@@ -1,5 +1,5 @@
 buildscript {
-    ext.versions = [kotlin: '1.2.50',
+    ext.versions = [kotlin: '1.2.51',
                     ktlint: '0.24.0',]
     repositories {
         google()
