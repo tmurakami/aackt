@@ -259,9 +259,9 @@ class TransformationsTest {
         intSrc.value = 1
         stringSrc.value = "a"
         intSrc.value = 2
-        stringSrc.values("b", "c")
-        intSrc.values(3, 4)
-        observer.assertValues(1 to "a", 2 to "b", 3 to "c")
+        stringSrc.values("b", "c", "d")
+        intSrc.values(3, 4, 5)
+        observer.assertValues(1 to "a", 2 to "b", 3 to "c", 4 to "d")
     }
 
     @Test
@@ -272,9 +272,9 @@ class TransformationsTest {
         intSrc.value = 1
         stringSrc.value = "a"
         intSrc.value = 2
-        stringSrc.values("b", "c")
-        intSrc.values(3, 4)
-        observer.assertValues("1a", "2b", "3c")
+        stringSrc.values("b", "c", "d")
+        intSrc.values(3, 4, 5)
+        observer.assertValues("1a", "2b", "3c", "4d")
     }
 
     @Test
