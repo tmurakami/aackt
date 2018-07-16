@@ -276,7 +276,7 @@ inline fun <T, R, V> LiveData<T>.zip(
     for (i in 0..1) {
         result.addSource(sources[i]) {
             values[i].plusAssign(it)
-            if (values.all { it.isNotEmpty() }) {
+            if (values[i xor 1].isNotEmpty()) {
                 @Suppress("UNCHECKED_CAST")
                 result.value = transform(values[0].pop() as T, values[1].pop() as R)
             }
