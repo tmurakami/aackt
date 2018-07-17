@@ -288,14 +288,14 @@ inline fun <T, R, V> LiveData<T>.combineLatest(
 }
 
 /**
- * Returns a [LiveData] that emits pairs of values emitted in sequence by the sources.
+ * Returns a [LiveData] that emits pairs of values emitted in sequence by each [LiveData].
  */
 @MainThread
 fun <T, R> LiveData<T>.zip(other: LiveData<R>): LiveData<Pair<T, R>> = zip(other) { a, b -> a to b }
 
 /**
  * Returns a [LiveData] that emits the results of applying the given [transform] function to values
- * emitted in sequence by the sources.
+ * emitted in sequence by each [LiveData].
  */
 @MainThread
 inline fun <T, R, V> LiveData<T>.zip(
