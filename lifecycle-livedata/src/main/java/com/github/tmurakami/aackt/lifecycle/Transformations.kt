@@ -256,6 +256,38 @@ operator fun <T> LiveData<T>.plus(other: LiveData<out T>): LiveData<T> {
 }
 
 /**
+ * Returns a [LiveData] that emits pairs of values emitted by each [LiveData] when either of them
+ * receives a value.
+ */
+@MainThread
+fun <T, R> LiveData<T>.combineLatest(other: LiveData<R>): LiveData<Pair<T, R>> =
+    combineLatest(other) { a, b -> a to b }
+
+/**
+ * Returns a [LiveData] that emits the results of applying the given [transform] function to values
+ * emitted by each [LiveData] when either of them receives a value.
+ */
+@MainThread
+inline fun <T, R, V> LiveData<T>.combineLatest(
+    other: LiveData<R>,
+    crossinline transform: (a: T, b: R) -> V
+): LiveData<V> {
+    val result = MediatorLiveData<V>()
+    val sources = arrayOf(this, other)
+    var emitted = 0
+    for (i in 0..1) {
+        result.addSource(sources[i]) {
+            emitted = emitted or (i + 1)
+            if (emitted == 0b11) {
+                @Suppress("UNCHECKED_CAST")
+                result.value = transform(value as T, other.value as R)
+            }
+        }
+    }
+    return result
+}
+
+/**
  * Returns a [LiveData] that emits pairs of values emitted in sequence by the sources.
  */
 @MainThread

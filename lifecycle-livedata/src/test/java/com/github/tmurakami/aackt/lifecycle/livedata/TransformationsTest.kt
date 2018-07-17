@@ -18,6 +18,7 @@ package com.github.tmurakami.aackt.lifecycle.livedata
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.arch.lifecycle.MutableLiveData
+import com.github.tmurakami.aackt.lifecycle.combineLatest
 import com.github.tmurakami.aackt.lifecycle.distinct
 import com.github.tmurakami.aackt.lifecycle.distinctBy
 import com.github.tmurakami.aackt.lifecycle.distinctUntilChanged
@@ -249,6 +250,41 @@ class TransformationsTest {
         anySrc.values(80, 100)
         intSrc.value = 1
         observer.assertValues(20, 40, 60, 1, 80, 100, 1)
+    }
+
+    @Test
+    fun combineLatest() {
+        val intSrc = MutableLiveData<Int>()
+        val stringSrc = MutableLiveData<String>()
+        val observer = intSrc.combineLatest(stringSrc).test()
+        intSrc.value = 1
+        stringSrc.value = "a"
+        intSrc.value = 2
+        stringSrc.values("b", "c", "d")
+        intSrc.values(3, 4, 5)
+        observer.assertValues(
+            1 to "a",
+            2 to "a",
+            2 to "b",
+            2 to "c",
+            2 to "d",
+            3 to "d",
+            4 to "d",
+            5 to "d"
+        )
+    }
+
+    @Test
+    fun combineLatest_transform() {
+        val intSrc = MutableLiveData<Int>()
+        val stringSrc = MutableLiveData<String>()
+        val observer = intSrc.combineLatest(stringSrc) { a, b -> "$a$b" }.test()
+        intSrc.value = 1
+        stringSrc.value = "a"
+        intSrc.value = 2
+        stringSrc.values("b", "c", "d")
+        intSrc.values(3, 4, 5)
+        observer.assertValues("1a", "2a", "2b", "2c", "2d", "3d", "4d", "5d")
     }
 
     @Test
