@@ -223,7 +223,7 @@ fun <T> LiveData<T>.take(n: Int): LiveData<T> {
     result.addSource(this, object : Observer<T> {
         private var count = 0
         override fun onChanged(t: T?) {
-            if (count++ < n) result.value = t
+            if (count++ < n) result.value = t else result.removeSource(this@take)
         }
     })
     return result
