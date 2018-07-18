@@ -137,8 +137,8 @@ fun <T> LiveData<T>.distinct(): LiveData<T> = distinctBy { it }
  * Returns a [LiveData] that emits only distinct values according to the given [selector] function.
  *
  * Note that structurally equivalent keys are regarded as identical. To treat structurally
- * equivalent values emitted by the receiver as different, you will need to give a [selector] that
- * returns the result of calling [System.identityHashCode], for instance
+ * equivalent values emitted by the receiver [LiveData] as different, you will need to give a
+ * [selector] that calls [System.identityHashCode], for instance
  * `distinctBy { System.identityHashCode(it) }`.
  */
 @MainThread
@@ -161,8 +161,8 @@ fun <T> LiveData<T>.distinctUntilChanged(): LiveData<T> = distinctUntilChangedBy
  * function.
  *
  * Note that structurally equivalent keys are regarded as identical. To treat structurally
- * equivalent values emitted by the receiver as different, you will need to give a [selector] that
- * returns the result of calling [System.identityHashCode], for instance
+ * equivalent values emitted by the receiver [LiveData] as different, you will need to give a
+ * [selector] that calls [System.identityHashCode], for instance
  * `distinctUntilChangedBy { System.identityHashCode(it) }`.
  */
 @MainThread
@@ -257,7 +257,10 @@ operator fun <T> LiveData<T>.plus(other: LiveData<out T>): LiveData<T> {
 
 /**
  * Returns a [LiveData] that emits pairs of values emitted by each [LiveData] when either of them
- * receives a value.
+ * emits a value.
+ *
+ * Note that the resulting [LiveData] will not emit an initial value until both [LiveData] emit at
+ * least one value.
  */
 @MainThread
 fun <T, R> LiveData<T>.combineLatest(other: LiveData<R>): LiveData<Pair<T, R>> =
@@ -265,7 +268,10 @@ fun <T, R> LiveData<T>.combineLatest(other: LiveData<R>): LiveData<Pair<T, R>> =
 
 /**
  * Returns a [LiveData] that emits the results of applying the given [transform] function to values
- * emitted by each [LiveData] when either of them receives a value.
+ * emitted by each [LiveData] when either of them emits a value.
+ *
+ * Note that the resulting [LiveData] will not emit an initial value until both [LiveData] emit at
+ * least one value.
  */
 @MainThread
 inline fun <T, R, V> LiveData<T>.combineLatest(
@@ -289,6 +295,9 @@ inline fun <T, R, V> LiveData<T>.combineLatest(
 
 /**
  * Returns a [LiveData] that emits pairs of values emitted in sequence by each [LiveData].
+ *
+ * Note that the resulting [LiveData] will not emit an initial value until both [LiveData] emit at
+ * least one value.
  */
 @MainThread
 fun <T, R> LiveData<T>.zip(other: LiveData<R>): LiveData<Pair<T, R>> = zip(other) { a, b -> a to b }
@@ -296,6 +305,9 @@ fun <T, R> LiveData<T>.zip(other: LiveData<R>): LiveData<Pair<T, R>> = zip(other
 /**
  * Returns a [LiveData] that emits the results of applying the given [transform] function to values
  * emitted in sequence by each [LiveData].
+ *
+ * Note that the resulting [LiveData] will not emit an initial value until both [LiveData] emit at
+ * least one value.
  */
 @MainThread
 inline fun <T, R, V> LiveData<T>.zip(
@@ -318,14 +330,21 @@ inline fun <T, R, V> LiveData<T>.zip(
 }
 
 /**
- * Returns a [LiveData] that emits pairs of each two adjacent values emitted by the receiver.
+ * Returns a [LiveData] that emits pairs of each two adjacent values emitted by the receiver
+ * [LiveData].
+ *
+ * Note that the resulting [LiveData] will not emit an initial value until the receiver [LiveData]
+ * emits at least two values.
  */
 @MainThread
 fun <T> LiveData<T>.zipWithNext(): LiveData<Pair<T, T>> = zipWithNext { a, b -> a to b }
 
 /**
  * Returns a [LiveData] that emits the results of applying the given [transform] function to each
- * pair of two adjacent values emitted by the receiver.
+ * pair of two adjacent values emitted by the receiver [LiveData].
+ *
+ * Note that the resulting [LiveData] will not emit an initial value until the receiver [LiveData]
+ * emits at least two values.
  */
 @MainThread
 inline fun <T, R> LiveData<T>.zipWithNext(crossinline transform: (a: T, b: T) -> R): LiveData<R> {
