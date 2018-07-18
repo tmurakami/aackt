@@ -294,6 +294,39 @@ inline fun <T, R, V> LiveData<T>.combineLatest(
 }
 
 /**
+ * Returns a [LiveData] that emits pairs of values emitted by each [LiveData] when the receiver
+ * [LiveData] emits a value.
+ *
+ * Note that the resulting [LiveData] will not emit an initial value until both [LiveData] emit at
+ * least one value.
+ */
+@MainThread
+fun <T, R> LiveData<T>.withLatestFrom(other: LiveData<R>): LiveData<Pair<T, R>> =
+    withLatestFrom(other) { a, b -> a to b }
+
+/**
+ * Returns a [LiveData] that emits the results of applying the given [transform] function to values
+ * emitted by each [LiveData] when the receiver [LiveData] emits a value.
+ *
+ * Note that the resulting [LiveData] will not emit an initial value until both [LiveData] emit at
+ * least one value.
+ */
+@MainThread
+inline fun <T, R, V> LiveData<T>.withLatestFrom(
+    other: LiveData<R>,
+    crossinline transform: (a: T, b: R) -> V
+): LiveData<V> {
+    val result = MediatorLiveData<V>()
+    var emitted = false
+    result.addSource(this) {
+        @Suppress("UNCHECKED_CAST")
+        if (emitted) result.value = transform(value as T, other.value as R)
+    }
+    result.addSource(other) { emitted = true }
+    return result
+}
+
+/**
  * Returns a [LiveData] that emits pairs of values emitted in sequence by each [LiveData].
  *
  * Note that the resulting [LiveData] will not emit an initial value until both [LiveData] emit at

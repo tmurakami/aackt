@@ -39,6 +39,7 @@ import com.github.tmurakami.aackt.lifecycle.plus
 import com.github.tmurakami.aackt.lifecycle.switchMap
 import com.github.tmurakami.aackt.lifecycle.take
 import com.github.tmurakami.aackt.lifecycle.takeWhile
+import com.github.tmurakami.aackt.lifecycle.withLatestFrom
 import com.github.tmurakami.aackt.lifecycle.zip
 import com.github.tmurakami.aackt.lifecycle.zipWithNext
 import org.junit.Rule
@@ -285,6 +286,32 @@ class TransformationsTest {
         stringSrc.values("b", "c", "d")
         intSrc.values(3, 4, 5)
         observer.assertValues("1a", "2a", "2b", "2c", "2d", "3d", "4d", "5d")
+    }
+
+    @Test
+    fun withLatestFrom() {
+        val intSrc = MutableLiveData<Int>()
+        val stringSrc = MutableLiveData<String>()
+        val observer = intSrc.withLatestFrom(stringSrc).test()
+        intSrc.value = 1
+        stringSrc.value = "a"
+        intSrc.value = 2
+        stringSrc.values("b", "c", "d")
+        intSrc.values(3, 4, 5)
+        observer.assertValues(2 to "a", 3 to "d", 4 to "d", 5 to "d")
+    }
+
+    @Test
+    fun withLatestFrom_transform() {
+        val intSrc = MutableLiveData<Int>()
+        val stringSrc = MutableLiveData<String>()
+        val observer = intSrc.withLatestFrom(stringSrc) { a, b -> "$a$b" }.test()
+        intSrc.value = 1
+        stringSrc.value = "a"
+        intSrc.value = 2
+        stringSrc.values("b", "c", "d")
+        intSrc.values(3, 4, 5)
+        observer.assertValues("2a", "3d", "4d", "5d")
     }
 
     @Test
