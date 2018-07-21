@@ -5,3 +5,5 @@ dependencies {
     testImplementation deps.android.arch.core.testing
     testImplementation deps.android.arch.lifecycle.runtime
 }
+
+dokka.samples = android.sourceSets.test.java.srcDirs.collect { it.path }
