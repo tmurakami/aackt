@@ -38,69 +38,69 @@ class LiveDataTest {
 
     @Test
     fun observe() {
-        val src = MutableLiveData<Int>()
+        val data = MutableLiveData<Int>()
         val results = ArrayList<Int>()
-        val observation = src.observe { results += it }
-        src.value = 0
+        val observation = data.observe { results += it }
+        data.value = 0
         observation.dispose()
-        src.value = 1
+        data.value = 1
         assertSame(0, results.single())
     }
 
     @Test
     fun observeChanges() {
-        val src = MutableLiveData<Int>().apply { value = -1 }
+        val data = MutableLiveData<Int>().apply { value = -1 }
         val results = ArrayList<Int>()
-        val observation = src.observeChanges { results += it }
+        val observation = data.observeChanges { results += it }
         assertTrue(results.isEmpty())
-        src.value = 0
+        data.value = 0
         observation.dispose()
-        src.value = 1
+        data.value = 1
         assertSame(0, results.single())
     }
 
     @Test
     fun observeChanges_observe_MediatorLiveData() {
-        val src = MediatorLiveData<Int>().apply { addSource(liveData(-1)) { value = it } }
-        src.value = 0
+        val data = MediatorLiveData<Int>().apply { addSource(liveData(-1)) { value = it } }
+        data.value = 0
         val results = ArrayList<Int>()
-        src.observeChanges { results += it }
+        data.observeChanges { results += it }
         assertSame(-1, results.single())
     }
 
     @Test
     fun observe_LifecycleOwner() {
         val owner = TestLifecycleOwner()
-        val src = MutableLiveData<Int>()
+        val data = MutableLiveData<Int>()
         val results = ArrayList<Int>()
-        src.observe(owner) { results += it }
+        data.observe(owner) { results += it }
         owner.lifecycle.markState(Lifecycle.State.RESUMED)
-        src.value = 0
+        data.value = 0
         owner.lifecycle.markState(Lifecycle.State.DESTROYED)
-        src.value = 1
+        data.value = 1
         assertSame(0, results.single())
     }
 
     @Test
     fun observeChanges_LifecycleOwner() {
         val owner = TestLifecycleOwner()
-        val src = MutableLiveData<Int>().apply { value = -1 }
+        val data = MutableLiveData<Int>().apply { value = -1 }
         val results = ArrayList<Int>()
-        src.observeChanges(owner) { results += it }
+        data.observeChanges(owner) { results += it }
         owner.lifecycle.markState(Lifecycle.State.RESUMED)
-        src.value = 0
+        data.value = 0
         owner.lifecycle.markState(Lifecycle.State.DESTROYED)
-        src.value = 1
+        data.value = 1
         assertSame(0, results.single())
     }
 
     @Test
     fun observeChanges_LifecycleOwner_observe_MediatorLiveData() {
         val owner = TestLifecycleOwner()
-        val src = MediatorLiveData<Int>().apply { addSource(liveData(-1)) { value = it } }
-        src.value = 0
+        val data = MediatorLiveData<Int>().apply { addSource(liveData(-1)) { value = it } }
+        data.value = 0
         val results = ArrayList<Int>()
-        src.observeChanges(owner) { results += it }
+        data.observeChanges(owner) { results += it }
         owner.lifecycle.markState(Lifecycle.State.RESUMED)
         assertSame(-1, results.single())
     }

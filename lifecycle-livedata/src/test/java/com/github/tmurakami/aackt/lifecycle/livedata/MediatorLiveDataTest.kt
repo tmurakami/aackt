@@ -23,6 +23,7 @@ import com.github.tmurakami.aackt.lifecycle.mediatorLiveData
 import com.github.tmurakami.aackt.lifecycle.observeSource
 import org.junit.Rule
 import org.junit.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertSame
 
 class MediatorLiveDataTest {
@@ -35,10 +36,10 @@ class MediatorLiveDataTest {
 
     @Test
     fun observeSource() {
+        val actual = mutableListOf<Int?>()
         val src = MutableLiveData<Int>()
-        val results = ArrayList<Int>()
-        MediatorLiveData<Unit>().apply { observeSource(src) { results += it } }.test()
+        MediatorLiveData<Unit>().apply { observeSource(src) { actual += it } }.observeForever { }
         src.value = 1
-        assertSame(1, results.single())
+        assertEquals(listOf<Int?>(1), actual)
     }
 }

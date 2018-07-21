@@ -18,6 +18,7 @@ package com.github.tmurakami.aackt.lifecycle.livedata
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.Observer
 import com.github.tmurakami.aackt.lifecycle.LiveDataOnLifecycle
 import org.junit.Rule
 import org.junit.Test
@@ -34,17 +35,17 @@ class LiveDataOnLifecycleTest {
         var count = 0
         (0..2).forEach { data.onActiveListeners += { count++ } }
         assertEquals(0, count)
-        data.test()
+        data.observeForever { }
         assertEquals(3, count)
     }
 
     @Test
     fun onChanged() {
-        val src = MutableLiveData<Int>()
-        val data = LiveDataOnLifecycle(src)
-        val observer = data.test()
-        src.value = 0
-        observer.assertValues(0)
+        val actual = mutableListOf<Int?>()
+        val data = MutableLiveData<Int>()
+        LiveDataOnLifecycle(data).observeForever { actual += it }
+        data.value = 0
+        assertEquals(listOf<Int?>(0), actual)
     }
 
     @Test
@@ -52,7 +53,7 @@ class LiveDataOnLifecycleTest {
         val data = LiveDataOnLifecycle(MutableLiveData<Unit>())
         var count = 0
         (0..2).forEach { data.onInactiveListeners += { count++ } }
-        val observer = data.test()
+        val observer = Observer<Unit> {}.also { data.observeForever(it) }
         assertEquals(0, count)
         data.removeObserver(observer)
         assertEquals(3, count)

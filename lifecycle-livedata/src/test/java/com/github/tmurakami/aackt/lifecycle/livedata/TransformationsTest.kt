@@ -18,6 +18,7 @@ package com.github.tmurakami.aackt.lifecycle.livedata
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.Observer
 import com.github.tmurakami.aackt.lifecycle.combineLatest
 import com.github.tmurakami.aackt.lifecycle.distinct
 import com.github.tmurakami.aackt.lifecycle.distinctBy
@@ -32,7 +33,6 @@ import com.github.tmurakami.aackt.lifecycle.filter
 import com.github.tmurakami.aackt.lifecycle.filterIsInstance
 import com.github.tmurakami.aackt.lifecycle.filterNot
 import com.github.tmurakami.aackt.lifecycle.filterNotNull
-import com.github.tmurakami.aackt.lifecycle.liveData
 import com.github.tmurakami.aackt.lifecycle.map
 import com.github.tmurakami.aackt.lifecycle.mapNotNull
 import com.github.tmurakami.aackt.lifecycle.plus
@@ -44,8 +44,8 @@ import com.github.tmurakami.aackt.lifecycle.zip
 import com.github.tmurakami.aackt.lifecycle.zipWithNext
 import org.junit.Rule
 import org.junit.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertFalse
-import kotlin.test.assertSame
 import kotlin.test.assertTrue
 
 class TransformationsTest {
@@ -55,307 +55,433 @@ class TransformationsTest {
 
     @Test
     fun map() {
-        val src = MutableLiveData<Int>()
-        val observer = src.map { it * it }.test()
-        src.values(1, 2, 3, 4, 5)
-        observer.assertValues(1, 4, 9, 16, 25)
+        val actual = mutableListOf<Int?>()
+        val data = MutableLiveData<Int>()
+        data.map { it * it }.observeForever { actual += it }
+        (1..5).forEach { data.value = it }
+        assertEquals(listOf<Int?>(1, 4, 9, 16, 25), actual)
     }
 
     @Test
     fun mapNotNull() {
-        val src = MutableLiveData<Int>()
-        val observer = src.mapNotNull { if (it % 2 == 0) null else it }.test()
-        src.values(1, 2, 3, 4, 5)
-        observer.assertValues(1, 3, 5)
+        val actual = mutableListOf<Int?>()
+        val data = MutableLiveData<Int>()
+        data.mapNotNull { if (it % 2 == 0) null else it }.observeForever { actual += it }
+        (1..5).forEach { data.value = it }
+        assertEquals(listOf<Int?>(1, 3, 5), actual)
     }
 
     @Test
     fun switchMap() {
-        val src = MutableLiveData<Int>()
-        var activeCount = 0
-        var inactiveCount = 0
-        val observer = src.switchMap {
-            liveData(it).doOnActive { activeCount++ }.doOnInactive { inactiveCount++ }
-        }.test()
-        src.values(1, 2, 3, 4, 5)
-        observer.assertValues(1, 2, 3, 4, 5)
-        assertSame(5, activeCount)
-        assertSame(4, inactiveCount)
+        val actual = mutableListOf<Int?>()
+        val data = MutableLiveData<Int>()
+        data.switchMap { MutableLiveData<Int>().apply { value = it * it } }
+            .observeForever { actual += it }
+        (1..5).forEach { data.value = it }
+        assertEquals(listOf<Int?>(1, 4, 9, 16, 25), actual)
     }
 
     @Test
     fun doOnActive() {
-        var invoked = false
-        val data = MutableLiveData<Int>().doOnActive { invoked = true }
-        assertFalse(invoked)
-        data.test()
-        assertTrue(invoked)
+        var active = false
+        val data = MutableLiveData<Unit>().doOnActive { active = true }
+        assertFalse(active)
+        data.observeForever { }
+        assertTrue(active)
     }
 
     @Test
     fun doOnInactive() {
-        var invoked = false
-        val data = MutableLiveData<Int>().doOnInactive { invoked = true }
-        val observer = data.test()
-        assertFalse(invoked)
+        var inactive = false
+        val data = MutableLiveData<Unit>().doOnInactive { inactive = true }
+        val observer = Observer<Unit> { }.also { data.observeForever(it) }
+        assertFalse(inactive)
         data.removeObserver(observer)
-        assertTrue(invoked)
+        assertTrue(inactive)
     }
 
     @Test
     fun doOnChanged() {
-        val src = MutableLiveData<Unit>()
-        var invoked = false
-        val data = src.doOnChanged { invoked = true }
-        assertFalse(invoked)
-        data.test()
-        src.value = Unit
-        assertTrue(invoked)
+        val data = MutableLiveData<Unit>()
+        var changed = false
+        data.doOnChanged { changed = true }.observeForever { }
+        assertFalse(changed)
+        data.value = Unit
+        assertTrue(changed)
     }
 
     @Test
     fun filter() {
-        val src = MutableLiveData<Int>()
-        val observer = src.filter { it > 10 }.test()
-        src.values(2, 30, 22, 5, 60, 1)
-        observer.assertValues(30, 22, 60)
+        val actual = mutableListOf<Int?>()
+        val data = MutableLiveData<Int>()
+        data.filter { it > 10 }.observeForever { actual += it }
+        data.run {
+            value = 2
+            value = 30
+            value = 22
+            value = 5
+            value = 60
+            value = 1
+        }
+        assertEquals(listOf<Int?>(30, 22, 60), actual)
     }
 
     @Test
     fun filterNot() {
-        val src = MutableLiveData<Int>()
-        val observer = src.filterNot { it > 10 }.test()
-        src.values(2, 30, 22, 5, 60, 1)
-        observer.assertValues(2, 5, 1)
+        val actual = mutableListOf<Int?>()
+        val data = MutableLiveData<Int>()
+        data.filterNot { it > 10 }.observeForever { actual += it }
+        data.run {
+            value = 2
+            value = 30
+            value = 22
+            value = 5
+            value = 60
+            value = 1
+        }
+        assertEquals(listOf<Int?>(2, 5, 1), actual)
     }
 
     @Test
     fun filterNotNull() {
-        val src = MutableLiveData<Int?>()
-        val observer = src.filterNotNull().test()
-        src.values(null, 1, null, 2, 3, null, null, 4, null)
-        observer.assertValues(1, 2, 3, 4)
+        val actual = mutableListOf<Int?>()
+        val data = MutableLiveData<Int?>()
+        data.filterNotNull().observeForever { actual += it }
+        data.run {
+            value = null
+            value = 1
+            value = null
+            value = 2
+            value = 3
+            value = null
+            value = null
+            value = 4
+            value = null
+        }
+        assertEquals(listOf<Int?>(1, 2, 3, 4), actual)
     }
 
     @Test
     fun filterIsInstance() {
-        val src = MutableLiveData<Any?>()
-        val observer = src.filterIsInstance<Int>().test()
-        src.values(null, true, 1.toByte(), 2.toChar(), 3.0, 4.0f, 5, 6L, 7.toShort(), "8")
-        observer.assertValues(5)
+        val actual = mutableListOf<Int?>()
+        val data = MutableLiveData<Any?>()
+        data.filterIsInstance<Int>().observeForever { actual += it }
+        data.run {
+            value = null
+            value = true
+            value = 1.toByte()
+            value = '2'
+            value = 3.0
+            value = 4.0f
+            value = 5
+            value = 6L
+            value = 7.toShort()
+            value = "8"
+        }
+        assertEquals(listOf<Int?>(5), actual)
     }
 
     @Test
     fun filterIsInstance_nullable() {
-        val src = MutableLiveData<Any?>()
-        val observer = src.filterIsInstance<Int?>().test()
-        src.values(null, true, 1.toByte(), 2.toChar(), 3.0, 4.0f, 5, 6L, 7.toShort(), "8")
-        observer.assertValues(null, 5)
+        val actual = mutableListOf<Int?>()
+        val data = MutableLiveData<Any?>()
+        data.filterIsInstance<Int?>().observeForever { actual += it }
+        data.run {
+            value = null
+            value = true
+            value = 1.toByte()
+            value = '2'
+            value = 3.0
+            value = 4.0f
+            value = 5
+            value = 6L
+            value = 7.toShort()
+            value = "8"
+        }
+        assertEquals(listOf(null, 5), actual)
     }
 
     @Test
     fun distinct() {
-        val src = MutableLiveData<Int>()
-        val observer = src.distinct().test()
-        src.values(0, 2, 1, 2, 1, 1)
-        observer.assertValues(0, 2, 1)
+        val actual = mutableListOf<Int?>()
+        val data = MutableLiveData<Int>()
+        data.distinct().observeForever { actual += it }
+        data.run {
+            value = 0
+            value = 2
+            value = 1
+            value = 2
+            value = 1
+            value = 1
+        }
+        assertEquals(listOf<Int?>(0, 2, 1), actual)
     }
 
     @Test
     fun distinctBy() {
-        val src = MutableLiveData<Int>()
-        val observer = src.distinctBy { it % 2 }.test()
-        src.values(0, 2, 1, 2, 1, 1)
-        observer.assertValues(0, 1)
+        val actual = mutableListOf<Int?>()
+        val data = MutableLiveData<Int>()
+        data.distinctBy { it % 2 }.observeForever { actual += it }
+        data.run {
+            value = 0
+            value = 2
+            value = 1
+            value = 2
+            value = 1
+            value = 1
+        }
+        assertEquals(listOf<Int?>(0, 1), actual)
     }
 
     @Test
     fun distinctBy_with_identityHashCode() {
-        val src = MutableLiveData<String>()
-        val observer = src.distinctBy { System.identityHashCode(it) }.test()
+        val actual = mutableListOf<String?>()
+        val data = MutableLiveData<String>()
+        data.distinctBy { System.identityHashCode(it) }.observeForever { actual += it }
         val s1 = String()
         val s2 = String()
         assertTrue(s1 == s2)
         assertFalse(s1 === s2)
-        src.values(s1, s2, s1, s2, s2)
-        observer.assertValues(s1, s2)
+        data.run {
+            value = s1
+            value = s2
+            value = s1
+            value = s2
+            value = s2
+        }
+        assertEquals(listOf<String?>(s1, s2), actual)
     }
 
     @Test
     fun distinctUntilChanged() {
-        val src = MutableLiveData<Int>()
-        val observer = src.distinctUntilChanged().test()
-        src.values(0, 2, 1, 2, 1, 1)
-        observer.assertValues(0, 2, 1, 2, 1)
+        val actual = mutableListOf<Int?>()
+        val data = MutableLiveData<Int>()
+        data.distinctUntilChanged().observeForever { actual += it }
+        data.run {
+            value = 0
+            value = 2
+            value = 1
+            value = 2
+            value = 1
+            value = 1
+        }
+        assertEquals(listOf<Int?>(0, 2, 1, 2, 1), actual)
     }
 
     @Test
     fun distinctUntilChangedBy() {
-        val src = MutableLiveData<Int>()
-        val observer = src.distinctUntilChangedBy { it % 2 }.test()
-        src.values(0, 2, 1, 2, 1, 1)
-        observer.assertValues(0, 1, 2, 1)
+        val actual = mutableListOf<Int?>()
+        val data = MutableLiveData<Int>()
+        data.distinctUntilChangedBy { it % 2 }.observeForever { actual += it }
+        data.run {
+            value = 0
+            value = 2
+            value = 1
+            value = 2
+            value = 1
+            value = 1
+        }
+        assertEquals(listOf<Int?>(0, 1, 2, 1), actual)
     }
 
     @Test
     fun distinctUntilChangedBy_with_identityHashCode() {
-        val src = MutableLiveData<String>()
-        val observer = src.distinctUntilChangedBy { System.identityHashCode(it) }.test()
+        val actual = mutableListOf<String?>()
+        val data = MutableLiveData<String>()
+        data.distinctUntilChangedBy { System.identityHashCode(it) }.observeForever { actual += it }
         val s1 = String()
         val s2 = String()
         assertTrue(s1 == s2)
         assertFalse(s1 === s2)
-        src.values(s1, s2, s1, s2, s2)
-        observer.assertValues(s1, s2, s1, s2)
+        data.run {
+            value = s1
+            value = s2
+            value = s1
+            value = s2
+            value = s2
+        }
+        assertEquals(listOf<String?>(s1, s2, s1, s2), actual)
     }
 
     @Test
     fun drop() {
-        val src = MutableLiveData<Int>()
-        val observer = src.drop(2).test()
-        src.values(1, 2, 3, 4)
-        observer.assertValues(3, 4)
+        val actual = mutableListOf<Int?>()
+        val data = MutableLiveData<Int>()
+        data.drop(2).observeForever { actual += it }
+        (1..4).forEach { data.value = it }
+        assertEquals(listOf<Int?>(3, 4), actual)
     }
 
     @Test
     fun dropWhile() {
-        val src = MutableLiveData<Int>()
-        val observer = src.dropWhile { it < 3 }.test()
-        src.values(1, 2, 3, 4, 3, 2, 1)
-        observer.assertValues(3, 4, 3, 2, 1)
+        val actual = mutableListOf<Int?>()
+        val data = MutableLiveData<Int>()
+        data.dropWhile { it < 4 }.observeForever { actual += it }
+        (1..4).forEach { data.value = it }
+        (3 downTo 1).forEach { data.value = it }
+        assertEquals(listOf<Int?>(4, 3, 2, 1), actual)
     }
 
     @Test
     fun take() {
-        val src = MutableLiveData<Int>()
-        val observer = src.take(2).test()
-        src.values(1, 2, 3, 4)
-        observer.assertValues(1, 2)
+        val actual = mutableListOf<Int?>()
+        val data = MutableLiveData<Int>()
+        data.take(2).observeForever { actual += it }
+        (1..4).forEach { data.value = it }
+        assertEquals(listOf<Int?>(1, 2), actual)
     }
 
     @Test
     fun takeWhile() {
-        val src = MutableLiveData<Int>()
-        val observer = src.takeWhile { it < 3 }.test()
-        src.values(1, 2, 3, 4, 3, 2, 1)
-        observer.assertValues(1, 2)
+        val actual = mutableListOf<Int?>()
+        val data = MutableLiveData<Int>()
+        data.takeWhile { it < 4 }.observeForever { actual += it }
+        (1..4).forEach { data.value = it }
+        (3 downTo 1).forEach { data.value = it }
+        assertEquals(listOf<Int?>(1, 2, 3), actual)
     }
 
     @Test
     fun plus() {
-        val anySrc = MutableLiveData<Any>()
-        val intSrc = MutableLiveData<Int>()
-        val observer = (anySrc + intSrc).test()
-        anySrc.values(20, 40, 60)
-        intSrc.value = 1
-        anySrc.values(80, 100)
-        intSrc.value = 1
-        observer.assertValues(20, 40, 60, 1, 80, 100, 1)
+        val actual = mutableListOf<Any?>()
+        val anyData = MutableLiveData<Any>()
+        val intData = MutableLiveData<Int>()
+        (anyData + intData).observeForever { actual += it }
+        anyData.run {
+            value = 20
+            value = 40
+            value = 60
+        }
+        intData.value = 1
+        anyData.run {
+            value = 80
+            value = 100
+        }
+        intData.value = 1
+        assertEquals(listOf<Any?>(20, 40, 60, 1, 80, 100, 1), actual)
     }
 
     @Test
     fun combineLatest() {
-        val intSrc = MutableLiveData<Int>()
-        val stringSrc = MutableLiveData<String>()
-        val observer = intSrc.combineLatest(stringSrc).test()
-        intSrc.value = 1
-        stringSrc.value = "a"
-        intSrc.value = 2
-        stringSrc.values("b", "c", "d")
-        intSrc.values(3, 4, 5)
-        observer.assertValues(
-            1 to "a",
-            2 to "a",
-            2 to "b",
-            2 to "c",
-            2 to "d",
-            3 to "d",
-            4 to "d",
-            5 to "d"
+        val actual = mutableListOf<Pair<Int, Char>?>()
+        val intData = MutableLiveData<Int>()
+        val charData = MutableLiveData<Char>()
+        intData.combineLatest(charData).observeForever { actual += it }
+        intData.value = 1
+        charData.value = 'a'
+        intData.value = 2
+        ('b'..'c').forEach { charData.value = it }
+        (3..4).forEach { intData.value = it }
+        assertEquals(
+            listOf<Pair<Int, Char>?>(1 to 'a', 2 to 'a', 2 to 'b', 2 to 'c', 3 to 'c', 4 to 'c'),
+            actual
         )
     }
 
     @Test
     fun combineLatest_transform() {
-        val intSrc = MutableLiveData<Int>()
-        val stringSrc = MutableLiveData<String>()
-        val observer = intSrc.combineLatest(stringSrc) { a, b -> "$a$b" }.test()
-        intSrc.value = 1
-        stringSrc.value = "a"
-        intSrc.value = 2
-        stringSrc.values("b", "c", "d")
-        intSrc.values(3, 4, 5)
-        observer.assertValues("1a", "2a", "2b", "2c", "2d", "3d", "4d", "5d")
+        val actual = mutableListOf<String?>()
+        val intData = MutableLiveData<Int>()
+        val charData = MutableLiveData<Char>()
+        intData.combineLatest(charData) { a, b -> "$a$b" }.observeForever { actual += it }
+        intData.value = 1
+        charData.value = 'a'
+        intData.value = 2
+        ('b'..'c').forEach { charData.value = it }
+        (3..4).forEach { intData.value = it }
+        assertEquals(listOf<String?>("1a", "2a", "2b", "2c", "3c", "4c"), actual)
     }
 
     @Test
     fun withLatestFrom() {
-        val intSrc = MutableLiveData<Int>()
-        val stringSrc = MutableLiveData<String>()
-        val observer = intSrc.withLatestFrom(stringSrc).test()
-        intSrc.value = 1
-        stringSrc.value = "a"
-        intSrc.value = 2
-        stringSrc.values("b", "c", "d")
-        intSrc.values(3, 4, 5)
-        observer.assertValues(2 to "a", 3 to "d", 4 to "d", 5 to "d")
+        val actual = mutableListOf<Pair<Int, Char>?>()
+        val intData = MutableLiveData<Int>()
+        val charData = MutableLiveData<Char>()
+        intData.withLatestFrom(charData).observeForever { actual += it }
+        intData.value = 1
+        charData.value = 'a'
+        intData.value = 2
+        ('b'..'c').forEach { charData.value = it }
+        (3..4).forEach { intData.value = it }
+        assertEquals(listOf<Pair<Int, Char>?>(2 to 'a', 3 to 'c', 4 to 'c'), actual)
     }
 
     @Test
     fun withLatestFrom_transform() {
-        val intSrc = MutableLiveData<Int>()
-        val stringSrc = MutableLiveData<String>()
-        val observer = intSrc.withLatestFrom(stringSrc) { a, b -> "$a$b" }.test()
-        intSrc.value = 1
-        stringSrc.value = "a"
-        intSrc.value = 2
-        stringSrc.values("b", "c", "d")
-        intSrc.values(3, 4, 5)
-        observer.assertValues("2a", "3d", "4d", "5d")
+        val actual = mutableListOf<String?>()
+        val intData = MutableLiveData<Int>()
+        val charData = MutableLiveData<Char>()
+        intData.withLatestFrom(charData) { a, b -> "$a$b" }.observeForever { actual += it }
+        intData.value = 1
+        charData.value = 'a'
+        intData.value = 2
+        ('b'..'c').forEach { charData.value = it }
+        (3..4).forEach { intData.value = it }
+        assertEquals(listOf<String?>("2a", "3c", "4c"), actual)
     }
 
     @Test
     fun zip() {
-        val intSrc = MutableLiveData<Int>()
-        val stringSrc = MutableLiveData<String>()
-        val observer = intSrc.zip(stringSrc).test()
-        intSrc.value = 1
-        stringSrc.value = "a"
-        intSrc.value = 2
-        stringSrc.values("b", "c", "d")
-        intSrc.values(3, 4, 5)
-        observer.assertValues(1 to "a", 2 to "b", 3 to "c", 4 to "d")
+        val actual = mutableListOf<Pair<Int, Char>?>()
+        val intData = MutableLiveData<Int>()
+        val charData = MutableLiveData<Char>()
+        intData.zip(charData).observeForever { actual += it }
+        intData.value = 1
+        charData.value = 'a'
+        intData.value = 2
+        ('b'..'c').forEach { charData.value = it }
+        (3..4).forEach { intData.value = it }
+        assertEquals(listOf<Pair<Int, Char>?>(1 to 'a', 2 to 'b', 3 to 'c'), actual)
     }
 
     @Test
     fun zip_transform() {
-        val intSrc = MutableLiveData<Int>()
-        val stringSrc = MutableLiveData<String>()
-        val observer = intSrc.zip(stringSrc) { a, b -> "$a$b" }.test()
-        intSrc.value = 1
-        stringSrc.value = "a"
-        intSrc.value = 2
-        stringSrc.values("b", "c", "d")
-        intSrc.values(3, 4, 5)
-        observer.assertValues("1a", "2b", "3c", "4d")
+        val actual = mutableListOf<String?>()
+        val intData = MutableLiveData<Int>()
+        val charData = MutableLiveData<Char>()
+        intData.zip(charData) { a, b -> "$a$b" }.observeForever { actual += it }
+        intData.value = 1
+        charData.value = 'a'
+        intData.value = 2
+        ('b'..'c').forEach { charData.value = it }
+        (3..4).forEach { intData.value = it }
+        assertEquals(listOf<String?>("1a", "2b", "3c"), actual)
     }
 
     @Test
     fun zipWithNext() {
-        val src = MutableLiveData<Any>()
-        val observer = src.zipWithNext().test()
-        src.values(1, "a", 2, "b", "c", 3, 4)
-        observer.assertValues(1 to "a", "a" to 2, 2 to "b", "b" to "c", "c" to 3, 3 to 4)
+        val actual = mutableListOf<Pair<Any, Any>?>()
+        val data = MutableLiveData<Any>()
+        data.zipWithNext().observeForever { actual += it }
+        data.run {
+            value = 1
+            value = 'a'
+            value = 2
+            value = 'b'
+            value = 'c'
+            value = 3
+            value = 4
+        }
+        assertEquals(
+            listOf<Pair<Any, Any>?>(1 to 'a', 'a' to 2, 2 to 'b', 'b' to 'c', 'c' to 3, 3 to 4),
+            actual
+        )
     }
 
     @Test
     fun zipWithNext_transform() {
-        val src = MutableLiveData<Any>()
-        val observer = src.zipWithNext { a, b -> "$a$b" }.test()
-        src.values(1, "a", 2, "b", "c", 3, 4)
-        observer.assertValues("1a", "a2", "2b", "bc", "c3", "34")
+        val actual = mutableListOf<String?>()
+        val data = MutableLiveData<Any>()
+        data.zipWithNext { a, b -> "$a$b" }.observeForever { actual += it }
+        data.run {
+            value = 1
+            value = 'a'
+            value = 2
+            value = 'b'
+            value = 'c'
+            value = 3
+            value = 4
+        }
+        assertEquals(listOf<String?>("1a", "a2", "2b", "bc", "c3", "34"), actual)
     }
 }
-
-@Suppress("NOTHING_TO_INLINE")
-private inline fun <T> MutableLiveData<T>.values(vararg values: T) = values.forEach { value = it }
