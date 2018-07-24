@@ -25,6 +25,8 @@ import com.github.tmurakami.aackt.lifecycle.observe
 import com.github.tmurakami.aackt.lifecycle.observeChanges
 import org.junit.Rule
 import org.junit.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertSame
 import kotlin.test.assertTrue
 
@@ -38,13 +40,29 @@ class LiveDataTest {
 
     @Test
     fun observe() {
-        val data = MutableLiveData<Int>()
+        val data = MutableLiveData<Int>().apply { value = -1 }
         val results = ArrayList<Int>()
         val observation = data.observe { results += it }
+        assertTrue(results.isNotEmpty())
         data.value = 0
         observation.dispose()
         data.value = 1
-        assertSame(0, results.single())
+        assertEquals(listOf(-1, 0), results)
+    }
+
+    @Test
+    fun observe_dispose() {
+        val data = MutableLiveData<Unit>()
+        val observation = data.observe {}
+        with(data) {
+            assertTrue(hasObservers())
+            assertTrue(hasActiveObservers())
+        }
+        observation.dispose()
+        with(data) {
+            assertFalse(hasObservers())
+            assertFalse(hasActiveObservers())
+        }
     }
 
     @Test
@@ -56,7 +74,22 @@ class LiveDataTest {
         data.value = 0
         observation.dispose()
         data.value = 1
-        assertSame(0, results.single())
+        assertEquals(listOf(0), results)
+    }
+
+    @Test
+    fun observeChanges_dispose() {
+        val data = MutableLiveData<Unit>()
+        val observation = data.observeChanges { }
+        with(data) {
+            assertTrue(hasObservers())
+            assertTrue(hasActiveObservers())
+        }
+        observation.dispose()
+        with(data) {
+            assertFalse(hasObservers())
+            assertFalse(hasActiveObservers())
+        }
     }
 
     @Test
@@ -71,14 +104,35 @@ class LiveDataTest {
     @Test
     fun observe_LifecycleOwner() {
         val owner = TestLifecycleOwner()
-        val data = MutableLiveData<Int>()
+        val data = MutableLiveData<Int>().apply { value = -1 }
         val results = ArrayList<Int>()
         data.observe(owner) { results += it }
         owner.lifecycle.markState(Lifecycle.State.RESUMED)
+        assertTrue(results.isNotEmpty())
         data.value = 0
         owner.lifecycle.markState(Lifecycle.State.DESTROYED)
         data.value = 1
-        assertSame(0, results.single())
+        assertEquals(listOf(-1, 0), results)
+    }
+
+    @Test
+    fun observe_LifecycleOwner_dispose() {
+        val owner = TestLifecycleOwner()
+        val data = MutableLiveData<Unit>()
+        val observation = data.observe(owner) { }
+        with(data) {
+            assertTrue(hasObservers())
+            assertFalse(hasActiveObservers())
+        }
+        owner.lifecycle.markState(Lifecycle.State.RESUMED)
+        with(data) {
+            assertTrue(hasActiveObservers())
+        }
+        observation.dispose()
+        with(data) {
+            assertFalse(hasObservers())
+            assertFalse(hasActiveObservers())
+        }
     }
 
     @Test
@@ -88,10 +142,31 @@ class LiveDataTest {
         val results = ArrayList<Int>()
         data.observeChanges(owner) { results += it }
         owner.lifecycle.markState(Lifecycle.State.RESUMED)
+        assertTrue(results.isEmpty())
         data.value = 0
         owner.lifecycle.markState(Lifecycle.State.DESTROYED)
         data.value = 1
-        assertSame(0, results.single())
+        assertEquals(listOf(0), results)
+    }
+
+    @Test
+    fun observeChanges_LifecycleOwner_dispose() {
+        val owner = TestLifecycleOwner()
+        val data = MutableLiveData<Unit>()
+        val observation = data.observeChanges(owner) { }
+        with(data) {
+            assertTrue(hasObservers())
+            assertFalse(hasActiveObservers())
+        }
+        owner.lifecycle.markState(Lifecycle.State.RESUMED)
+        with(data) {
+            assertTrue(hasActiveObservers())
+        }
+        observation.dispose()
+        with(data) {
+            assertFalse(hasObservers())
+            assertFalse(hasActiveObservers())
+        }
     }
 
     @Test
