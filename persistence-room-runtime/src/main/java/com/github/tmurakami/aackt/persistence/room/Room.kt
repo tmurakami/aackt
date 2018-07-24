@@ -21,14 +21,14 @@ import android.arch.persistence.room.RoomDatabase
 import android.content.Context
 
 /**
- * Creates a [RoomDatabase].Builder for a persistent database of the given file [name].
+ * Creates a [RoomDatabase.Builder] for a persistent database of the given file [name].
  */
-inline fun <reified DB : RoomDatabase> Context.databaseBuilder(
+inline fun <reified T : RoomDatabase> Context.databaseBuilder(
     name: String
-): RoomDatabase.Builder<DB> = Room.databaseBuilder(this, DB::class.java, name)
+): RoomDatabase.Builder<T> = Room.databaseBuilder(this, T::class.java, name)
 
 /**
- * Creates a [RoomDatabase].Builder for an in-memory database.
+ * Creates a [RoomDatabase.Builder] for an in-memory database.
  */
-inline fun <reified DB : RoomDatabase> Context.inMemoryDatabaseBuilder(): RoomDatabase.Builder<DB> =
-    Room.inMemoryDatabaseBuilder(this, DB::class.java)
+inline fun <reified T : RoomDatabase> Context.inMemoryDatabaseBuilder(): RoomDatabase.Builder<T> =
+    Room.inMemoryDatabaseBuilder(this, T::class.java)
