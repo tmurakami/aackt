@@ -42,7 +42,7 @@ inline fun <T, R : Any> LiveData<T>.mapNotNull(crossinline transform: (T) -> R?)
     val result = MediatorLiveData<R>()
     result.addSource(this) {
         @Suppress("UNCHECKED_CAST")
-        transform(it as T)?.let { result.value = it }
+        transform(it as T)?.run { result.value = this }
     }
     return result
 }
