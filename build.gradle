@@ -1,5 +1,5 @@
 buildscript {
-    ext.versions = [kotlin: '1.2.60',
+    ext.versions = [kotlin: '1.2.61',
                     ktlint: '0.27.0',]
     repositories {
         google()
@@ -76,5 +76,5 @@ ext {
     arch.paging = [runtime: "android.arch.paging:runtime:$pagingVersion",
                    rxjava2: "android.arch.paging:rxjava2:$pagingVersion",]
 
-    arch.work = [runtime: 'android.arch.work:work-runtime-ktx:1.0.0-alpha06',]
+    arch.work = [runtime: 'android.arch.work:work-runtime-ktx:1.0.0-alpha07',]
 }
