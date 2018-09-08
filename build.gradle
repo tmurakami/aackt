@@ -1,6 +1,6 @@
 buildscript {
     ext.versions = [kotlin: '1.2.61',
-                    ktlint: '0.27.0',]
+                    ktlint: '0.28.0',]
     repositories {
         google()
         jcenter()
@@ -14,7 +14,7 @@ buildscript {
         classpath 'pl.allegro.tech.build:axion-release-plugin:1.9.3'
         classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.8.3'
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.20.0'
-        classpath 'gradle.plugin.org.jlleitschuh.gradle:ktlint-gradle:5.0.0'
+        classpath 'gradle.plugin.org.jlleitschuh.gradle:ktlint-gradle:5.1.0'
     }
 }
 
