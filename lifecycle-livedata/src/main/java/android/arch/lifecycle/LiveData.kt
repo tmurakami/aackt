@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+// TODO delete this file if https://issuetracker.google.com/u/0/issues/94056118 is adopted
 package android.arch.lifecycle
 
 import android.support.annotation.MainThread

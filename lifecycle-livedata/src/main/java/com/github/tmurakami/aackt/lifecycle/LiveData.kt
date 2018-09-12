@@ -50,6 +50,7 @@ fun <T> LiveData<T>.observe(observer: (T) -> Unit): Observation =
  * To stop observing the receiver, you will need to call [Observation.dispose] with the resulting
  * [Observation] of this extension.
  */
+// TODO change this implementation if https://issuetracker.google.com/u/0/issues/94056118 is adopted
 @MainThread
 fun <T> LiveData<T>.observeChanges(onChanged: (T) -> Unit): Observation {
     val startVersion = version
@@ -74,6 +75,7 @@ fun <T> LiveData<T>.observe(owner: LifecycleOwner, observer: (T) -> Unit): Obser
  * The callback will receive values only while the given [owner] is active. You can manually stop
  * observing by calling [Observation.dispose] with the resulting [Observation] of this extension.
  */
+// TODO change this implementation if https://issuetracker.google.com/u/0/issues/94056118 is adopted
 @MainThread
 fun <T> LiveData<T>.observeChanges(owner: LifecycleOwner, onChanged: (T) -> Unit): Observation {
     val startVersion = version

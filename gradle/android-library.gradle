@@ -14,9 +14,8 @@ android {
         allWarningsAsErrors = true
         freeCompilerArgs += ['-Xno-param-assertions']
     }
-    libraryVariants.all {
-        it.generateBuildConfig.enabled = false
-    }
+    // TODO replace with https://issuetracker.google.com/issues/72050365
+    libraryVariants.all { it.generateBuildConfig.enabled = false }
 }
 
 dependencies {
@@ -42,7 +41,7 @@ dokka {
     skipDeprecated = true
     externalDocumentationLink {
         url = 'https://developer.android.com/reference/'.toURL()
-        // https://github.com/Kotlin/dokka/issues/213
+        // TODO workaround for https://github.com/Kotlin/dokka/issues/213
         packageListUrl = file("$rootDir/aac-package-list").toURI().toURL()
     }
 }

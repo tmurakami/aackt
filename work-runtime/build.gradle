@@ -7,7 +7,7 @@ dependencies {
 dokka {
     externalDocumentationLink {
         url = 'https://developer.android.com/reference/'.toURL()
-        // https://github.com/Kotlin/dokka/issues/213
+        // TODO workaround for https://github.com/Kotlin/dokka/issues/213
         packageListUrl = file("$rootDir/androidx-package-list").toURI().toURL()
     }
 }
