@@ -43,9 +43,10 @@ import com.github.tmurakami.aackt.lifecycle.withLatestFrom
 import com.github.tmurakami.aackt.lifecycle.zip
 import com.github.tmurakami.aackt.lifecycle.zipWithNext
 import org.junit.Rule
-import org.junit.Test
+import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertNotSame
 import kotlin.test.assertTrue
 
 class TransformationsTest {
@@ -240,8 +241,8 @@ class TransformationsTest {
         data.distinctBy { System.identityHashCode(it) }.observeForever { actual += it }
         val s1 = String()
         val s2 = String()
-        assertTrue(s1 == s2)
-        assertFalse(s1 === s2)
+        assertEquals(s1, s2)
+        assertNotSame(s1, s2)
         data.run {
             value = s1
             value = s2
@@ -291,8 +292,8 @@ class TransformationsTest {
         data.distinctUntilChangedBy { System.identityHashCode(it) }.observeForever { actual += it }
         val s1 = String()
         val s2 = String()
-        assertTrue(s1 == s2)
-        assertFalse(s1 === s2)
+        assertEquals(s1, s2)
+        assertNotSame(s1, s2)
         data.run {
             value = s1
             value = s2

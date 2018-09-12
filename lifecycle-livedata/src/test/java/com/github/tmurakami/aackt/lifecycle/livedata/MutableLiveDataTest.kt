@@ -19,7 +19,7 @@ package com.github.tmurakami.aackt.lifecycle.livedata
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import com.github.tmurakami.aackt.lifecycle.mutableLiveData
 import org.junit.Rule
-import org.junit.Test
+import kotlin.test.Test
 import kotlin.test.assertSame
 
 class MutableLiveDataTest {

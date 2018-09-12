@@ -21,7 +21,7 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Observer
 import com.github.tmurakami.aackt.lifecycle.LiveDataOnLifecycle
 import org.junit.Rule
-import org.junit.Test
+import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class LiveDataOnLifecycleTest {
@@ -33,7 +33,7 @@ class LiveDataOnLifecycleTest {
     fun onActive() {
         val data = LiveDataOnLifecycle(MutableLiveData<Unit>())
         var count = 0
-        (0..2).forEach { data.onActiveListeners += { count++ } }
+        (0..2).forEach { _ -> data.onActiveListeners += { count++ } }
         assertEquals(0, count)
         data.observeForever { }
         assertEquals(3, count)
@@ -52,7 +52,7 @@ class LiveDataOnLifecycleTest {
     fun onInactive() {
         val data = LiveDataOnLifecycle(MutableLiveData<Unit>())
         var count = 0
-        (0..2).forEach { data.onInactiveListeners += { count++ } }
+        (0..2).forEach { _ -> data.onInactiveListeners += { count++ } }
         val observer = Observer<Unit> {}.also { data.observeForever(it) }
         assertEquals(0, count)
         data.removeObserver(observer)

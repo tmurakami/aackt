@@ -22,7 +22,7 @@ import android.arch.lifecycle.MutableLiveData
 import com.github.tmurakami.aackt.lifecycle.mediatorLiveData
 import com.github.tmurakami.aackt.lifecycle.observeSource
 import org.junit.Rule
-import org.junit.Test
+import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertSame
 

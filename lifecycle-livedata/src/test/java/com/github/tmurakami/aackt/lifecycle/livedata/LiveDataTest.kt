@@ -24,7 +24,7 @@ import com.github.tmurakami.aackt.lifecycle.liveData
 import com.github.tmurakami.aackt.lifecycle.observe
 import com.github.tmurakami.aackt.lifecycle.observeChanges
 import org.junit.Rule
-import org.junit.Test
+import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertSame
