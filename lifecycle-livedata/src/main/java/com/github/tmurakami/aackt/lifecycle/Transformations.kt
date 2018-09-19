@@ -121,7 +121,7 @@ inline fun <T> LiveData<T>.filter(crossinline predicate: (T) -> Boolean): LiveDa
  */
 @MainThread
 inline fun <T> LiveData<T>.filterNot(crossinline predicate: (T) -> Boolean): LiveData<T> =
-    filter { !predicate(it) }
+    filter { predicate(it).not() }
 
 /**
  * Returns a [LiveData] that emits only non-null values.
@@ -240,7 +240,7 @@ inline fun <T> LiveData<T>.dropWhile(crossinline predicate: (T) -> Boolean): Liv
             var drop = drop
             @Suppress("UNCHECKED_CAST")
             if (drop) drop = predicate(t as T).also { this.drop = it }
-            if (!drop) result.value = t
+            if (drop.not()) result.value = t
         }
     })
     return result
