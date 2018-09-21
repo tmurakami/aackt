@@ -76,5 +76,5 @@ ext {
     arch.paging = [runtime: "android.arch.paging:runtime:$pagingVersion",
                    rxjava2: "android.arch.paging:rxjava2:$pagingVersion",]
 
-    arch.work = [runtime: 'android.arch.work:work-runtime-ktx:1.0.0-alpha08',]
+    arch.work = [runtime: 'android.arch.work:work-runtime-ktx:1.0.0-alpha09',]
 }
