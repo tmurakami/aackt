@@ -2,7 +2,6 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'org.jetbrains.dokka-android'
 apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'org.jlleitschuh.gradle.ktlint'
 apply plugin: 'com.getkeepsafe.dexcount'
 
 android {
@@ -18,15 +17,33 @@ android {
     libraryVariants.all { it.generateBuildConfig.enabled = false }
 }
 
+configurations {
+    ktlint
+}
+
 dependencies {
+    ktlint deps.ktlint
     api deps.kotlin.stdlib
     testImplementation deps.kotlin.junit4
 }
 
-ktlint {
-    version = versions.ktlint
-    android = true
-    reporters = ['PLAIN', 'CHECKSTYLE']
+task ktlint(type: JavaExec, group: 'verification') {
+    inputs.files fileTree(dir: 'src', include: '**/*.kt')
+    outputs.dir 'src'
+    description = 'Check Kotlin code style.'
+    classpath = configurations.ktlint
+    main = 'com.github.shyiko.ktlint.Main'
+    args '--android', 'src/**/*.kt'
+}
+check.dependsOn ktlint
+
+task ktlintFormat(type: JavaExec, group: 'formatting') {
+    inputs.files fileTree(dir: 'src', include: '**/*.kt')
+    outputs.dir 'src'
+    description = 'Fix Kotlin code style deviations.'
+    classpath = configurations.ktlint
+    main = 'com.github.shyiko.ktlint.Main'
+    args '--android', '-F', 'src/**/*.kt'
 }
 
 dexcount {
