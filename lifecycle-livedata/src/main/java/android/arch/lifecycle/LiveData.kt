@@ -15,11 +15,12 @@
  */
 
 // TODO delete this file if https://issuetracker.google.com/u/0/issues/94056118 is adopted
+@file:Suppress("ConflictingExtensionProperty")
+
 package android.arch.lifecycle
 
 import android.support.annotation.MainThread
 
-@Suppress("ConflictingExtensionProperty")
 @get:MainThread
 internal val LiveData<*>.version: Int
     get() = version
