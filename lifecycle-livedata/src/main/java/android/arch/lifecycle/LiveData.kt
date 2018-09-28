@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-// TODO delete this file if https://issuetracker.google.com/u/0/issues/94056118 is adopted
+// TODO delete this file if https://issuetracker.google.com/issues/94056118 is adopted
 @file:Suppress("ConflictingExtensionProperty")
 
 package android.arch.lifecycle
