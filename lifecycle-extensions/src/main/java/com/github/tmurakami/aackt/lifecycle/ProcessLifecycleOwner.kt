@@ -17,9 +17,14 @@
 package com.github.tmurakami.aackt.lifecycle
 
 import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.ProcessLifecycleOwner
+
+@get:JvmName("getDeprecatedProcessLifecycleOwner")
+@Deprecated("", ReplaceWith("ProcessLifecycleOwner"))
+inline val processLifecycleOwner: LifecycleOwner
+    get() = ProcessLifecycleOwner
 
 /**
  * Returns the [LifecycleOwner] for the whole application process.
  */
-inline val processLifecycleOwner: LifecycleOwner get() = ProcessLifecycleOwner.get()
+inline val ProcessLifecycleOwner: LifecycleOwner
+    get() = android.arch.lifecycle.ProcessLifecycleOwner.get()
