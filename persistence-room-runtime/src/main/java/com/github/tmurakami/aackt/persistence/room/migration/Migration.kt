@@ -19,13 +19,23 @@ package com.github.tmurakami.aackt.persistence.room.migration
 import android.arch.persistence.db.SupportSQLiteDatabase
 import android.arch.persistence.room.migration.Migration
 
-/**
- * Creates a [Migration] between [startVersion] and [endVersion].
- */
+@Deprecated("", ReplaceWith("Migration(startVersion, endVersion) { let(migrate) }"))
 inline fun migration(
     startVersion: Int,
     endVersion: Int,
     crossinline migrate: (SupportSQLiteDatabase) -> Unit
 ): Migration = object : Migration(startVersion, endVersion) {
     override fun migrate(database: SupportSQLiteDatabase) = migrate(database)
+}
+
+/**
+ * Creates a [Migration] between [startVersion] and [endVersion].
+ */
+@Suppress("FunctionName")
+inline fun Migration(
+    startVersion: Int,
+    endVersion: Int,
+    crossinline migrate: SupportSQLiteDatabase.() -> Unit
+): Migration = object : Migration(startVersion, endVersion) {
+    override fun migrate(database: SupportSQLiteDatabase) = database.migrate()
 }
