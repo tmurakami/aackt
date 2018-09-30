@@ -2,7 +2,7 @@
 
 [![CircleCI](https://circleci.com/gh/tmurakami/aackt.svg?style=shield)](https://circleci.com/gh/tmurakami/aackt)
 [![Release](https://jitpack.io/v/tmurakami/aackt.svg)](https://jitpack.io/#tmurakami/aackt)
-![Kotlin](https://img.shields.io/badge/Kotlin-1.2.51%2B-blue.svg)
+![Kotlin](https://img.shields.io/badge/Kotlin-1.2.71%2B-blue.svg)
 ![Android](https://img.shields.io/badge/Android-4.0%2B-blue.svg)
 
 A Kotlin library for [Android Architecture Components](https://developer.android.com/topic/libraries/architecture/).
@@ -80,7 +80,7 @@ class FooActivity : FragmentActivity() {
 
 ```kotlin
 // Create a new Migration instance
-val MIGRATION_1_2 = migration(1, 2) { ... }
+val MIGRATION_1_2 = Migration(1, 2) { ... }
 
 // Create a new RoomDatabase instance
 val db = context.databaseBuilder<MyRoomDatabase>("app.db")
@@ -109,9 +109,9 @@ class MyWorker : Worker() {
 
 val workRequest = OneTimeWorkRequestBuilder<MyWorker>().build()
 
-// `workManager` is a top-level property that returns the singleton
-// instance of `WorkManager`.
-workManager.enqueue(workRequest)
+// `DefaultWorkManager` is a top-level property that returns the
+// singleton instance of `WorkManager`.
+DefaultWorkManager.enqueue(workRequest)
 ```
 
 ## Installation
