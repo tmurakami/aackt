@@ -127,7 +127,7 @@ repositories {
 
 dependencies {
 
-    def aacktVersion = '1.2.0'
+    def aacktVersion = '1.3.0'
 
     // LiveData and ViewModel
     implementation "com.github.tmurakami.aackt:lifecycle-extensions:$aacktVersion"
@@ -160,23 +160,23 @@ dependencies {
 
 ### Lifecycle
 
-- [Extensions](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-extensions/1.2.0/javadoc/lifecycle-extensions/)
-- [LiveData](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-livedata/1.2.0/javadoc/lifecycle-livedata/)
-- [ViewModel](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-viewmodel/1.2.0/javadoc/lifecycle-viewmodel/)
-- [Reactive Streams](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-reactivestreams/1.2.0/javadoc/lifecycle-reactivestreams/)
+- [Extensions](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-extensions/1.3.0/javadoc/lifecycle-extensions/)
+- [LiveData](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-livedata/1.3.0/javadoc/lifecycle-livedata/)
+- [ViewModel](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-viewmodel/1.3.0/javadoc/lifecycle-viewmodel/)
+- [Reactive Streams](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-reactivestreams/1.3.0/javadoc/lifecycle-reactivestreams/)
 
 ### Room
 
-- [Runtime](https://jitpack.io/com/github/tmurakami/aackt/persistence-room-runtime/1.2.0/javadoc/persistence-room-runtime/)
+- [Runtime](https://jitpack.io/com/github/tmurakami/aackt/persistence-room-runtime/1.3.0/javadoc/persistence-room-runtime/)
 
 ### Paging
 
-- [Runtime](https://jitpack.io/com/github/tmurakami/aackt/paging-runtime/1.2.0/javadoc/paging-runtime/)
-- [RxJava2](https://jitpack.io/com/github/tmurakami/aackt/paging-rxjava2/1.2.0/javadoc/paging-rxjava2/)
+- [Runtime](https://jitpack.io/com/github/tmurakami/aackt/paging-runtime/1.3.0/javadoc/paging-runtime/)
+- [RxJava2](https://jitpack.io/com/github/tmurakami/aackt/paging-rxjava2/1.3.0/javadoc/paging-rxjava2/)
 
 ### WorkManager
 
-- [Runtime](https://jitpack.io/com/github/tmurakami/aackt/work-runtime/1.2.0/javadoc/work-runtime/)
+- [Runtime](https://jitpack.io/com/github/tmurakami/aackt/work-runtime/1.3.0/javadoc/work-runtime/)
 
 ## License
 
