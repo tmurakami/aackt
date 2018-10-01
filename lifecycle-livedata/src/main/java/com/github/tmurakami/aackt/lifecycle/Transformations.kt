@@ -366,7 +366,7 @@ inline fun <T, R, V> LiveData<T>.withLatestFrom(
     var emitted = false
     result.addSource(this) {
         @Suppress("UNCHECKED_CAST")
-        if (emitted) result.value = transform(value as T, other.value as R)
+        if (emitted) result.value = transform(it as T, other.value as R)
     }
     result.addSource(other) {
         emitted = true
