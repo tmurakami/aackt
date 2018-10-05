@@ -144,9 +144,12 @@ dependencies {
     // Room
     implementation "com.github.tmurakami.aackt:persistence-room-runtime:$aacktVersion"
 
+    // Room with RxJava2
+    implementation "com.github.tmurakami.aackt:persistence-room-rxjava2:$aacktVersion"
+
     // Paging
     implementation "com.github.tmurakami.aackt:paging-runtime:$aacktVersion"
-    
+
     // Paging with RxJava2
     implementation "com.github.tmurakami.aackt:paging-rxjava2:$aacktVersion"
 
@@ -168,6 +171,7 @@ dependencies {
 ### Room
 
 - [Runtime](https://jitpack.io/com/github/tmurakami/aackt/persistence-room-runtime/1.3.1/javadoc/persistence-room-runtime/)
+- [RxJava2](https://jitpack.io/com/github/tmurakami/aackt/persistence-room-rxjava2/1.3.1/javadoc/persistence-room-rxjava2/)
 
 ### Paging
 
