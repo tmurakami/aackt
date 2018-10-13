@@ -88,18 +88,6 @@ val db = context.databaseBuilder<MyRoomDatabase>("app.db")
     .build()
 ```
 
-## Paging
-
-```kotlin
-val dsFactory: DataSource.Factory<Int, MyData> = ...
-
-// Create a new LiveData<PagedList> instance
-val liveData = dsFactory.livePagedListBuilder(10).build()
-
-// Create a new Observable<PagedList> instance
-val observable = dsFactory.rxPagedListBuilder(10).buildObservable()
-```
-
 ## Installation
 
 Add the following to your `build.gradle`:
@@ -124,20 +112,11 @@ dependencies {
     // Alternatively, just ViewModel
     implementation "com.github.tmurakami.aackt:lifecycle-viewmodel:$aacktVersion"
 
-    // ReactiveStreams support for LiveData
-    implementation "com.github.tmurakami.aackt:lifecycle-reactivestreams:$aacktVersion"
-
     // Room
     implementation "com.github.tmurakami.aackt:room-runtime:$aacktVersion"
 
     // Room with RxJava2
     implementation "com.github.tmurakami.aackt:room-rxjava2:$aacktVersion"
-
-    // Paging
-    implementation "com.github.tmurakami.aackt:paging-runtime:$aacktVersion"
-
-    // Paging with RxJava2
-    implementation "com.github.tmurakami.aackt:paging-rxjava2:$aacktVersion"
 
 }
 ```
@@ -149,17 +128,11 @@ dependencies {
 - [Extensions](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-extensions/1.3.2/javadoc/lifecycle-extensions/)
 - [LiveData](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-livedata/1.3.2/javadoc/lifecycle-livedata/)
 - [ViewModel](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-viewmodel/1.3.2/javadoc/lifecycle-viewmodel/)
-- [Reactive Streams](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-reactivestreams/1.3.2/javadoc/lifecycle-reactivestreams/)
 
 ### Room
 
 - [Runtime](https://jitpack.io/com/github/tmurakami/aackt/room-runtime/1.3.2/javadoc/room-runtime/)
 - [RxJava2](https://jitpack.io/com/github/tmurakami/aackt/room-rxjava2/1.3.2/javadoc/room-rxjava2/)
-
-### Paging
-
-- [Runtime](https://jitpack.io/com/github/tmurakami/aackt/paging-runtime/1.3.2/javadoc/paging-runtime/)
-- [RxJava2](https://jitpack.io/com/github/tmurakami/aackt/paging-rxjava2/1.3.2/javadoc/paging-rxjava2/)
 
 ## License
 

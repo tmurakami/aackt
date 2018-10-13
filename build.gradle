@@ -60,18 +60,13 @@ ext {
 
     def lifecycleVersion = '2.0.0'
     androidx.arch = [core: [testing: "androidx.arch.core:core-testing:$lifecycleVersion",],]
-    androidx.lifecycle = [runtime        : "androidx.lifecycle:lifecycle-runtime:$lifecycleVersion",
-                          extensions     : "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion",
-                          livedata       : "androidx.lifecycle:lifecycle-livedata:$lifecycleVersion",
-                          reactivestreams: "androidx.lifecycle:lifecycle-reactivestreams:$lifecycleVersion",
-                          viewmodel      : "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion",]
+    androidx.lifecycle = [runtime   : "androidx.lifecycle:lifecycle-runtime:$lifecycleVersion",
+                          extensions: "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion",
+                          livedata  : "androidx.lifecycle:lifecycle-livedata:$lifecycleVersion",
+                          viewmodel : "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion",]
 
     def roomVersion = '2.1.0-alpha02'
     androidx.room = [runtime: "androidx.room:room-runtime:$roomVersion",
                      rxjava2: "androidx.room:room-rxjava2:$roomVersion",
                      testing: "androidx.room:room-testing:$roomVersion",]
-
-    def pagingVersion = '2.1.0-alpha01'
-    androidx.paging = [runtime: "androidx.paging:paging-runtime:$pagingVersion",
-                       rxjava2: "androidx.paging:paging-rxjava2:$pagingVersion",]
 }
