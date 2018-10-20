@@ -34,7 +34,7 @@ inline fun <T> liveData(value: T): LiveData<T> {
 
 /**
  * Adds the given [observer] callback to the receiver. If the receiver already has a value, it will
- * first be notified to the callback.
+ * be notified to the callback.
  *
  * To stop observing the receiver, you will need to call [Observation.dispose] with the resulting
  * [Observation] of this extension.
@@ -59,7 +59,7 @@ fun <T> LiveData<T>.observeChanges(onChanged: (T) -> Unit): Observation {
 
 /**
  * Adds the given [observer] callback to the receiver. If the receiver already has a value, it will
- * first be notified to the callback.
+ * be notified to the callback.
  *
  * The callback will receive values only while the given [owner] is active. You can manually stop
  * observing by calling [Observation.dispose] with the resulting [Observation] of this extension.
