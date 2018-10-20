@@ -6,7 +6,7 @@ buildscript {
         maven { url 'https://plugins.gradle.org/m2/' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.0'
+        classpath 'com.android.tools.build:gradle:3.2.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
         classpath 'org.jetbrains.dokka:dokka-android-gradle-plugin:0.9.17'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
@@ -77,5 +77,5 @@ ext {
     arch.paging = [runtime: "android.arch.paging:runtime:$pagingVersion",
                    rxjava2: "android.arch.paging:rxjava2:$pagingVersion",]
 
-    arch.work = [runtime: 'android.arch.work:work-runtime-ktx:1.0.0-alpha09',]
+    arch.work = [runtime: 'android.arch.work:work-runtime-ktx:1.0.0-alpha10',]
 }
