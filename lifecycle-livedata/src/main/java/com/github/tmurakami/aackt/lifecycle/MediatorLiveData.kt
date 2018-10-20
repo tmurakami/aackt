@@ -18,9 +18,9 @@
 
 package com.github.tmurakami.aackt.lifecycle
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MediatorLiveData
-import android.support.annotation.MainThread
+import androidx.annotation.MainThread
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 
 /**
  * Creates a [MediatorLiveData] whose value is the given [value].
@@ -29,17 +29,9 @@ import android.support.annotation.MainThread
 inline fun <T> mediatorLiveData(value: T): MediatorLiveData<T> =
     MediatorLiveData<T>().also { it.value = value }
 
-/**
- * Starts observing the given [source].
- *
- * The [onChanged] callback will receive values whenever the [source] is changed. The callback will
- * be called only when the receiver is active.
- */
+@Deprecated("", ReplaceWith("addSource(source, onChanged)"))
 @MainThread
 inline fun <S> MediatorLiveData<*>.observeSource(
     source: LiveData<S>,
     crossinline onChanged: (S) -> Unit
-) = addSource(source) {
-    @Suppress("UNCHECKED_CAST")
-    onChanged(it as S)
-}
+) = addSource(source) { onChanged(it) }

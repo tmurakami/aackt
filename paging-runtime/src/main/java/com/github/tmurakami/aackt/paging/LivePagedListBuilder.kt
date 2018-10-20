@@ -18,9 +18,9 @@
 
 package com.github.tmurakami.aackt.paging
 
-import android.arch.paging.DataSource
-import android.arch.paging.LivePagedListBuilder
-import android.arch.paging.PagedList
+import androidx.paging.DataSource
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
 
 /**
  * Creates a [LivePagedListBuilder] with the given [config].

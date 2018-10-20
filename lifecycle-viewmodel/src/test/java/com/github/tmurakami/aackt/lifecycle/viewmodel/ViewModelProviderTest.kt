@@ -16,9 +16,9 @@
 
 package com.github.tmurakami.aackt.lifecycle.viewmodel
 
-import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProvider
-import android.arch.lifecycle.ViewModelStore
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStore
 import com.github.tmurakami.aackt.lifecycle.getValue
 import kotlin.test.Test
 import kotlin.test.assertNotSame

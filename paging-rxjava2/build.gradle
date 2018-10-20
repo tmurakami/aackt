@@ -1,5 +1,5 @@
 apply from: "$rootDir/gradle/android-library.gradle"
 
 dependencies {
-    api deps.android.arch.paging.rxjava2
+    api deps.androidx.paging.rxjava2
 }

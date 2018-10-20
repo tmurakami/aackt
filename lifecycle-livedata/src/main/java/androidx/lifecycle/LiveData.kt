@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-// TODO delete this file if https://issuetracker.google.com/issues/94056118 is adopted
+// TODO https://issuetracker.google.com/issues/94056118
 @file:Suppress("ConflictingExtensionProperty")
 
-package android.arch.lifecycle
+package androidx.lifecycle
 
-import android.support.annotation.MainThread
+import androidx.annotation.MainThread
 
 @get:MainThread
 internal val LiveData<*>.version: Int

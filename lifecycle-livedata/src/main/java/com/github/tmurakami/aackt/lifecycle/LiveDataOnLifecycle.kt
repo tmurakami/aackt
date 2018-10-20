@@ -16,9 +16,9 @@
 
 package com.github.tmurakami.aackt.lifecycle
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MediatorLiveData
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.Observer
 import java.util.LinkedList
 
 internal class LiveDataOnLifecycle<T>(source: LiveData<T>) : MediatorLiveData<T>(), Observer<T> {
@@ -38,7 +38,7 @@ internal class LiveDataOnLifecycle<T>(source: LiveData<T>) : MediatorLiveData<T>
         for (listener in onActiveListeners) listener()
     }
 
-    override fun onChanged(t: T?) {
+    override fun onChanged(t: T) {
         value = t
     }
 

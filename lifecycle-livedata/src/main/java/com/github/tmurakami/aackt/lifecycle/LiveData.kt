@@ -18,10 +18,10 @@
 
 package com.github.tmurakami.aackt.lifecycle
 
-import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.version
-import android.support.annotation.MainThread
+import androidx.annotation.MainThread
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.version
 
 /**
  * Creates a [LiveData] whose value is the given [value].
@@ -50,7 +50,7 @@ fun <T> LiveData<T>.observe(observer: (T) -> Unit): Observation =
  * To stop observing the receiver, you will need to call [Observation.dispose] with the resulting
  * [Observation] of this extension.
  */
-// TODO change this implementation if https://issuetracker.google.com/issues/94056118 is adopted
+// TODO https://issuetracker.google.com/issues/94056118
 @MainThread
 fun <T> LiveData<T>.observeChanges(onChanged: (T) -> Unit): Observation {
     val startVersion = version
@@ -75,7 +75,7 @@ fun <T> LiveData<T>.observe(owner: LifecycleOwner, observer: (T) -> Unit): Obser
  * The callback will receive values only while the given [owner] is active. You can manually stop
  * observing by calling [Observation.dispose] with the resulting [Observation] of this extension.
  */
-// TODO change this implementation if https://issuetracker.google.com/issues/94056118 is adopted
+// TODO https://issuetracker.google.com/issues/94056118
 @MainThread
 fun <T> LiveData<T>.observeChanges(owner: LifecycleOwner, onChanged: (T) -> Unit): Observation {
     val startVersion = version

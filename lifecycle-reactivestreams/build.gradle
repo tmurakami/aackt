@@ -1,7 +1,7 @@
 apply from: "$rootDir/gradle/android-library.gradle"
 
 dependencies {
-    api deps.android.arch.lifecycle.reactivestreams
+    api deps.androidx.lifecycle.reactivestreams
 }
 
 dokka {

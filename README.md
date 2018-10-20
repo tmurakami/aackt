@@ -100,20 +100,6 @@ val liveData = dsFactory.livePagedListBuilder(10).build()
 val observable = dsFactory.rxPagedListBuilder(10).buildObservable()
 ```
 
-## WorkManager
-
-```kotlin
-class MyWorker : Worker() {
-    ...
-}
-
-val workRequest = OneTimeWorkRequestBuilder<MyWorker>().build()
-
-// `DefaultWorkManager` is a top-level property that returns the
-// singleton instance of `WorkManager`.
-DefaultWorkManager.enqueue(workRequest)
-```
-
 ## Installation
 
 Add the following to your `build.gradle`:
@@ -142,19 +128,16 @@ dependencies {
     implementation "com.github.tmurakami.aackt:lifecycle-reactivestreams:$aacktVersion"
 
     // Room
-    implementation "com.github.tmurakami.aackt:persistence-room-runtime:$aacktVersion"
+    implementation "com.github.tmurakami.aackt:room-runtime:$aacktVersion"
 
     // Room with RxJava2
-    implementation "com.github.tmurakami.aackt:persistence-room-rxjava2:$aacktVersion"
+    implementation "com.github.tmurakami.aackt:room-rxjava2:$aacktVersion"
 
     // Paging
     implementation "com.github.tmurakami.aackt:paging-runtime:$aacktVersion"
 
     // Paging with RxJava2
     implementation "com.github.tmurakami.aackt:paging-rxjava2:$aacktVersion"
-
-    // WorkManager
-    implementation "com.github.tmurakami.aackt:work-runtime:$aacktVersion"
 
 }
 ```
@@ -170,17 +153,13 @@ dependencies {
 
 ### Room
 
-- [Runtime](https://jitpack.io/com/github/tmurakami/aackt/persistence-room-runtime/1.3.2/javadoc/persistence-room-runtime/)
-- [RxJava2](https://jitpack.io/com/github/tmurakami/aackt/persistence-room-rxjava2/1.3.2/javadoc/persistence-room-rxjava2/)
+- [Runtime](https://jitpack.io/com/github/tmurakami/aackt/room-runtime/1.3.2/javadoc/room-runtime/)
+- [RxJava2](https://jitpack.io/com/github/tmurakami/aackt/room-rxjava2/1.3.2/javadoc/room-rxjava2/)
 
 ### Paging
 
 - [Runtime](https://jitpack.io/com/github/tmurakami/aackt/paging-runtime/1.3.2/javadoc/paging-runtime/)
 - [RxJava2](https://jitpack.io/com/github/tmurakami/aackt/paging-rxjava2/1.3.2/javadoc/paging-rxjava2/)
-
-### WorkManager
-
-- [Runtime](https://jitpack.io/com/github/tmurakami/aackt/work-runtime/1.3.2/javadoc/work-runtime/)
 
 ## License
 

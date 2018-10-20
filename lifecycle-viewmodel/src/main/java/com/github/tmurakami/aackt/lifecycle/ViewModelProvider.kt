@@ -16,16 +16,10 @@
 
 package com.github.tmurakami.aackt.lifecycle
 
-import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProvider
-import android.support.annotation.MainThread
+import androidx.annotation.MainThread
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import kotlin.reflect.KProperty
-
-/**
- * Returns an existing [ViewModel] or creates a new one.
- */
-@MainThread
-inline fun <reified T : ViewModel> ViewModelProvider.get(): T = get(T::class.java)
 
 /**
  * Returns an existing [ViewModel] with the given [key], or creates a new one.

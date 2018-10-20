@@ -16,7 +16,7 @@
 
 package com.github.tmurakami.aackt.lifecycle.livedata
 
-import android.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.github.tmurakami.aackt.lifecycle.mutableLiveData
 import org.junit.Rule
 import kotlin.test.Test

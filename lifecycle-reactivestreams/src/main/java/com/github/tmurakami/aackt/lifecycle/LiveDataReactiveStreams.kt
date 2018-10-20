@@ -18,9 +18,9 @@
 
 package com.github.tmurakami.aackt.lifecycle
 
-import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.LiveDataReactiveStreams
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.LiveDataReactiveStreams
 import org.reactivestreams.Publisher
 
 /**

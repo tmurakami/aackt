@@ -1,6 +1,0 @@
-apply from: "$rootDir/gradle/android-library.gradle"
-
-dependencies {
-    api deps.android.arch.persistence.room.runtime
-    testImplementation deps.android.arch.persistence.room.testing
-}

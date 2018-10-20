@@ -13,7 +13,7 @@ android {
         allWarningsAsErrors = true
         freeCompilerArgs += ['-Xno-param-assertions']
     }
-    // TODO replace with https://issuetracker.google.com/issues/72050365
+    // TODO https://issuetracker.google.com/issues/72050365
     libraryVariants.all { it.generateBuildConfig.enabled = false }
 }
 
@@ -58,8 +58,8 @@ dokka {
     skipDeprecated = true
     externalDocumentationLink {
         url = 'https://developer.android.com/reference/'.toURL()
-        // TODO workaround for https://github.com/Kotlin/dokka/issues/213
-        packageListUrl = file("$rootDir/aac-package-list").toURI().toURL()
+        // TODO https://github.com/Kotlin/dokka/issues/213
+        packageListUrl = file("$rootDir/androidx-package-list").toURI().toURL()
     }
 }
 javadoc.dependsOn dokka

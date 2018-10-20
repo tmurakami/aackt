@@ -16,10 +16,10 @@
 
 @file:Suppress("NOTHING_TO_INLINE")
 
-package com.github.tmurakami.aackt.persistence.room
+package com.github.tmurakami.aackt.room
 
-import android.arch.persistence.room.RoomDatabase
-import android.arch.persistence.room.RxRoom
+import androidx.room.RoomDatabase
+import androidx.room.RxRoom
 import io.reactivex.Flowable
 
 /**

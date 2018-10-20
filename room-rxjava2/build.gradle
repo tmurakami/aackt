@@ -1,8 +1,8 @@
 apply from: "$rootDir/gradle/android-library.gradle"
 
 dependencies {
-    api deps.android.arch.persistence.room.rxjava2
-    testImplementation deps.android.arch.persistence.room.testing
+    api deps.androidx.room.rxjava2
+    testImplementation deps.androidx.room.testing
 }
 
 dokka {

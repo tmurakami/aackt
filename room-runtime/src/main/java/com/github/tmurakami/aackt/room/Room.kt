@@ -14,24 +14,21 @@
  * limitations under the License.
  */
 
-package com.github.tmurakami.aackt.lifecycle
+package com.github.tmurakami.aackt.room
 
-import android.arch.lifecycle.ViewModelStore
-import android.arch.lifecycle.ViewModelStores
-import android.support.annotation.MainThread
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentActivity
+import android.content.Context
+import androidx.room.Room
+import androidx.room.RoomDatabase
 
 /**
- * Returns the [ViewModelStore].
+ * Creates a [RoomDatabase.Builder] for a persistent database of the given file [name].
  */
-@get:MainThread
-inline val Fragment.viewModelStore: ViewModelStore
-    get() = ViewModelStores.of(this)
+inline fun <reified T : RoomDatabase> Context.databaseBuilder(
+    name: String
+): RoomDatabase.Builder<T> = Room.databaseBuilder(this, T::class.java, name)
 
 /**
- * Returns the [ViewModelStore].
+ * Creates a [RoomDatabase.Builder] for an in-memory database.
  */
-@get:MainThread
-inline val FragmentActivity.viewModelStore: ViewModelStore
-    get() = ViewModelStores.of(this)
+inline fun <reified T : RoomDatabase> Context.inMemoryDatabaseBuilder(): RoomDatabase.Builder<T> =
+    Room.inMemoryDatabaseBuilder(this, T::class.java)
