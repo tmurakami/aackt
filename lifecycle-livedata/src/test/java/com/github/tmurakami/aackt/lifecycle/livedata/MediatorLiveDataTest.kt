@@ -16,14 +16,11 @@
 
 package com.github.tmurakami.aackt.lifecycle.livedata
 
-import android.arch.core.executor.testing.InstantTaskExecutorRule
-import android.arch.lifecycle.MediatorLiveData
-import android.arch.lifecycle.MutableLiveData
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.github.tmurakami.aackt.lifecycle.mediatorLiveData
-import com.github.tmurakami.aackt.lifecycle.observeSource
 import org.junit.Rule
+
 import kotlin.test.Test
-import kotlin.test.assertEquals
 import kotlin.test.assertSame
 
 class MediatorLiveDataTest {
@@ -33,13 +30,4 @@ class MediatorLiveDataTest {
 
     @Test
     fun mediatorLiveData() = assertSame(0, mediatorLiveData(0).value)
-
-    @Test
-    fun observeSource() {
-        val actual = mutableListOf<Int?>()
-        val src = MutableLiveData<Int>()
-        MediatorLiveData<Unit>().apply { observeSource(src) { actual += it } }.observeForever { }
-        src.value = 1
-        assertEquals(listOf<Int?>(1), actual)
-    }
 }

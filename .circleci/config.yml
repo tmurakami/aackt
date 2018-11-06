@@ -30,17 +30,9 @@ jobs:
       - store_artifacts:
           path: lifecycle-viewmodel/build/reports
       - store_artifacts:
-          path: lifecycle-reactivestreams/build/reports
+          path: room-runtime/build/reports
       - store_artifacts:
-          path: persistence-room-runtime/build/reports
-      - store_artifacts:
-          path: persistence-room-rxjava2/build/reports
-      - store_artifacts:
-          path: paging-runtime/build/reports
-      - store_artifacts:
-          path: paging-rxjava2/build/reports
-      - store_artifacts:
-          path: work-runtime/build/reports
+          path: room-rxjava2/build/reports
       - store_test_results:
           path: lifecycle-extensions/build/test-results
       - store_test_results:
@@ -48,14 +40,6 @@ jobs:
       - store_test_results:
           path: lifecycle-viewmodel/build/test-results
       - store_test_results:
-          path: lifecycle-reactivestreams/build/test-results
+          path: room-runtime/build/test-results
       - store_test_results:
-          path: persistence-room-runtime/build/test-results
-      - store_test_results:
-          path: persistence-room-rxjava2/build/test-results
-      - store_test_results:
-          path: paging-runtime/build/test-results
-      - store_test_results:
-          path: paging-rxjava2/build/test-results
-      - store_test_results:
-          path: work-runtime/build/test-results
+          path: room-rxjava2/build/test-results

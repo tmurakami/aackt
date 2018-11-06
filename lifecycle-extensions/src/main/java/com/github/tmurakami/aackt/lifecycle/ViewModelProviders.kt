@@ -18,30 +18,11 @@
 
 package com.github.tmurakami.aackt.lifecycle
 
-import android.arch.lifecycle.ViewModelProvider
-import android.arch.lifecycle.ViewModelProviders
-import android.support.annotation.MainThread
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentActivity
-
-@Deprecated("", replaceWith = ReplaceWith("createViewModelProvider()"))
-@MainThread
-inline fun Fragment.viewModelProvider(): ViewModelProvider = ViewModelProviders.of(this)
-
-@Deprecated("", replaceWith = ReplaceWith("createViewModelProvider(factory)"))
-@MainThread
-inline fun Fragment.viewModelProvider(factory: ViewModelProvider.Factory): ViewModelProvider =
-    ViewModelProviders.of(this, factory)
-
-@Deprecated("", replaceWith = ReplaceWith("createViewModelProvider()"))
-@MainThread
-inline fun FragmentActivity.viewModelProvider(): ViewModelProvider = ViewModelProviders.of(this)
-
-@Deprecated("", replaceWith = ReplaceWith("createViewModelProvider(factory)"))
-@MainThread
-inline fun FragmentActivity.viewModelProvider(
-    factory: ViewModelProvider.Factory
-): ViewModelProvider = ViewModelProviders.of(this, factory)
+import androidx.annotation.MainThread
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 
 /**
  * Creates a [ViewModelProvider] that uses the given [factory] to instantiate new ViewModels.

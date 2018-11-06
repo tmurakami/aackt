@@ -16,11 +16,11 @@
 
 package com.github.tmurakami.aackt.lifecycle
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MediatorLiveData
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.Transformations
-import android.support.annotation.MainThread
+import androidx.annotation.MainThread
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.Transformations
 import java.util.LinkedList
 
 /**
@@ -40,10 +40,7 @@ inline fun <T, R> LiveData<T>.map(crossinline transform: (T) -> R): LiveData<R> 
 @MainThread
 inline fun <T, R : Any> LiveData<T>.mapNotNull(crossinline transform: (T) -> R?): LiveData<R> {
     val result = MediatorLiveData<R>()
-    result.addSource(this) {
-        @Suppress("UNCHECKED_CAST")
-        transform(it as T)?.run { result.value = this }
-    }
+    result.addSource(this) { transform(it)?.run { result.value = this } }
     return result
 }
 
@@ -93,8 +90,7 @@ inline fun <T> LiveData<T>.doOnChanged(crossinline onChanged: (T) -> Unit): Live
     val result = MediatorLiveData<T>()
     result.addSource(this) {
         result.value = it
-        @Suppress("UNCHECKED_CAST")
-        onChanged(it as T)
+        onChanged(it)
     }
     return result
 }
@@ -108,8 +104,7 @@ inline fun <T> LiveData<T>.doOnChanged(crossinline onChanged: (T) -> Unit): Live
 inline fun <T> LiveData<T>.filter(crossinline predicate: (T) -> Boolean): LiveData<T> {
     val result = MediatorLiveData<T>()
     result.addSource(this) {
-        @Suppress("UNCHECKED_CAST")
-        if (predicate(it as T)) result.value = it
+        if (predicate(it)) result.value = it
     }
     return result
 }
@@ -198,9 +193,8 @@ inline fun <T, K> LiveData<T>.distinctUntilChangedBy(crossinline selector: (T) -
     val result = MediatorLiveData<T>()
     result.addSource(this, object : Observer<T> {
         private var lastKey: Any? = this // Not set
-        override fun onChanged(t: T?) {
-            @Suppress("UNCHECKED_CAST")
-            val key = selector(t as T)
+        override fun onChanged(t: T) {
+            val key = selector(t)
             if (key != lastKey) result.value = t
             lastKey = key
         }
@@ -218,7 +212,7 @@ fun <T> LiveData<T>.drop(n: Int): LiveData<T> {
     val result = MediatorLiveData<T>()
     result.addSource(this, object : Observer<T> {
         private var count = 0
-        override fun onChanged(t: T?) {
+        override fun onChanged(t: T) {
             if (++count > n) result.value = t
         }
     })
@@ -236,10 +230,9 @@ inline fun <T> LiveData<T>.dropWhile(crossinline predicate: (T) -> Boolean): Liv
     val result = MediatorLiveData<T>()
     result.addSource(this, object : Observer<T> {
         private var drop = true
-        override fun onChanged(t: T?) {
+        override fun onChanged(t: T) {
             var drop = drop
-            @Suppress("UNCHECKED_CAST")
-            if (drop) drop = predicate(t as T).also { this.drop = it }
+            if (drop) drop = predicate(t).also { this.drop = it }
             if (drop.not()) result.value = t
         }
     })
@@ -256,7 +249,7 @@ fun <T> LiveData<T>.take(n: Int): LiveData<T> {
     val result = MediatorLiveData<T>()
     result.addSource(this, object : Observer<T> {
         private var count = 0
-        override fun onChanged(t: T?) {
+        override fun onChanged(t: T) {
             if (count++ < n) result.value = t else result.removeSource(this@take)
         }
     })
@@ -272,8 +265,7 @@ fun <T> LiveData<T>.take(n: Int): LiveData<T> {
 inline fun <T> LiveData<T>.takeWhile(crossinline predicate: (T) -> Boolean): LiveData<T> {
     val result = MediatorLiveData<T>()
     result.addSource(this) {
-        @Suppress("UNCHECKED_CAST")
-        if (predicate(it as T)) result.value = it else result.removeSource(this)
+        if (predicate(it)) result.value = it else result.removeSource(this)
     }
     return result
 }
@@ -366,7 +358,7 @@ inline fun <T, R, V> LiveData<T>.withLatestFrom(
     var emitted = false
     result.addSource(this) {
         @Suppress("UNCHECKED_CAST")
-        if (emitted) result.value = transform(it as T, other.value as R)
+        if (emitted) result.value = transform(it, other.value as R)
     }
     result.addSource(other) {
         emitted = true
@@ -441,11 +433,11 @@ inline fun <T, R> LiveData<T>.zipWithNext(crossinline transform: (a: T, b: T) ->
     val result = MediatorLiveData<R>()
     result.addSource(this, object : Observer<T> {
         private var lastValue: Any? = this // Not set
-        override fun onChanged(t: T?) {
+        override fun onChanged(t: T) {
             val lastValue = lastValue.apply { lastValue = t }
             val notSet: Any = this // Avoid unnecessary CHECKCAST
             @Suppress("UNCHECKED_CAST")
-            if (lastValue !== notSet) result.value = transform(lastValue as T, t as T)
+            if (lastValue !== notSet) result.value = transform(lastValue as T, t)
         }
     })
     return result

@@ -14,11 +14,19 @@
  * limitations under the License.
  */
 
-package com.github.tmurakami.aackt.work
+package com.github.tmurakami.aackt.room.migration
 
-import androidx.work.WorkManager
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 
 /**
- * Returns the default singleton instance of [WorkManager].
+ * Creates a [Migration] between [startVersion] and [endVersion].
  */
-inline val DefaultWorkManager: WorkManager get() = WorkManager.getInstance()
+@Suppress("FunctionName")
+inline fun Migration(
+    startVersion: Int,
+    endVersion: Int,
+    crossinline migrate: SupportSQLiteDatabase.() -> Unit
+): Migration = object : Migration(startVersion, endVersion) {
+    override fun migrate(database: SupportSQLiteDatabase) = database.migrate()
+}

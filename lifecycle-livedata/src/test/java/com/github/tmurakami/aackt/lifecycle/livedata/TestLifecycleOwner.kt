@@ -16,8 +16,8 @@
 
 package com.github.tmurakami.aackt.lifecycle.livedata
 
-import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.LifecycleRegistry
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LifecycleRegistry
 
 class TestLifecycleOwner : LifecycleOwner {
     private val registry = LifecycleRegistry(this)

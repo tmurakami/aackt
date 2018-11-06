@@ -16,9 +16,9 @@
 
 package com.github.tmurakami.aackt.lifecycle
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.Observer
-import android.support.annotation.MainThread
+import androidx.annotation.MainThread
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 
 /**
  * An interface representing an [Observer] registered to a [LiveData].
@@ -36,8 +36,7 @@ internal class ObservationImpl<T>(
     private val observer: (T) -> Unit
 ) : Observer<T>, Observation {
 
-    @Suppress("UNCHECKED_CAST")
-    override fun onChanged(t: T?) = observer(t as T)
+    override fun onChanged(t: T) = observer(t)
 
     override fun dispose() = data.removeObserver(this)
 }

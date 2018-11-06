@@ -1,12 +1,6 @@
 include ':lifecycle-extensions'
 include ':lifecycle-livedata'
 include ':lifecycle-viewmodel'
-include ':lifecycle-reactivestreams'
 
-include ':persistence-room-runtime'
-include ':persistence-room-rxjava2'
-
-include ':paging-runtime'
-include ':paging-rxjava2'
-
-include ':work-runtime'
+include ':room-runtime'
+include ':room-rxjava2'

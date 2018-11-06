@@ -18,8 +18,8 @@
 
 package com.github.tmurakami.aackt.lifecycle
 
-import android.arch.lifecycle.MutableLiveData
-import android.support.annotation.MainThread
+import androidx.annotation.MainThread
+import androidx.lifecycle.MutableLiveData
 
 /**
  * Creates a [MutableLiveData] whose value is the given [value].

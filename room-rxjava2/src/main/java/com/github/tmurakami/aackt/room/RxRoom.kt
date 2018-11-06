@@ -14,11 +14,16 @@
  * limitations under the License.
  */
 
-package com.github.tmurakami.aackt.work
+@file:Suppress("NOTHING_TO_INLINE")
 
-import androidx.work.WorkManager
+package com.github.tmurakami.aackt.room
+
+import androidx.room.RoomDatabase
+import androidx.room.RxRoom
+import io.reactivex.Flowable
 
 /**
- * Returns the default singleton instance of [WorkManager].
+ * Creates a [Flowable] which emits [RxRoom.NOTHING] whenever one of the given [tables] is modified.
  */
-inline val DefaultWorkManager: WorkManager get() = WorkManager.getInstance()
+inline fun RoomDatabase.createFlowable(vararg tables: String): Flowable<Any> =
+    RxRoom.createFlowable(this, *tables)

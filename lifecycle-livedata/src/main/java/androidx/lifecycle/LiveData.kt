@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 
-package com.github.tmurakami.aackt.work
+// TODO https://issuetracker.google.com/issues/94056118
+@file:Suppress("ConflictingExtensionProperty")
 
-import androidx.work.WorkManager
+package androidx.lifecycle
 
-/**
- * Returns the default singleton instance of [WorkManager].
- */
-inline val DefaultWorkManager: WorkManager get() = WorkManager.getInstance()
+import androidx.annotation.MainThread
+
+@get:MainThread
+internal val LiveData<*>.version: Int
+    get() = version

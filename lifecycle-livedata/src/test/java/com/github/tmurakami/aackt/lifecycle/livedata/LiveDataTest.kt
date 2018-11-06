@@ -16,10 +16,10 @@
 
 package com.github.tmurakami.aackt.lifecycle.livedata
 
-import android.arch.core.executor.testing.InstantTaskExecutorRule
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.MediatorLiveData
-import android.arch.lifecycle.MutableLiveData
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 import com.github.tmurakami.aackt.lifecycle.liveData
 import com.github.tmurakami.aackt.lifecycle.observe
 import com.github.tmurakami.aackt.lifecycle.observeChanges

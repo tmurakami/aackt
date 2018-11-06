@@ -2,7 +2,7 @@
 
 [![CircleCI](https://circleci.com/gh/tmurakami/aackt.svg?style=shield)](https://circleci.com/gh/tmurakami/aackt)
 [![Release](https://jitpack.io/v/tmurakami/aackt.svg)](https://jitpack.io/#tmurakami/aackt)
-![Kotlin](https://img.shields.io/badge/Kotlin-1.2.71%2B-blue.svg)
+![Kotlin](https://img.shields.io/badge/Kotlin-1.3.0%2B-blue.svg)
 ![Android](https://img.shields.io/badge/Android-4.0%2B-blue.svg)
 
 A Kotlin library for [Android Architecture Components](https://developer.android.com/topic/libraries/architecture/).
@@ -88,32 +88,6 @@ val db = context.databaseBuilder<MyRoomDatabase>("app.db")
     .build()
 ```
 
-## Paging
-
-```kotlin
-val dsFactory: DataSource.Factory<Int, MyData> = ...
-
-// Create a new LiveData<PagedList> instance
-val liveData = dsFactory.livePagedListBuilder(10).build()
-
-// Create a new Observable<PagedList> instance
-val observable = dsFactory.rxPagedListBuilder(10).buildObservable()
-```
-
-## WorkManager
-
-```kotlin
-class MyWorker : Worker() {
-    ...
-}
-
-val workRequest = OneTimeWorkRequestBuilder<MyWorker>().build()
-
-// `DefaultWorkManager` is a top-level property that returns the
-// singleton instance of `WorkManager`.
-DefaultWorkManager.enqueue(workRequest)
-```
-
 ## Installation
 
 Add the following to your `build.gradle`:
@@ -138,23 +112,11 @@ dependencies {
     // Alternatively, just ViewModel
     implementation "com.github.tmurakami.aackt:lifecycle-viewmodel:$aacktVersion"
 
-    // ReactiveStreams support for LiveData
-    implementation "com.github.tmurakami.aackt:lifecycle-reactivestreams:$aacktVersion"
-
     // Room
-    implementation "com.github.tmurakami.aackt:persistence-room-runtime:$aacktVersion"
+    implementation "com.github.tmurakami.aackt:room-runtime:$aacktVersion"
 
     // Room with RxJava2
-    implementation "com.github.tmurakami.aackt:persistence-room-rxjava2:$aacktVersion"
-
-    // Paging
-    implementation "com.github.tmurakami.aackt:paging-runtime:$aacktVersion"
-
-    // Paging with RxJava2
-    implementation "com.github.tmurakami.aackt:paging-rxjava2:$aacktVersion"
-
-    // WorkManager
-    implementation "com.github.tmurakami.aackt:work-runtime:$aacktVersion"
+    implementation "com.github.tmurakami.aackt:room-rxjava2:$aacktVersion"
 
 }
 ```
@@ -166,21 +128,11 @@ dependencies {
 - [Extensions](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-extensions/1.3.2/javadoc/lifecycle-extensions/)
 - [LiveData](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-livedata/1.3.2/javadoc/lifecycle-livedata/)
 - [ViewModel](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-viewmodel/1.3.2/javadoc/lifecycle-viewmodel/)
-- [Reactive Streams](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-reactivestreams/1.3.2/javadoc/lifecycle-reactivestreams/)
 
 ### Room
 
-- [Runtime](https://jitpack.io/com/github/tmurakami/aackt/persistence-room-runtime/1.3.2/javadoc/persistence-room-runtime/)
-- [RxJava2](https://jitpack.io/com/github/tmurakami/aackt/persistence-room-rxjava2/1.3.2/javadoc/persistence-room-rxjava2/)
-
-### Paging
-
-- [Runtime](https://jitpack.io/com/github/tmurakami/aackt/paging-runtime/1.3.2/javadoc/paging-runtime/)
-- [RxJava2](https://jitpack.io/com/github/tmurakami/aackt/paging-rxjava2/1.3.2/javadoc/paging-rxjava2/)
-
-### WorkManager
-
-- [Runtime](https://jitpack.io/com/github/tmurakami/aackt/work-runtime/1.3.2/javadoc/work-runtime/)
+- [Runtime](https://jitpack.io/com/github/tmurakami/aackt/room-runtime/1.3.2/javadoc/room-runtime/)
+- [RxJava2](https://jitpack.io/com/github/tmurakami/aackt/room-rxjava2/1.3.2/javadoc/room-rxjava2/)
 
 ## License
 
