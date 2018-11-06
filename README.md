@@ -101,7 +101,7 @@ repositories {
 
 dependencies {
 
-    def aacktVersion = '1.3.2'
+    def aacktVersion = '2.0.0-alpha01'
 
     // LiveData and ViewModel
     implementation "com.github.tmurakami.aackt:lifecycle-extensions:$aacktVersion"
@@ -125,14 +125,14 @@ dependencies {
 
 ### Lifecycle
 
-- [Extensions](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-extensions/1.3.2/javadoc/lifecycle-extensions/)
-- [LiveData](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-livedata/1.3.2/javadoc/lifecycle-livedata/)
-- [ViewModel](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-viewmodel/1.3.2/javadoc/lifecycle-viewmodel/)
+- [Extensions](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-extensions/2.0.0-alpha01/javadoc/lifecycle-extensions/)
+- [LiveData](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-livedata/2.0.0-alpha01/javadoc/lifecycle-livedata/)
+- [ViewModel](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-viewmodel/2.0.0-alpha01/javadoc/lifecycle-viewmodel/)
 
 ### Room
 
-- [Runtime](https://jitpack.io/com/github/tmurakami/aackt/room-runtime/1.3.2/javadoc/room-runtime/)
-- [RxJava2](https://jitpack.io/com/github/tmurakami/aackt/room-rxjava2/1.3.2/javadoc/room-rxjava2/)
+- [Runtime](https://jitpack.io/com/github/tmurakami/aackt/room-runtime/2.0.0-alpha01/javadoc/room-runtime/)
+- [RxJava2](https://jitpack.io/com/github/tmurakami/aackt/room-rxjava2/2.0.0-alpha01/javadoc/room-rxjava2/)
 
 ## License
 
