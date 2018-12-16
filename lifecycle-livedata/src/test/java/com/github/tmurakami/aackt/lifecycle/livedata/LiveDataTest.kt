@@ -31,7 +31,6 @@ import kotlin.test.assertSame
 import kotlin.test.assertTrue
 
 class LiveDataTest {
-
     @[Rule JvmField]
     val instantTaskExecutorRule: InstantTaskExecutorRule = InstantTaskExecutorRule()
 

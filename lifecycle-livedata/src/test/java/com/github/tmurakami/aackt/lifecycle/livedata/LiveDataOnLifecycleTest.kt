@@ -25,7 +25,6 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class LiveDataOnLifecycleTest {
-
     @[Rule JvmField]
     val instantTaskExecutorRule: InstantTaskExecutorRule = InstantTaskExecutorRule()
 

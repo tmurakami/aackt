@@ -23,7 +23,6 @@ import kotlin.test.Test
 import kotlin.test.assertSame
 
 class MutableLiveDataTest {
-
     @[Rule JvmField]
     val instantTaskExecutorRule: InstantTaskExecutorRule = InstantTaskExecutorRule()
 

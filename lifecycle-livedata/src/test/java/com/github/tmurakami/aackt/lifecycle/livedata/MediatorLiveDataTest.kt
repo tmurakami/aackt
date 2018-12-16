@@ -24,7 +24,6 @@ import kotlin.test.Test
 import kotlin.test.assertSame
 
 class MediatorLiveDataTest {
-
     @[Rule JvmField]
     val instantTaskExecutorRule: InstantTaskExecutorRule = InstantTaskExecutorRule()
 

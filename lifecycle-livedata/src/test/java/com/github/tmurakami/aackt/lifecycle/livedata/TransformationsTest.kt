@@ -50,7 +50,6 @@ import kotlin.test.assertNotSame
 import kotlin.test.assertTrue
 
 class TransformationsTest {
-
     @[Rule JvmField]
     val instantTaskExecutorRule: InstantTaskExecutorRule = InstantTaskExecutorRule()
 

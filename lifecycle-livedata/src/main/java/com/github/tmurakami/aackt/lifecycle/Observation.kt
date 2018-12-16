@@ -35,8 +35,6 @@ internal class ObservationImpl<T>(
     private val data: LiveData<T>,
     private val observer: (T) -> Unit
 ) : Observer<T>, Observation {
-
     override fun onChanged(t: T) = observer(t)
-
     override fun dispose() = data.removeObserver(this)
 }
