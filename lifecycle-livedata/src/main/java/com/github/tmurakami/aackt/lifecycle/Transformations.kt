@@ -166,14 +166,7 @@ inline fun <T, K> LiveData<T>.distinctBy(crossinline selector: (T) -> K): LiveDa
     return filter { set.add(selector(it)) }
 }
 
-/**
- * Returns a [LiveData] that emits only distinct contiguous values.
- *
- * Note that structurally equivalent values are regarded as identical. You can use
- * [distinctUntilChangedBy] to treat structurally equivalent values as different.
- *
- * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.distinctUntilChanged
- */
+@Deprecated("", ReplaceWith("distinctUntilChanged<T>()", "androidx.lifecycle.distinctUntilChanged"))
 @MainThread
 fun <T> LiveData<T>.distinctUntilChanged(): LiveData<T> = distinctUntilChangedBy { it }
 

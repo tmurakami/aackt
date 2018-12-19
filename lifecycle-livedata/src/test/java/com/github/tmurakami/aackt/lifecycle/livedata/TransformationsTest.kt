@@ -22,7 +22,6 @@ import androidx.lifecycle.Observer
 import com.github.tmurakami.aackt.lifecycle.combineLatest
 import com.github.tmurakami.aackt.lifecycle.distinct
 import com.github.tmurakami.aackt.lifecycle.distinctBy
-import com.github.tmurakami.aackt.lifecycle.distinctUntilChanged
 import com.github.tmurakami.aackt.lifecycle.distinctUntilChangedBy
 import com.github.tmurakami.aackt.lifecycle.doOnActive
 import com.github.tmurakami.aackt.lifecycle.doOnChanged
@@ -250,22 +249,6 @@ class TransformationsTest {
             value = s2
         }
         assertEquals(listOf(s1, s2), actual)
-    }
-
-    @Test
-    fun distinctUntilChanged() {
-        val actual = mutableListOf<Int>()
-        val data = MutableLiveData<Int>()
-        data.distinctUntilChanged().observeForever { actual += it }
-        data.run {
-            value = 0
-            value = 2
-            value = 1
-            value = 2
-            value = 1
-            value = 1
-        }
-        assertEquals(listOf(0, 2, 1, 2, 1), actual)
     }
 
     @Test
