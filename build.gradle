@@ -61,12 +61,12 @@ ext {
 
     def androidx = [:]
     deps.androidx = androidx
+    androidx.arch = [core: [testing: 'androidx.arch.core:core-testing:2.0.0',],]
 
-    def lifecycleVersion = '2.0.0'
-    androidx.arch = [core: [testing: "androidx.arch.core:core-testing:$lifecycleVersion",],]
+    def lifecycleVersion = '2.1.0-alpha01'
     androidx.lifecycle = [runtime   : "androidx.lifecycle:lifecycle-runtime:$lifecycleVersion",
                           extensions: "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion",
-                          livedata  : "androidx.lifecycle:lifecycle-livedata:$lifecycleVersion",
+                          livedata  : "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion",
                           viewmodel : "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion",]
 
     def roomVersion = '2.1.0-alpha03'
