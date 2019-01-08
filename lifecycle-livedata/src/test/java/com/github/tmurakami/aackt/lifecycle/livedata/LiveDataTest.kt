@@ -21,6 +21,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.github.tmurakami.aackt.lifecycle.liveData
+import com.github.tmurakami.aackt.lifecycle.mutableLiveData
 import com.github.tmurakami.aackt.lifecycle.observe
 import com.github.tmurakami.aackt.lifecycle.observeChanges
 import org.junit.Rule
@@ -39,7 +40,7 @@ class LiveDataTest {
 
     @Test
     fun observe() {
-        val data = MutableLiveData<Int>().apply { value = -1 }
+        val data = mutableLiveData(-1)
         val results = ArrayList<Int>()
         val observation = data.observe { results += it }
         assertTrue(results.isNotEmpty())
@@ -66,7 +67,7 @@ class LiveDataTest {
 
     @Test
     fun observeChanges() {
-        val data = MutableLiveData<Int>().apply { value = -1 }
+        val data = mutableLiveData(-1)
         val results = ArrayList<Int>()
         val observation = data.observeChanges { results += it }
         assertTrue(results.isEmpty())
@@ -103,7 +104,7 @@ class LiveDataTest {
     @Test
     fun observe_LifecycleOwner() {
         val owner = TestLifecycleOwner()
-        val data = MutableLiveData<Int>().apply { value = -1 }
+        val data = mutableLiveData(-1)
         val results = ArrayList<Int>()
         data.observe(owner) { results += it }
         owner.lifecycle.markState(Lifecycle.State.RESUMED)
@@ -137,7 +138,7 @@ class LiveDataTest {
     @Test
     fun observeChanges_LifecycleOwner() {
         val owner = TestLifecycleOwner()
-        val data = MutableLiveData<Int>().apply { value = -1 }
+        val data = mutableLiveData(-1)
         val results = ArrayList<Int>()
         data.observeChanges(owner) { results += it }
         owner.lifecycle.markState(Lifecycle.State.RESUMED)

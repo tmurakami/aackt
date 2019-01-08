@@ -25,5 +25,4 @@ import androidx.lifecycle.MutableLiveData
  * Creates a [MutableLiveData] whose value is the given [value].
  */
 @MainThread
-inline fun <T> mutableLiveData(value: T): MutableLiveData<T> =
-    MutableLiveData<T>().also { it.value = value }
+inline fun <T> mutableLiveData(value: T): MutableLiveData<T> = MutableLiveData(value)
