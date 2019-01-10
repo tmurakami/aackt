@@ -25,6 +25,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 
 /**
+ * Creates a [ViewModelProvider] that uses [ViewModelProvider.AndroidViewModelFactory] to
+ * instantiate new ViewModels.
+ */
+@MainThread
+inline fun Fragment.createViewModelProvider(): ViewModelProvider = ViewModelProviders.of(this)
+
+/**
  * Creates a [ViewModelProvider] that uses the given [factory] to instantiate new ViewModels.
  *
  * If the [factory] is null then [ViewModelProvider.AndroidViewModelFactory] will be used.
@@ -33,6 +40,14 @@ import androidx.lifecycle.ViewModelProviders
 inline fun Fragment.createViewModelProvider(
     factory: ViewModelProvider.Factory? = null
 ): ViewModelProvider = ViewModelProviders.of(this, factory)
+
+/**
+ * Creates a [ViewModelProvider] that uses [ViewModelProvider.AndroidViewModelFactory] to
+ * instantiate new ViewModels.
+ */
+@MainThread
+inline fun FragmentActivity.createViewModelProvider(): ViewModelProvider =
+    ViewModelProviders.of(this)
 
 /**
  * Creates a [ViewModelProvider] that uses the given [factory] to instantiate new ViewModels.
