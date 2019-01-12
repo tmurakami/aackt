@@ -46,7 +46,7 @@ val owner = object : LifecycleOwner {
 }
 
 // Create a LiveData with a value
-val data = MutableLiveData<Int>().apply { value = -1 }
+val data = MutableLiveData(-1)
 
 val received = ArrayList<Int>()
 
