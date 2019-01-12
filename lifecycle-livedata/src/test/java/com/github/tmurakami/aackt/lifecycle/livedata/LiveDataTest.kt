@@ -20,8 +20,6 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import com.github.tmurakami.aackt.lifecycle.liveData
-import com.github.tmurakami.aackt.lifecycle.mutableLiveData
 import com.github.tmurakami.aackt.lifecycle.observe
 import com.github.tmurakami.aackt.lifecycle.observeChanges
 import org.junit.Rule
@@ -36,11 +34,8 @@ class LiveDataTest {
     val instantTaskExecutorRule: InstantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Test
-    fun liveData() = assertSame(0, liveData(0).value)
-
-    @Test
     fun observe() {
-        val data = mutableLiveData(-1)
+        val data = MutableLiveData(-1)
         val results = ArrayList<Int>()
         val observation = data.observe { results += it }
         assertTrue(results.isNotEmpty())
@@ -67,7 +62,7 @@ class LiveDataTest {
 
     @Test
     fun observeChanges() {
-        val data = mutableLiveData(-1)
+        val data = MutableLiveData(-1)
         val results = ArrayList<Int>()
         val observation = data.observeChanges { results += it }
         assertTrue(results.isEmpty())
@@ -94,7 +89,7 @@ class LiveDataTest {
 
     @Test
     fun observeChanges_observe_MediatorLiveData() {
-        val data = MediatorLiveData<Int>().apply { addSource(liveData(-1)) { value = it } }
+        val data = MediatorLiveData<Int>().apply { addSource(MutableLiveData(-1)) { value = it } }
         data.value = 0
         val results = ArrayList<Int>()
         data.observeChanges { results += it }
@@ -104,7 +99,7 @@ class LiveDataTest {
     @Test
     fun observe_LifecycleOwner() {
         val owner = TestLifecycleOwner()
-        val data = mutableLiveData(-1)
+        val data = MutableLiveData(-1)
         val results = ArrayList<Int>()
         data.observe(owner) { results += it }
         owner.lifecycle.markState(Lifecycle.State.RESUMED)
@@ -138,7 +133,7 @@ class LiveDataTest {
     @Test
     fun observeChanges_LifecycleOwner() {
         val owner = TestLifecycleOwner()
-        val data = mutableLiveData(-1)
+        val data = MutableLiveData(-1)
         val results = ArrayList<Int>()
         data.observeChanges(owner) { results += it }
         owner.lifecycle.markState(Lifecycle.State.RESUMED)
@@ -172,7 +167,7 @@ class LiveDataTest {
     @Test
     fun observeChanges_LifecycleOwner_observe_MediatorLiveData() {
         val owner = TestLifecycleOwner()
-        val data = MediatorLiveData<Int>().apply { addSource(liveData(-1)) { value = it } }
+        val data = MediatorLiveData<Int>().apply { addSource(MutableLiveData(-1)) { value = it } }
         data.value = 0
         val results = ArrayList<Int>()
         data.observeChanges(owner) { results += it }

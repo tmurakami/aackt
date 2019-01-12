@@ -34,7 +34,6 @@ import com.github.tmurakami.aackt.lifecycle.filterNot
 import com.github.tmurakami.aackt.lifecycle.filterNotNull
 import com.github.tmurakami.aackt.lifecycle.map
 import com.github.tmurakami.aackt.lifecycle.mapNotNull
-import com.github.tmurakami.aackt.lifecycle.mutableLiveData
 import com.github.tmurakami.aackt.lifecycle.plus
 import com.github.tmurakami.aackt.lifecycle.switchMap
 import com.github.tmurakami.aackt.lifecycle.take
@@ -75,7 +74,7 @@ class TransformationsTest {
     fun switchMap() {
         val actual = mutableListOf<Int>()
         val data = MutableLiveData<Int>()
-        data.switchMap { mutableLiveData(it * it) }.observeForever { actual += it }
+        data.switchMap { MutableLiveData(it * it) }.observeForever { actual += it }
         (1..5).forEach { data.value = it }
         assertEquals(listOf(1, 4, 9, 16, 25), actual)
     }

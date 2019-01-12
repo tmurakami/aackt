@@ -22,9 +22,13 @@ import androidx.annotation.MainThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 
-/**
- * Creates a [MediatorLiveData] whose value is the given [value].
- */
+@Deprecated(
+    "",
+    ReplaceWith(
+        "MediatorLiveData<T>().also { it.value = value }",
+        "androidx.lifecycle.MediatorLiveData"
+    )
+)
 @MainThread
 inline fun <T> mediatorLiveData(value: T): MediatorLiveData<T> =
     MediatorLiveData<T>().also { it.value = value }

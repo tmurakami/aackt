@@ -21,15 +21,14 @@ package com.github.tmurakami.aackt.lifecycle
 import androidx.annotation.MainThread
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.version
 
-/**
- * Creates a [LiveData] whose value is the given [value].
- */
+@Deprecated("", ReplaceWith("MutableLiveData(value)", "androidx.lifecycle.MutableLiveData"))
 @MainThread
 inline fun <T> liveData(value: T): LiveData<T> {
     // To save methods count, we prefer MutableLiveData rather than `object : LiveData<T>() {}`.
-    return mutableLiveData(value)
+    return MutableLiveData(value)
 }
 
 /**
