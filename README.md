@@ -95,8 +95,8 @@ Add the following to your `build.gradle`:
 ```groovy
 repositories {
     google()
-    jcenter()
     maven { url 'https://jitpack.io' }
+    jcenter()
 }
 
 dependencies {
