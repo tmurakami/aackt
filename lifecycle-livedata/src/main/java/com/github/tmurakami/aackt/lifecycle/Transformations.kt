@@ -150,7 +150,7 @@ fun <T : Any> LiveData<T?>.filterNotNull(): LiveData<T> = filter { it != null } 
 /**
  * Returns a [LiveData] that emits only values of the given type [R].
  *
- * If [R] is a nullable type then null will be notified otherwise null will be dropped.
+ * If [R] is a nullable type then null will be emitted otherwise null will be dropped.
  *
  * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.filterIsInstance
  */
