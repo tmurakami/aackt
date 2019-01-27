@@ -89,9 +89,28 @@ class TransformationsTest {
     }
 
     @Test
+    fun doOnActive_Runnable() {
+        var active = false
+        val data = MutableLiveData<Unit>().doOnActive(Runnable { active = true })
+        assertFalse(active)
+        data.observeForever { }
+        assertTrue(active)
+    }
+
+    @Test
     fun doOnInactive() {
         var inactive = false
         val data = MutableLiveData<Unit>().doOnInactive { inactive = true }
+        val observer = Observer<Unit> { }.also { data.observeForever(it) }
+        assertFalse(inactive)
+        data.removeObserver(observer)
+        assertTrue(inactive)
+    }
+
+    @Test
+    fun doOnInactive_Runnable() {
+        var inactive = false
+        val data = MutableLiveData<Unit>().doOnInactive(Runnable { inactive = true })
         val observer = Observer<Unit> { }.also { data.observeForever(it) }
         assertFalse(inactive)
         data.removeObserver(observer)

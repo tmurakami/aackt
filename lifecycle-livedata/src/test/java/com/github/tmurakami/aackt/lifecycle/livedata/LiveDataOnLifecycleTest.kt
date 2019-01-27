@@ -32,7 +32,7 @@ class LiveDataOnLifecycleTest {
     fun onActive() {
         val data = LiveDataOnLifecycle(MutableLiveData<Unit>())
         var count = 0
-        repeat(3) { data.onActiveListeners += { count++ } }
+        repeat(3) { data.onActiveListeners += Runnable { count++ } }
         assertEquals(0, count)
         data.observeForever { }
         assertEquals(3, count)
@@ -51,7 +51,7 @@ class LiveDataOnLifecycleTest {
     fun onInactive() {
         val data = LiveDataOnLifecycle(MutableLiveData<Unit>())
         var count = 0
-        repeat(3) { data.onInactiveListeners += { count++ } }
+        repeat(3) { data.onInactiveListeners += Runnable { count++ } }
         val observer = Observer<Unit> {}.also { data.observeForever(it) }
         assertEquals(0, count)
         data.removeObserver(observer)
