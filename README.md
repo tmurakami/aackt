@@ -21,7 +21,7 @@ val received = ArrayList<Int>()
 
 data.filterIsInstance<Int>() // Filter out non-int values
     .dropWhile { it < 3 } // Drop values less than 3
-    .observe(owner) { received += it }
+    .subscribe(owner) { received += it }
 
 owner.registry.markState(Lifecycle.State.RESUMED)
 
@@ -35,9 +35,9 @@ data.value = 4
 assertEquals(listOf(3, 4), received)
 ```
 
-If a LiveData already has a value, the observer added via `observe` will
-receive that value first. If you would not like to receive it, you can
-use `observeChanges` to receive only updated values.
+If a LiveData already has a value, the observer added via `subscribe`
+will receive that value first. If you would not like to receive it, you
+can use `subscribeChanges` to receive only updated values.
 
 ```kotlin
 val owner = object : LifecycleOwner {
@@ -51,14 +51,14 @@ val data = MutableLiveData(-1)
 val received = ArrayList<Int>()
 
 // Add an observer to receive only updated values
-data.observeChanges(owner) { received += it }
+data.subscribeChanges(owner) { received += it }
 data.value = 0
 
 owner.registry.markState(Lifecycle.State.RESUMED)
 
 data.value = 1
 
-assertEquals(listOf(0, 1), received)
+assertEquals(listOf(0, 1), received) // `-1` won't be received.
 ```
 
 ## ViewModel
