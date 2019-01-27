@@ -14,12 +14,19 @@
  * limitations under the License.
  */
 
-package com.github.tmurakami.aackt.lifecycle
+package androidx.lifecycle
 
-import androidx.annotation.MainThread
+import com.github.tmurakami.aackt.lifecycle.Subscription
 
-@Deprecated("")
-interface Observation {
-    @MainThread
-    fun dispose()
+internal class ChangesOnlySubscriptionImpl<T>(
+    private val data: LiveData<T>,
+    private val observer: Observer<T>
+) : Subscription, Observer<T> {
+    private val startVersion = data.version
+
+    override fun onChanged(t: T) {
+        if (data.version > startVersion) observer.onChanged(t)
+    }
+
+    override fun unsubscribe() = data.removeObserver(this)
 }

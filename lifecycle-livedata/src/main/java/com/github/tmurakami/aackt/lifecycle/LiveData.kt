@@ -19,10 +19,11 @@
 package com.github.tmurakami.aackt.lifecycle
 
 import androidx.annotation.MainThread
+import androidx.lifecycle.ChangesOnlySubscriptionImpl
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.version
+import androidx.lifecycle.Observer
 
 @Deprecated("", ReplaceWith("MutableLiveData(value)", "androidx.lifecycle.MutableLiveData"))
 @MainThread
@@ -31,52 +32,128 @@ inline fun <T> liveData(value: T): LiveData<T> {
     return MutableLiveData(value)
 }
 
-/**
- * Adds the given [observer] callback to the receiver. If the receiver already has a value, it will
- * be notified to the callback.
- *
- * To stop observing the receiver, you will need to call [Observation.dispose] with the resulting
- * [Observation] of this extension.
- */
+@Suppress("DEPRECATION")
+@Deprecated("", ReplaceWith("subscribe(observer)"))
 @MainThread
-fun <T> LiveData<T>.observe(observer: (T) -> Unit): Observation =
-    ObservationImpl(this, observer).also { observeForever(it) }
+inline fun <T> LiveData<T>.observe(crossinline observer: (T) -> Unit): Observation =
+    subscribe(observer)
 
 /**
- * Adds the given [onChanged] callback to the receiver. Unlike [observe] extension, the callback
- * will only receive updated values after calling this extension.
+ * Adds the given [onChanged] callback to the receiver. If the receiver already has a value, it will
+ * be delivered to the callback.
  *
- * To stop observing the receiver, you will need to call [Observation.dispose] with the resulting
- * [Observation] of this extension.
+ * To unsubscribe from the receiver, you should manually call [Subscription.unsubscribe] with the
+ * resulting [Subscription].
  */
-// TODO https://issuetracker.google.com/issues/94056118
 @MainThread
-fun <T> LiveData<T>.observeChanges(onChanged: (T) -> Unit): Observation {
-    val startVersion = version
-    return observe { if (version > startVersion) onChanged(it) }
-}
+inline fun <T> LiveData<T>.subscribe(crossinline onChanged: (T) -> Unit): Subscription =
+    subscribe(Observer { onChanged(it) })
 
 /**
  * Adds the given [observer] callback to the receiver. If the receiver already has a value, it will
- * be notified to the callback.
+ * be delivered to the callback.
  *
- * The callback will receive values only while the given [owner] is active. You can manually stop
- * observing by calling [Observation.dispose] with the resulting [Observation] of this extension.
+ * To unsubscribe from the receiver, you should manually call [Subscription.unsubscribe] with the
+ * resulting [Subscription].
  */
 @MainThread
-fun <T> LiveData<T>.observe(owner: LifecycleOwner, observer: (T) -> Unit): Observation =
-    ObservationImpl(this, observer).also { observe(owner, it) }
+fun <T> LiveData<T>.subscribe(observer: Observer<T>): Subscription =
+    SubscriptionImpl(this, observer).also { observeForever(observer) }
+
+@Suppress("DEPRECATION")
+@Deprecated("", ReplaceWith("subscribeChanges(onChanged)"))
+@MainThread
+inline fun <T> LiveData<T>.observeChanges(crossinline onChanged: (T) -> Unit): Observation =
+    subscribeChanges(onChanged)
 
 /**
- * Adds the given [onChanged] callback to the receiver. Unlike [observe] extension, the callback
- * will only receive updated values after calling this extension.
+ * Adds the given [onChanged] callback to the receiver. Unlike [subscribe] extension, the cached
+ * value won't be delivered to the callback.
  *
- * The callback will receive values only while the given [owner] is active. You can manually stop
- * observing by calling [Observation.dispose] with the resulting [Observation] of this extension.
+ * To unsubscribe from the receiver, you should manually call [Subscription.unsubscribe] with the
+ * resulting [Subscription].
  */
 // TODO https://issuetracker.google.com/issues/94056118
 @MainThread
-fun <T> LiveData<T>.observeChanges(owner: LifecycleOwner, onChanged: (T) -> Unit): Observation {
-    val startVersion = version
-    return observe(owner) { if (version > startVersion) onChanged(it) }
-}
+inline fun <T> LiveData<T>.subscribeChanges(crossinline onChanged: (T) -> Unit): Subscription =
+    subscribeChanges(Observer { onChanged(it) })
+
+/**
+ * Adds the given [observer] callback to the receiver. Unlike [subscribe] extension, the cached
+ * value won't be delivered to the callback.
+ *
+ * To unsubscribe from the receiver, you should manually call [Subscription.unsubscribe] with the
+ * resulting [Subscription].
+ */
+// TODO https://issuetracker.google.com/issues/94056118
+@MainThread
+fun <T> LiveData<T>.subscribeChanges(observer: Observer<T>): Subscription =
+    ChangesOnlySubscriptionImpl(this, observer).also { observeForever(it) }
+
+@Suppress("DEPRECATION")
+@Deprecated("", ReplaceWith("subscribe(owner, observer)"))
+@MainThread
+inline fun <T> LiveData<T>.observe(
+    owner: LifecycleOwner,
+    crossinline observer: (T) -> Unit
+): Observation = subscribe(owner, observer)
+
+/**
+ * Adds the given [onChanged] callback to the receiver. If the receiver already has a value, it will
+ * be delivered to the callback.
+ *
+ * The callback will receive values only while the given [owner] is active. You can manually
+ * unsubscribe by calling [Subscription.unsubscribe] with the resulting [Subscription].
+ */
+@MainThread
+inline fun <T> LiveData<T>.subscribe(
+    owner: LifecycleOwner,
+    crossinline onChanged: (T) -> Unit
+): Subscription = subscribe(owner, Observer { onChanged(it) })
+
+/**
+ * Adds the given [observer] callback to the receiver. If the receiver already has a value, it will
+ * be delivered to the callback.
+ *
+ * The callback will receive values only while the given [owner] is active. You can manually
+ * unsubscribe by calling [Subscription.unsubscribe] with the resulting [Subscription].
+ */
+@MainThread
+fun <T> LiveData<T>.subscribe(owner: LifecycleOwner, observer: Observer<T>): Subscription =
+    SubscriptionImpl(this, observer).also { observe(owner, observer) }
+
+@Suppress("DEPRECATION")
+@Deprecated("", ReplaceWith("subscribeChanges(owner, onChanged)"))
+@MainThread
+inline fun <T> LiveData<T>.observeChanges(
+    owner: LifecycleOwner,
+    crossinline onChanged: (T) -> Unit
+): Observation = subscribeChanges(owner, onChanged)
+
+/**
+ * Adds the given [onChanged] callback to the receiver. Unlike [subscribe] extension, the cached
+ * value won't be delivered to the callback.
+ *
+ * The callback will receive values only while the given [owner] is active. You can manually
+ * unsubscribe by calling [Subscription.unsubscribe] with the resulting [Subscription].
+ */
+// TODO https://issuetracker.google.com/issues/94056118
+@MainThread
+inline fun <T> LiveData<T>.subscribeChanges(
+    owner: LifecycleOwner,
+    crossinline onChanged: (T) -> Unit
+): Subscription = subscribeChanges(owner, Observer { onChanged(it) })
+
+/**
+ * Adds the given [observer] callback to the receiver. Unlike [subscribe] extension, the cached
+ * value won't be delivered to the callback.
+ *
+ * The callback will receive values only while the given [owner] is active. You can manually
+ * unsubscribe by calling [Subscription.unsubscribe] with the resulting [Subscription].
+ */
+// TODO https://issuetracker.google.com/issues/94056118
+@MainThread
+fun <T> LiveData<T>.subscribeChanges(
+    owner: LifecycleOwner,
+    observer: Observer<T>
+): Subscription = ChangesOnlySubscriptionImpl(this, observer).also { observe(owner, it) }

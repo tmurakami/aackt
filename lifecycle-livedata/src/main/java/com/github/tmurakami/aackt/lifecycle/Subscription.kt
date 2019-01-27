@@ -14,13 +14,30 @@
  * limitations under the License.
  */
 
-// TODO https://issuetracker.google.com/issues/94056118
-@file:Suppress("ConflictingExtensionProperty")
-
-package androidx.lifecycle
+package com.github.tmurakami.aackt.lifecycle
 
 import androidx.annotation.MainThread
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 
-@get:MainThread
-internal val LiveData<*>.version: Int
-    get() = version
+/**
+ * An interface representing a subscription to a [LiveData].
+ */
+@Suppress("DEPRECATION")
+interface Subscription : Observation {
+    /**
+     * Unsubscribe from the target [LiveData].
+     */
+    @MainThread
+    fun unsubscribe()
+
+    @Deprecated("", ReplaceWith("unsubscribe()"))
+    override fun dispose() = unsubscribe()
+}
+
+internal class SubscriptionImpl<T>(
+    private val data: LiveData<T>,
+    private val observer: Observer<T>
+) : Subscription {
+    override fun unsubscribe() = data.removeObserver(observer)
+}
