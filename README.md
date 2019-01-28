@@ -5,7 +5,8 @@
 ![Kotlin](https://img.shields.io/badge/Kotlin-1.3.20%2B-blue.svg)
 ![Android](https://img.shields.io/badge/Android-4.0%2B-blue.svg)
 
-A Kotlin library for [Android Architecture Components](https://developer.android.com/topic/libraries/architecture/).
+A Kotlin library for
+[Android Architecture Components](https://developer.android.com/topic/libraries/architecture/).
 
 ## LiveData
 
