@@ -16,10 +16,13 @@
 
 package com.github.tmurakami.aackt.lifecycle.livedata
 
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 
 class TestLifecycleOwner : LifecycleOwner {
     private val registry = LifecycleRegistry(this)
-    override fun getLifecycle(): LifecycleRegistry = registry
+    override fun getLifecycle(): Lifecycle = registry
+    fun start() = registry.handleLifecycleEvent(Lifecycle.Event.ON_START)
+    fun stop() = registry.handleLifecycleEvent(Lifecycle.Event.ON_STOP)
 }

@@ -17,7 +17,6 @@
 package com.github.tmurakami.aackt.lifecycle.livedata
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -40,22 +39,22 @@ class LiveDataTest {
         val results = ArrayList<Int>()
         val subscription = data.subscribe { results += it }
         assertTrue(results.isNotEmpty())
-        data.value = 0
+        repeat(3) { data.value = it }
         subscription.unsubscribe()
-        data.value = 1
-        assertEquals(listOf(-1, 0), results)
+        data.value = 3
+        assertEquals(listOf(-1, 0, 1, 2), results)
     }
 
     @Test
     fun subscribe_unsubscribe() {
         val data = MutableLiveData<Unit>()
         val subscription = data.subscribe { }
-        with(data) {
+        data.run {
             assertTrue(hasObservers())
             assertTrue(hasActiveObservers())
         }
         subscription.unsubscribe()
-        with(data) {
+        data.run {
             assertFalse(hasObservers())
             assertFalse(hasActiveObservers())
         }
@@ -67,22 +66,22 @@ class LiveDataTest {
         val results = ArrayList<Int>()
         val subscription = data.subscribe(Observer { results += it })
         assertTrue(results.isNotEmpty())
-        data.value = 0
+        repeat(3) { data.value = it }
         subscription.unsubscribe()
-        data.value = 1
-        assertEquals(listOf(-1, 0), results)
+        data.value = 3
+        assertEquals(listOf(-1, 0, 1, 2), results)
     }
 
     @Test
     fun subscribe_Observer_unsubscribe() {
         val data = MutableLiveData<Unit>()
         val subscription = data.subscribe(Observer { })
-        with(data) {
+        data.run {
             assertTrue(hasObservers())
             assertTrue(hasActiveObservers())
         }
         subscription.unsubscribe()
-        with(data) {
+        data.run {
             assertFalse(hasObservers())
             assertFalse(hasActiveObservers())
         }
@@ -94,22 +93,22 @@ class LiveDataTest {
         val results = ArrayList<Int>()
         val subscription = data.subscribeChanges { results += it }
         assertTrue(results.isEmpty())
-        data.value = 0
+        repeat(3) { data.value = it }
         subscription.unsubscribe()
-        data.value = 1
-        assertEquals(listOf(0), results)
+        data.value = 3
+        assertEquals(listOf(0, 1, 2), results)
     }
 
     @Test
     fun subscribeChanges_unsubscribe() {
         val data = MutableLiveData<Unit>()
         val subscription = data.subscribeChanges { }
-        with(data) {
+        data.run {
             assertTrue(hasObservers())
             assertTrue(hasActiveObservers())
         }
         subscription.unsubscribe()
-        with(data) {
+        data.run {
             assertFalse(hasObservers())
             assertFalse(hasActiveObservers())
         }
@@ -130,22 +129,22 @@ class LiveDataTest {
         val results = ArrayList<Int>()
         val subscription = data.subscribeChanges(Observer { results += it })
         assertTrue(results.isEmpty())
-        data.value = 0
+        repeat(3) { data.value = it }
         subscription.unsubscribe()
-        data.value = 1
-        assertEquals(listOf(0), results)
+        data.value = 3
+        assertEquals(listOf(0, 1, 2), results)
     }
 
     @Test
     fun subscribeChanges_Observer_unsubscribe() {
         val data = MutableLiveData<Unit>()
         val subscription = data.subscribeChanges(Observer { })
-        with(data) {
+        data.run {
             assertTrue(hasObservers())
             assertTrue(hasActiveObservers())
         }
         subscription.unsubscribe()
-        with(data) {
+        data.run {
             assertFalse(hasObservers())
             assertFalse(hasActiveObservers())
         }
@@ -166,12 +165,12 @@ class LiveDataTest {
         val data = MutableLiveData(-1)
         val results = ArrayList<Int>()
         data.subscribe(owner) { results += it }
-        owner.lifecycle.markState(Lifecycle.State.RESUMED)
+        owner.start()
         assertTrue(results.isNotEmpty())
-        data.value = 0
-        owner.lifecycle.markState(Lifecycle.State.DESTROYED)
-        data.value = 1
-        assertEquals(listOf(-1, 0), results)
+        repeat(3) { data.value = it }
+        owner.stop()
+        data.value = 3
+        assertEquals(listOf(-1, 0, 1, 2), results)
     }
 
     @Test
@@ -179,16 +178,16 @@ class LiveDataTest {
         val owner = TestLifecycleOwner()
         val data = MutableLiveData<Unit>()
         val subscription = data.subscribe(owner) { }
-        with(data) {
+        data.run {
             assertTrue(hasObservers())
             assertFalse(hasActiveObservers())
         }
-        owner.lifecycle.markState(Lifecycle.State.RESUMED)
-        with(data) {
+        owner.start()
+        data.run {
             assertTrue(hasActiveObservers())
         }
         subscription.unsubscribe()
-        with(data) {
+        data.run {
             assertFalse(hasObservers())
             assertFalse(hasActiveObservers())
         }
@@ -200,12 +199,12 @@ class LiveDataTest {
         val data = MutableLiveData(-1)
         val results = ArrayList<Int>()
         data.subscribe(owner, Observer { results += it })
-        owner.lifecycle.markState(Lifecycle.State.RESUMED)
+        owner.start()
         assertTrue(results.isNotEmpty())
-        data.value = 0
-        owner.lifecycle.markState(Lifecycle.State.DESTROYED)
-        data.value = 1
-        assertEquals(listOf(-1, 0), results)
+        repeat(3) { data.value = it }
+        owner.stop()
+        data.value = 3
+        assertEquals(listOf(-1, 0, 1, 2), results)
     }
 
     @Test
@@ -213,16 +212,16 @@ class LiveDataTest {
         val owner = TestLifecycleOwner()
         val data = MutableLiveData<Unit>()
         val subscription = data.subscribe(owner, Observer { })
-        with(data) {
+        data.run {
             assertTrue(hasObservers())
             assertFalse(hasActiveObservers())
         }
-        owner.lifecycle.markState(Lifecycle.State.RESUMED)
-        with(data) {
+        owner.start()
+        data.run {
             assertTrue(hasActiveObservers())
         }
         subscription.unsubscribe()
-        with(data) {
+        data.run {
             assertFalse(hasObservers())
             assertFalse(hasActiveObservers())
         }
@@ -234,12 +233,12 @@ class LiveDataTest {
         val data = MutableLiveData(-1)
         val results = ArrayList<Int>()
         data.subscribeChanges(owner) { results += it }
-        owner.lifecycle.markState(Lifecycle.State.RESUMED)
+        owner.start()
         assertTrue(results.isEmpty())
-        data.value = 0
-        owner.lifecycle.markState(Lifecycle.State.DESTROYED)
-        data.value = 1
-        assertEquals(listOf(0), results)
+        repeat(3) { data.value = it }
+        owner.stop()
+        data.value = 3
+        assertEquals(listOf(0, 1, 2), results)
     }
 
     @Test
@@ -247,16 +246,16 @@ class LiveDataTest {
         val owner = TestLifecycleOwner()
         val data = MutableLiveData<Unit>()
         val subscription = data.subscribeChanges(owner) { }
-        with(data) {
+        data.run {
             assertTrue(hasObservers())
             assertFalse(hasActiveObservers())
         }
-        owner.lifecycle.markState(Lifecycle.State.RESUMED)
-        with(data) {
+        owner.start()
+        data.run {
             assertTrue(hasActiveObservers())
         }
         subscription.unsubscribe()
-        with(data) {
+        data.run {
             assertFalse(hasObservers())
             assertFalse(hasActiveObservers())
         }
@@ -269,7 +268,7 @@ class LiveDataTest {
         data.value = 0
         val results = ArrayList<Int>()
         data.subscribeChanges(owner) { results += it }
-        owner.lifecycle.markState(Lifecycle.State.RESUMED)
+        owner.start()
         assertSame(-1, results.single())
     }
 
@@ -279,12 +278,12 @@ class LiveDataTest {
         val data = MutableLiveData(-1)
         val results = ArrayList<Int>()
         data.subscribeChanges(owner, Observer { results += it })
-        owner.lifecycle.markState(Lifecycle.State.RESUMED)
+        owner.start()
         assertTrue(results.isEmpty())
-        data.value = 0
-        owner.lifecycle.markState(Lifecycle.State.DESTROYED)
-        data.value = 1
-        assertEquals(listOf(0), results)
+        repeat(3) { data.value = it }
+        owner.stop()
+        data.value = 3
+        assertEquals(listOf(0, 1, 2), results)
     }
 
     @Test
@@ -292,16 +291,16 @@ class LiveDataTest {
         val owner = TestLifecycleOwner()
         val data = MutableLiveData<Unit>()
         val subscription = data.subscribeChanges(owner, Observer { })
-        with(data) {
+        data.run {
             assertTrue(hasObservers())
             assertFalse(hasActiveObservers())
         }
-        owner.lifecycle.markState(Lifecycle.State.RESUMED)
-        with(data) {
+        owner.start()
+        data.run {
             assertTrue(hasActiveObservers())
         }
         subscription.unsubscribe()
-        with(data) {
+        data.run {
             assertFalse(hasObservers())
             assertFalse(hasActiveObservers())
         }
@@ -314,7 +313,7 @@ class LiveDataTest {
         data.value = 0
         val results = ArrayList<Int>()
         data.subscribeChanges(owner, Observer { results += it })
-        owner.lifecycle.markState(Lifecycle.State.RESUMED)
+        owner.start()
         assertSame(-1, results.single())
     }
 }
