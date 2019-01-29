@@ -205,7 +205,7 @@ fun <T> LiveData<T>.distinctUntilChanged(): LiveData<T> = distinctUntilChangedBy
 inline fun <T, K> LiveData<T>.distinctUntilChangedBy(crossinline selector: (T) -> K): LiveData<T> {
     val result = MediatorLiveData<T>()
     result.addSource(this, object : Observer<T> {
-        private var lastKey: Any? = this // Not set
+        private var lastKey: Any? = /* NOT_SET */ this
         override fun onChanged(t: T) {
             val key = selector(t)
             if (key != lastKey) result.value = t
@@ -445,12 +445,11 @@ fun <T> LiveData<T>.zipWithNext(): LiveData<Pair<T, T>> = zipWithNext { a, b -> 
 inline fun <T, R> LiveData<T>.zipWithNext(crossinline transform: (a: T, b: T) -> R): LiveData<R> {
     val result = MediatorLiveData<R>()
     result.addSource(this, object : Observer<T> {
-        private var lastValue: Any? = this // Not set
+        private var lastValue: Any? = /* NOT_SET */ this
         override fun onChanged(t: T) {
             val lastValue = lastValue.apply { lastValue = t }
-            val notSet: Any = this // Avoid unnecessary CHECKCAST
             @Suppress("UNCHECKED_CAST")
-            if (lastValue !== notSet) result.value = transform(lastValue as T, t)
+            if (lastValue !== /* NOT_SET */ this) result.value = transform(lastValue as T, t)
         }
     })
     return result

@@ -57,8 +57,8 @@ class TransformationsTest {
         val actual = mutableListOf<Int>()
         val data = MutableLiveData<Int>()
         data.map { it * it }.observeForever { actual += it }
-        (1..5).forEach { data.value = it }
-        assertEquals(listOf(1, 4, 9, 16, 25), actual)
+        repeat(5) { data.value = it }
+        assertEquals(listOf(0, 1, 4, 9, 16), actual)
     }
 
     @Test
@@ -66,8 +66,8 @@ class TransformationsTest {
         val actual = mutableListOf<Int>()
         val data = MutableLiveData<Int>()
         data.mapNotNull { if (it % 2 == 0) null else it }.observeForever { actual += it }
-        (1..5).forEach { data.value = it }
-        assertEquals(listOf(1, 3, 5), actual)
+        repeat(5) { data.value = it }
+        assertEquals(listOf(1, 3), actual)
     }
 
     @Test
@@ -75,8 +75,8 @@ class TransformationsTest {
         val actual = mutableListOf<Int>()
         val data = MutableLiveData<Int>()
         data.switchMap { MutableLiveData(it * it) }.observeForever { actual += it }
-        (1..5).forEach { data.value = it }
-        assertEquals(listOf(1, 4, 9, 16, 25), actual)
+        repeat(5) { data.value = it }
+        assertEquals(listOf(0, 1, 4, 9, 16), actual)
     }
 
     @Test
@@ -308,8 +308,8 @@ class TransformationsTest {
     fun drop() {
         val actual = mutableListOf<Int>()
         val data = MutableLiveData<Int>()
-        data.drop(2).observeForever { actual += it }
-        (1..4).forEach { data.value = it }
+        data.drop(3).observeForever { actual += it }
+        repeat(5) { data.value = it }
         assertEquals(listOf(3, 4), actual)
     }
 
@@ -318,18 +318,18 @@ class TransformationsTest {
         val actual = mutableListOf<Int>()
         val data = MutableLiveData<Int>()
         data.dropWhile { it < 4 }.observeForever { actual += it }
-        (1..4).forEach { data.value = it }
-        (3 downTo 1).forEach { data.value = it }
-        assertEquals(listOf(4, 3, 2, 1), actual)
+        repeat(5) { data.value = it }
+        (3 downTo 0).forEach { data.value = it }
+        assertEquals(listOf(4, 3, 2, 1, 0), actual)
     }
 
     @Test
     fun take() {
         val actual = mutableListOf<Int>()
         val data = MutableLiveData<Int>()
-        data.take(2).observeForever { actual += it }
-        (1..4).forEach { data.value = it }
-        assertEquals(listOf(1, 2), actual)
+        data.take(3).observeForever { actual += it }
+        repeat(5) { data.value = it }
+        assertEquals(listOf(0, 1, 2), actual)
     }
 
     @Test
@@ -337,9 +337,9 @@ class TransformationsTest {
         val actual = mutableListOf<Int>()
         val data = MutableLiveData<Int>()
         data.takeWhile { it < 4 }.observeForever { actual += it }
-        (1..4).forEach { data.value = it }
-        (3 downTo 1).forEach { data.value = it }
-        assertEquals(listOf(1, 2, 3), actual)
+        repeat(5) { data.value = it }
+        (3 downTo 0).forEach { data.value = it }
+        assertEquals(listOf(0, 1, 2, 3), actual)
     }
 
     @Test
