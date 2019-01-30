@@ -52,9 +52,7 @@ class LiveDataTest {
         data.run {
             assertTrue(hasObservers())
             assertTrue(hasActiveObservers())
-        }
-        subscription.unsubscribe()
-        data.run {
+            subscription.unsubscribe()
             assertFalse(hasObservers())
             assertFalse(hasActiveObservers())
         }
@@ -79,9 +77,7 @@ class LiveDataTest {
         data.run {
             assertTrue(hasObservers())
             assertTrue(hasActiveObservers())
-        }
-        subscription.unsubscribe()
-        data.run {
+            subscription.unsubscribe()
             assertFalse(hasObservers())
             assertFalse(hasActiveObservers())
         }
@@ -106,9 +102,7 @@ class LiveDataTest {
         data.run {
             assertTrue(hasObservers())
             assertTrue(hasActiveObservers())
-        }
-        subscription.unsubscribe()
-        data.run {
+            subscription.unsubscribe()
             assertFalse(hasObservers())
             assertFalse(hasActiveObservers())
         }
@@ -142,9 +136,7 @@ class LiveDataTest {
         data.run {
             assertTrue(hasObservers())
             assertTrue(hasActiveObservers())
-        }
-        subscription.unsubscribe()
-        data.run {
+            subscription.unsubscribe()
             assertFalse(hasObservers())
             assertFalse(hasActiveObservers())
         }
@@ -165,10 +157,10 @@ class LiveDataTest {
         val data = MutableLiveData(-1)
         val results = ArrayList<Int>()
         data.subscribe(owner) { results += it }
-        owner.start()
-        assertTrue(results.isNotEmpty())
-        repeat(3) { data.value = it }
-        owner.stop()
+        owner.resume().use {
+            assertTrue(results.isNotEmpty())
+            repeat(3) { data.value = it }
+        }
         data.value = 3
         assertEquals(listOf(-1, 0, 1, 2), results)
     }
@@ -181,15 +173,12 @@ class LiveDataTest {
         data.run {
             assertTrue(hasObservers())
             assertFalse(hasActiveObservers())
-        }
-        owner.start()
-        data.run {
-            assertTrue(hasActiveObservers())
-        }
-        subscription.unsubscribe()
-        data.run {
-            assertFalse(hasObservers())
-            assertFalse(hasActiveObservers())
+            owner.resume().use {
+                assertTrue(hasActiveObservers())
+                subscription.unsubscribe()
+                assertFalse(hasObservers())
+                assertFalse(hasActiveObservers())
+            }
         }
     }
 
@@ -199,10 +188,10 @@ class LiveDataTest {
         val data = MutableLiveData(-1)
         val results = ArrayList<Int>()
         data.subscribe(owner, Observer { results += it })
-        owner.start()
-        assertTrue(results.isNotEmpty())
-        repeat(3) { data.value = it }
-        owner.stop()
+        owner.resume().use {
+            assertTrue(results.isNotEmpty())
+            repeat(3) { data.value = it }
+        }
         data.value = 3
         assertEquals(listOf(-1, 0, 1, 2), results)
     }
@@ -215,15 +204,12 @@ class LiveDataTest {
         data.run {
             assertTrue(hasObservers())
             assertFalse(hasActiveObservers())
-        }
-        owner.start()
-        data.run {
-            assertTrue(hasActiveObservers())
-        }
-        subscription.unsubscribe()
-        data.run {
-            assertFalse(hasObservers())
-            assertFalse(hasActiveObservers())
+            owner.resume().use {
+                assertTrue(hasActiveObservers())
+                subscription.unsubscribe()
+                assertFalse(hasObservers())
+                assertFalse(hasActiveObservers())
+            }
         }
     }
 
@@ -233,10 +219,10 @@ class LiveDataTest {
         val data = MutableLiveData(-1)
         val results = ArrayList<Int>()
         data.subscribeChanges(owner) { results += it }
-        owner.start()
-        assertTrue(results.isEmpty())
-        repeat(3) { data.value = it }
-        owner.stop()
+        owner.resume().use {
+            assertTrue(results.isEmpty())
+            repeat(3) { data.value = it }
+        }
         data.value = 3
         assertEquals(listOf(0, 1, 2), results)
     }
@@ -249,15 +235,12 @@ class LiveDataTest {
         data.run {
             assertTrue(hasObservers())
             assertFalse(hasActiveObservers())
-        }
-        owner.start()
-        data.run {
-            assertTrue(hasActiveObservers())
-        }
-        subscription.unsubscribe()
-        data.run {
-            assertFalse(hasObservers())
-            assertFalse(hasActiveObservers())
+            owner.resume().use {
+                assertTrue(hasActiveObservers())
+                subscription.unsubscribe()
+                assertFalse(hasObservers())
+                assertFalse(hasActiveObservers())
+            }
         }
     }
 
@@ -268,8 +251,7 @@ class LiveDataTest {
         data.value = 0
         val results = ArrayList<Int>()
         data.subscribeChanges(owner) { results += it }
-        owner.start()
-        assertSame(-1, results.single())
+        owner.resume().use { assertSame(-1, results.single()) }
     }
 
     @Test
@@ -278,10 +260,10 @@ class LiveDataTest {
         val data = MutableLiveData(-1)
         val results = ArrayList<Int>()
         data.subscribeChanges(owner, Observer { results += it })
-        owner.start()
-        assertTrue(results.isEmpty())
-        repeat(3) { data.value = it }
-        owner.stop()
+        owner.resume().use {
+            assertTrue(results.isEmpty())
+            repeat(3) { data.value = it }
+        }
         data.value = 3
         assertEquals(listOf(0, 1, 2), results)
     }
@@ -294,15 +276,12 @@ class LiveDataTest {
         data.run {
             assertTrue(hasObservers())
             assertFalse(hasActiveObservers())
-        }
-        owner.start()
-        data.run {
-            assertTrue(hasActiveObservers())
-        }
-        subscription.unsubscribe()
-        data.run {
-            assertFalse(hasObservers())
-            assertFalse(hasActiveObservers())
+            owner.resume().use {
+                assertTrue(hasActiveObservers())
+                subscription.unsubscribe()
+                assertFalse(hasObservers())
+                assertFalse(hasActiveObservers())
+            }
         }
     }
 
@@ -313,7 +292,6 @@ class LiveDataTest {
         data.value = 0
         val results = ArrayList<Int>()
         data.subscribeChanges(owner, Observer { results += it })
-        owner.start()
-        assertSame(-1, results.single())
+        owner.resume().use { assertSame(-1, results.single()) }
     }
 }
