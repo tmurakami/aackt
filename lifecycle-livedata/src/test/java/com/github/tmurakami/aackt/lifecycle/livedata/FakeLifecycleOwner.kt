@@ -21,12 +21,12 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import java.io.Closeable
 
-class TestLifecycleOwner : LifecycleOwner, Closeable {
+class FakeLifecycleOwner : LifecycleOwner, Closeable {
     private val registry = LifecycleRegistry(this)
 
     override fun getLifecycle(): Lifecycle = registry
 
-    fun resume(): TestLifecycleOwner = apply {
+    fun resume(): FakeLifecycleOwner = apply {
         val registry = registry
         check(registry.currentState != Lifecycle.State.DESTROYED) { "Already destroyed" }
         registry.markState(Lifecycle.State.RESUMED)
