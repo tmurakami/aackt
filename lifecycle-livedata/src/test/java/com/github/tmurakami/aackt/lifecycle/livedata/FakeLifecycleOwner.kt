@@ -29,7 +29,7 @@ class FakeLifecycleOwner : LifecycleOwner, Closeable {
     override fun getLifecycle(): Lifecycle = registry
 
     fun resume(): FakeLifecycleOwner = registry.run {
-        check(currentState != DESTROYED) { "Already destroyed" }
+        check(currentState > DESTROYED) { "Already destroyed" }
         currentState = RESUMED
         this@FakeLifecycleOwner
     }
