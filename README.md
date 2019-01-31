@@ -24,7 +24,7 @@ data.filterIsInstance<Int>() // Filter out non-int values
     .dropWhile { it < 3 } // Drop values less than 3
     .subscribe(owner) { received += it }
 
-owner.registry.markState(Lifecycle.State.RESUMED)
+owner.registry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
 
 data.value = 1
 data.value = 2
@@ -55,7 +55,7 @@ val received = ArrayList<Int>()
 data.subscribeChanges(owner) { received += it }
 data.value = 0
 
-owner.registry.markState(Lifecycle.State.RESUMED)
+owner.registry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
 
 data.value = 1
 
