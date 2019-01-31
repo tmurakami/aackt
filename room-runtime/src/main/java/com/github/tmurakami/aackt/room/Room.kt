@@ -20,16 +20,18 @@ import android.content.Context
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-/**
- * Creates a [RoomDatabase.Builder] for a persistent database of the given file [name].
- */
+@Deprecated(
+    "",
+    ReplaceWith("Room.databaseBuilder(this, T::class.java, name)", "androidx.room.Room")
+)
 inline fun <reified T : RoomDatabase> Context.databaseBuilder(
     name: String
 ): RoomDatabase.Builder<T> = Room.databaseBuilder(this, T::class.java, name)
 
-/**
- * Creates a [RoomDatabase.Builder] for an in-memory database.
- */
+@Deprecated(
+    "",
+    ReplaceWith("Room.inMemoryDatabaseBuilder(this, T::class.java)", "androidx.room.Room")
+)
 inline fun <reified T : RoomDatabase> Context.inMemoryDatabaseBuilder(): RoomDatabase.Builder<T> =
     Room.inMemoryDatabaseBuilder(this, T::class.java)
 
