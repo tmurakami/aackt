@@ -70,7 +70,8 @@ ext {
                           viewmodel : "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion",]
 
     def roomVersion = '2.1.0-alpha04'
-    androidx.room = [runtime: "androidx.room:room-runtime:$roomVersion",
-                     rxjava2: "androidx.room:room-rxjava2:$roomVersion",
-                     testing: "androidx.room:room-testing:$roomVersion",]
+    androidx.room = [runtime : "androidx.room:room-runtime:$roomVersion",
+                     compiler: "androidx.room:room-compiler:$roomVersion",
+                     rxjava2 : "androidx.room:room-rxjava2:$roomVersion",
+                     testing : "androidx.room:room-testing:$roomVersion",]
 }

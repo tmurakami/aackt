@@ -1,6 +1,9 @@
 apply from: "$rootDir/gradle/android-library.gradle"
+apply plugin: 'kotlin-kapt'
 
 dependencies {
     api deps.androidx.room.runtime
     testImplementation deps.androidx.room.testing
+    testImplementation deps.androidx.lifecycle.livedata
+    kaptTest deps.androidx.room.compiler
 }

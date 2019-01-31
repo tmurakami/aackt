@@ -32,3 +32,18 @@ inline fun <reified T : RoomDatabase> Context.databaseBuilder(
  */
 inline fun <reified T : RoomDatabase> Context.inMemoryDatabaseBuilder(): RoomDatabase.Builder<T> =
     Room.inMemoryDatabaseBuilder(this, T::class.java)
+
+/**
+ * Creates a [RoomDatabase] for a persistent database of the given file [name].
+ */
+inline fun <reified T : RoomDatabase> Context.createRoomDatabase(
+    name: String,
+    crossinline block: RoomDatabase.Builder<T>.() -> Unit = {}
+): T = Room.databaseBuilder(this, T::class.java, name).apply { block() }.build()
+
+/**
+ * Creates a [RoomDatabase] for an in-memory database.
+ */
+inline fun <reified T : RoomDatabase> Context.createInMemoryRoomDatabase(
+    crossinline block: RoomDatabase.Builder<T>.() -> Unit = {}
+): T = Room.inMemoryDatabaseBuilder(this, T::class.java).apply { block() }.build()
