@@ -24,9 +24,7 @@ import com.github.tmurakami.aackt.lifecycle.subscribe
 import com.github.tmurakami.aackt.lifecycle.subscribeChanges
 import org.junit.Rule
 import kotlin.test.Test
-import kotlin.test.assertEquals
 import kotlin.test.assertFalse
-import kotlin.test.assertSame
 import kotlin.test.assertTrue
 
 class LiveDataTest {
@@ -36,13 +34,13 @@ class LiveDataTest {
     @Test
     fun subscribe() {
         val data = MutableLiveData(-1)
-        val results = ArrayList<Int>()
-        val subscription = data.subscribe { results += it }
-        assertTrue(results.isNotEmpty())
+        val observer = TestObserver<Int>()
+        val subscription = data.subscribe { observer.onChanged(it) }
+        observer.assertValuesOnly(-1)
         repeat(3) { data.value = it }
         subscription.unsubscribe()
         data.value = 3
-        assertEquals(listOf(-1, 0, 1, 2), results)
+        observer.assertValuesOnly(-1, 0, 1, 2)
     }
 
     @Test
@@ -61,13 +59,13 @@ class LiveDataTest {
     @Test
     fun subscribe_Observer() {
         val data = MutableLiveData(-1)
-        val results = ArrayList<Int>()
-        val subscription = data.subscribe(Observer { results += it })
-        assertTrue(results.isNotEmpty())
+        val observer = TestObserver<Int>()
+        val subscription = data.subscribe(observer)
+        observer.assertValuesOnly(-1)
         repeat(3) { data.value = it }
         subscription.unsubscribe()
         data.value = 3
-        assertEquals(listOf(-1, 0, 1, 2), results)
+        observer.assertValuesOnly(-1, 0, 1, 2)
     }
 
     @Test
@@ -86,13 +84,13 @@ class LiveDataTest {
     @Test
     fun subscribeChanges() {
         val data = MutableLiveData(-1)
-        val results = ArrayList<Int>()
-        val subscription = data.subscribeChanges { results += it }
-        assertTrue(results.isEmpty())
+        val observer = TestObserver<Int>()
+        val subscription = data.subscribeChanges { observer.onChanged(it) }
+        observer.assertNoValues()
         repeat(3) { data.value = it }
         subscription.unsubscribe()
         data.value = 3
-        assertEquals(listOf(0, 1, 2), results)
+        observer.assertValuesOnly(0, 1, 2)
     }
 
     @Test
@@ -112,21 +110,21 @@ class LiveDataTest {
     fun subscribeChanges_subscribe_MediatorLiveData() {
         val data = MediatorLiveData<Int>().apply { addSource(MutableLiveData(-1)) { value = it } }
         data.value = 0
-        val results = ArrayList<Int>()
-        data.subscribeChanges { results += it }
-        assertSame(-1, results.single())
+        val observer = TestObserver<Int>()
+        data.subscribeChanges { observer.onChanged(it) }
+        observer.assertValuesOnly(-1)
     }
 
     @Test
     fun subscribeChanges_Observer() {
         val data = MutableLiveData(-1)
-        val results = ArrayList<Int>()
-        val subscription = data.subscribeChanges(Observer { results += it })
-        assertTrue(results.isEmpty())
+        val observer = TestObserver<Int>()
+        val subscription = data.subscribeChanges(observer)
+        observer.assertNoValues()
         repeat(3) { data.value = it }
         subscription.unsubscribe()
         data.value = 3
-        assertEquals(listOf(0, 1, 2), results)
+        observer.assertValuesOnly(0, 1, 2)
     }
 
     @Test
@@ -146,23 +144,23 @@ class LiveDataTest {
     fun subscribeChanges_Observer_subscribe_MediatorLiveData() {
         val data = MediatorLiveData<Int>().apply { addSource(MutableLiveData(-1)) { value = it } }
         data.value = 0
-        val results = ArrayList<Int>()
-        data.subscribeChanges(Observer { results += it })
-        assertSame(-1, results.single())
+        val observer = TestObserver<Int>()
+        data.subscribeChanges(observer)
+        observer.assertValuesOnly(-1)
     }
 
     @Test
     fun subscribe_LifecycleOwner() {
         val owner = FakeLifecycleOwner()
         val data = MutableLiveData(-1)
-        val results = ArrayList<Int>()
-        data.subscribe(owner) { results += it }
+        val observer = TestObserver<Int>()
+        data.subscribe(owner) { observer.onChanged(it) }
         owner.resume().use {
-            assertTrue(results.isNotEmpty())
+            observer.assertValuesOnly(-1)
             repeat(3) { data.value = it }
         }
         data.value = 3
-        assertEquals(listOf(-1, 0, 1, 2), results)
+        observer.assertValuesOnly(-1, 0, 1, 2)
     }
 
     @Test
@@ -186,14 +184,14 @@ class LiveDataTest {
     fun subscribe_LifecycleOwner_Observer() {
         val owner = FakeLifecycleOwner()
         val data = MutableLiveData(-1)
-        val results = ArrayList<Int>()
-        data.subscribe(owner, Observer { results += it })
+        val observer = TestObserver<Int>()
+        data.subscribe(owner, observer)
         owner.resume().use {
-            assertTrue(results.isNotEmpty())
+            observer.assertValuesOnly(-1)
             repeat(3) { data.value = it }
         }
         data.value = 3
-        assertEquals(listOf(-1, 0, 1, 2), results)
+        observer.assertValuesOnly(-1, 0, 1, 2)
     }
 
     @Test
@@ -217,14 +215,14 @@ class LiveDataTest {
     fun subscribeChanges_LifecycleOwner() {
         val owner = FakeLifecycleOwner()
         val data = MutableLiveData(-1)
-        val results = ArrayList<Int>()
-        data.subscribeChanges(owner) { results += it }
+        val observer = TestObserver<Int>()
+        data.subscribeChanges(owner) { observer.onChanged(it) }
         owner.resume().use {
-            assertTrue(results.isEmpty())
+            observer.assertNoValues()
             repeat(3) { data.value = it }
         }
         data.value = 3
-        assertEquals(listOf(0, 1, 2), results)
+        observer.assertValuesOnly(0, 1, 2)
     }
 
     @Test
@@ -249,23 +247,23 @@ class LiveDataTest {
         val owner = FakeLifecycleOwner()
         val data = MediatorLiveData<Int>().apply { addSource(MutableLiveData(-1)) { value = it } }
         data.value = 0
-        val results = ArrayList<Int>()
-        data.subscribeChanges(owner) { results += it }
-        owner.resume().use { assertSame(-1, results.single()) }
+        val observer = TestObserver<Int>()
+        data.subscribeChanges(owner) { observer.onChanged(it) }
+        owner.resume().use { observer.assertValuesOnly(-1) }
     }
 
     @Test
     fun subscribeChanges_LifecycleOwner_Observer() {
         val owner = FakeLifecycleOwner()
         val data = MutableLiveData(-1)
-        val results = ArrayList<Int>()
-        data.subscribeChanges(owner, Observer { results += it })
+        val observer = TestObserver<Int>()
+        data.subscribeChanges(owner, observer)
         owner.resume().use {
-            assertTrue(results.isEmpty())
+            observer.assertNoValues()
             repeat(3) { data.value = it }
         }
         data.value = 3
-        assertEquals(listOf(0, 1, 2), results)
+        observer.assertValuesOnly(0, 1, 2)
     }
 
     @Test
@@ -290,8 +288,8 @@ class LiveDataTest {
         val owner = FakeLifecycleOwner()
         val data = MediatorLiveData<Int>().apply { addSource(MutableLiveData(-1)) { value = it } }
         data.value = 0
-        val results = ArrayList<Int>()
-        data.subscribeChanges(owner, Observer { results += it })
-        owner.resume().use { assertSame(-1, results.single()) }
+        val observer = TestObserver<Int>()
+        data.subscribeChanges(owner, observer)
+        owner.resume().use { observer.assertValuesOnly(-1) }
     }
 }
