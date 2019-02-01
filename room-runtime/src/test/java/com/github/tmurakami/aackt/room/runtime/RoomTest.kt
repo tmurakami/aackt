@@ -35,7 +35,7 @@ class RoomTest {
             allowMainThreadQueries()
             setQueryExecutor(executor)
         }
-        db.assertNotMainThread()
+        db.assertNotMainThread() // Hidden API
         assertEquals(executor, db.queryExecutor)
     }
 
@@ -46,7 +46,7 @@ class RoomTest {
             allowMainThreadQueries()
             setQueryExecutor(executor)
         }
-        db.assertNotMainThread()
+        db.assertNotMainThread() // Hidden API
         assertEquals(executor, db.queryExecutor)
     }
 
