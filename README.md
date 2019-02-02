@@ -26,6 +26,7 @@ data.filterIsInstance<Int>() // Filter out non-int values
 
 owner.registry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
 
+data.value = 0
 data.value = 1
 data.value = 2
 data.value = null
@@ -49,20 +50,20 @@ val owner = object : LifecycleOwner {
 // Create a LiveData with a value
 val data = MutableLiveData(0)
 
-// The observer added via `subscribe` will receive the cached value.
+// The observer added via `subscribe` will receive not only the updated
+// values but also the current value.
 val values = ArrayList<Int>()
 data.subscribe(owner) { values += it }
 
-// The observer added via `subscribeChanges` won't receive the cached value.
+// The observer added via `subscribeChanges` will only receive the
+// updated values. It would never receive the current value.
 val updatedValues = ArrayList<Int>()
 data.subscribeChanges(owner) { updatedValues += it }
 
 owner.registry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
 
-data.value = 1
-
 assertEquals(listOf(0, 1), values)
-assertEquals(listOf(1), updatedValues) // `0` won't be received
+assertEquals(listOf(1), updatedValues)
 ```
 
 ## ViewModel
