@@ -47,22 +47,22 @@ val owner = object : LifecycleOwner {
 }
 
 // Create a LiveData with a value
-val data = MutableLiveData(-1)
+val data = MutableLiveData(0)
 
-// The observer added via `subscribe` will receive the current value.
+// The observer added via `subscribe` will receive the cached value.
 val values = ArrayList<Int>()
 data.subscribe(owner) { values += it }
 
-// The observer added via `subscribeChanges` won't receive the current value.
+// The observer added via `subscribeChanges` won't receive the cached value.
 val updatedValues = ArrayList<Int>()
 data.subscribeChanges(owner) { updatedValues += it }
 
 owner.registry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
 
-data.value = 0
+data.value = 1
 
-assertEquals(listOf(-1, 0), values)
-assertEquals(listOf(0), updatedValues) // `-1` won't be received
+assertEquals(listOf(0, 1), values)
+assertEquals(listOf(1), updatedValues) // `0` won't be received
 ```
 
 ## ViewModel
