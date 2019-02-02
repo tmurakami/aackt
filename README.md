@@ -18,11 +18,11 @@ val owner = object : LifecycleOwner {
 
 val data = MutableLiveData<Any?>()
 
-val received = ArrayList<Int>()
+val values = ArrayList<Int>()
 
 data.filterIsInstance<Int>() // Filter out non-int values
     .dropWhile { it < 3 } // Drop values less than 3
-    .subscribe(owner) { received += it }
+    .subscribe(owner) { values += it }
 
 owner.registry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
 
@@ -33,7 +33,7 @@ data.value = 3
 data.value = Unit
 data.value = 4
 
-assertEquals(listOf(3, 4), received)
+assertEquals(listOf(3, 4), values)
 ```
 
 If a LiveData already has a value, the observer added via `subscribe`
@@ -49,17 +49,20 @@ val owner = object : LifecycleOwner {
 // Create a LiveData with a value
 val data = MutableLiveData(-1)
 
-val received = ArrayList<Int>()
+// The observer added via `subscribe` will receive the current value.
+val values = ArrayList<Int>()
+data.subscribe(owner) { values += it }
 
-// Add an observer to receive only updated values
-data.subscribeChanges(owner) { received += it }
-data.value = 0
+// The observer added via `subscribeChanges` won't receive the current value.
+val updatedValues = ArrayList<Int>()
+data.subscribeChanges(owner) { updatedValues += it }
 
 owner.registry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
 
-data.value = 1
+data.value = 0
 
-assertEquals(listOf(0, 1), received) // `-1` won't be received.
+assertEquals(listOf(-1, 0), values)
+assertEquals(listOf(0), updatedValues) // `-1` won't be received
 ```
 
 ## ViewModel
