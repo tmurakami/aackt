@@ -62,6 +62,8 @@ data.subscribeChanges(owner) { updatedValues += it }
 
 owner.registry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
 
+data.value = 1
+
 assertEquals(listOf(0, 1), values)
 assertEquals(listOf(1), updatedValues)
 ```
