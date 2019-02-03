@@ -47,17 +47,13 @@ val owner = object : LifecycleOwner {
     override fun getLifecycle(): Lifecycle = registry
 }
 
-// Create a LiveData with a value
 val data = MutableLiveData(0)
 
-// The observer added via `subscribe` will receive not only the updated
-// values but also the current value.
 val values = ArrayList<Int>()
 data.subscribe(owner) { values += it }
 
-// The observer added via `subscribeChanges` will only receive the
-// updated values. It would never receive the current value.
 val updatedValues = ArrayList<Int>()
+// Observers added via `subscribeChanges` will only receive updated values.
 data.subscribeChanges(owner) { updatedValues += it }
 
 owner.registry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
