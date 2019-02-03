@@ -40,12 +40,12 @@ inline fun <reified T : RoomDatabase> Context.inMemoryDatabaseBuilder(): RoomDat
  */
 inline fun <reified T : RoomDatabase> Context.createRoomDatabase(
     name: String,
-    crossinline options: RoomDatabase.Builder<T>.() -> Unit = {}
-): T = Room.databaseBuilder(this, T::class.java, name).apply { options() }.build()
+    options: RoomDatabase.Builder<T>.() -> RoomDatabase.Builder<T> = { this }
+): T = Room.databaseBuilder(this, T::class.java, name).options().build()
 
 /**
  * Creates a [RoomDatabase] for an in-memory database with [options].
  */
 inline fun <reified T : RoomDatabase> Context.createInMemoryRoomDatabase(
-    crossinline options: RoomDatabase.Builder<T>.() -> Unit = {}
-): T = Room.inMemoryDatabaseBuilder(this, T::class.java).apply { options() }.build()
+    options: RoomDatabase.Builder<T>.() -> RoomDatabase.Builder<T> = { this }
+): T = Room.inMemoryDatabaseBuilder(this, T::class.java).options().build()
