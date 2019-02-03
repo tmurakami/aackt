@@ -1,9 +1,9 @@
 # AAC.kt
 
+![Android](https://img.shields.io/badge/Android-4.0%2B-blue.svg)
+![Kotlin](https://img.shields.io/badge/Kotlin-1.3.20%2B-blue.svg)
 [![CircleCI](https://circleci.com/gh/tmurakami/aackt.svg?style=shield)](https://circleci.com/gh/tmurakami/aackt)
 [![Release](https://jitpack.io/v/tmurakami/aackt.svg)](https://jitpack.io/#tmurakami/aackt)
-![Kotlin](https://img.shields.io/badge/Kotlin-1.3.20%2B-blue.svg)
-![Android](https://img.shields.io/badge/Android-4.0%2B-blue.svg)
 
 A Kotlin library for
 [Android Architecture Components](https://developer.android.com/topic/libraries/architecture/).
