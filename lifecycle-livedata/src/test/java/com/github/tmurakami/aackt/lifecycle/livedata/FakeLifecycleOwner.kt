@@ -17,23 +17,16 @@
 package com.github.tmurakami.aackt.lifecycle.livedata
 
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.Lifecycle.State.DESTROYED
-import androidx.lifecycle.Lifecycle.State.RESUMED
+import androidx.lifecycle.Lifecycle.Event.ON_DESTROY
+import androidx.lifecycle.Lifecycle.Event.ON_RESUME
+import androidx.lifecycle.Lifecycle.State.CREATED
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import java.io.Closeable
 
 class FakeLifecycleOwner : LifecycleOwner, Closeable {
-    private val registry = LifecycleRegistry(this)
-
+    private val registry = LifecycleRegistry(this).apply { currentState = CREATED }
     override fun getLifecycle(): Lifecycle = registry
-
-    fun resume(): FakeLifecycleOwner = apply {
-        registry.run {
-            check(currentState > DESTROYED) { "Already destroyed" }
-            currentState = RESUMED
-        }
-    }
-
-    override fun close() = registry.run { currentState = DESTROYED }
+    override fun close() = registry.handleLifecycleEvent(ON_DESTROY)
+    fun resume(): FakeLifecycleOwner = apply { registry.handleLifecycleEvent(ON_RESUME) }
 }
