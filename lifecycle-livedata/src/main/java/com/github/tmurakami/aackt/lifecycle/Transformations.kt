@@ -54,63 +54,63 @@ inline fun <T, R> LiveData<T>.switchMap(crossinline transform: (T) -> LiveData<R
     Transformations.switchMap(this) { transform(it) }
 
 /**
- * Returns a [LiveData] with the given [onActive] function. The given function will be called when
- * the resulting [LiveData] becomes active.
+ * Returns a [LiveData] with the given [action] which will be called when the resulting [LiveData]
+ * becomes active.
  *
  * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.doOnActive
  */
 @MainThread
-inline fun <T> LiveData<T>.doOnActive(crossinline onActive: () -> Unit): LiveData<T> =
-    doOnActive(Runnable { onActive() })
+inline fun <T> LiveData<T>.doOnActive(crossinline action: () -> Unit): LiveData<T> =
+    doOnActive(Runnable { action() })
 
 /**
- * Returns a [LiveData] with the given [onActive] function. The given function will be called when
- * the resulting [LiveData] becomes active.
+ * Returns a [LiveData] with the given [action] which will be called when the resulting [LiveData]
+ * becomes active.
  *
  * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.doOnActive_Runnable
  */
 @MainThread
-fun <T> LiveData<T>.doOnActive(onActive: Runnable): LiveData<T> {
+fun <T> LiveData<T>.doOnActive(action: Runnable): LiveData<T> {
     val result = this as? LiveDataOnLifecycle ?: LiveDataOnLifecycle(this)
-    result.onActiveListeners += onActive
+    result.onActiveListeners += action
     return result
 }
 
 /**
- * Returns a [LiveData] with the given [onInactive] function. The given function will be called when
- * the resulting [LiveData] becomes inactive.
+ * Returns a [LiveData] with the given [action] which will be called when the resulting [LiveData]
+ * becomes inactive.
  *
  * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.doOnInactive
  */
 @MainThread
-inline fun <T> LiveData<T>.doOnInactive(crossinline onInactive: () -> Unit): LiveData<T> =
-    doOnInactive(Runnable { onInactive() })
+inline fun <T> LiveData<T>.doOnInactive(crossinline action: () -> Unit): LiveData<T> =
+    doOnInactive(Runnable { action() })
 
 /**
- * Returns a [LiveData] with the given [onInactive] function. The given function will be called when
- * the resulting [LiveData] becomes inactive.
+ * Returns a [LiveData] with the given [action] which will be called when the resulting [LiveData]
+ * becomes inactive.
  *
  * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.doOnInactive_Runnable
  */
 @MainThread
-fun <T> LiveData<T>.doOnInactive(onInactive: Runnable): LiveData<T> {
+fun <T> LiveData<T>.doOnInactive(action: Runnable): LiveData<T> {
     val result = this as? LiveDataOnLifecycle ?: LiveDataOnLifecycle(this)
-    result.onInactiveListeners += onInactive
+    result.onInactiveListeners += action
     return result
 }
 
 /**
- * Returns a [LiveData] with the given [onChanged] function. The given function will be called when
- * the resulting [LiveData] is changed.
+ * Returns a [LiveData] with the given [action] which will be called when the value of the resulting
+ * [LiveData] is changed.
  *
  * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.doOnChanged
  */
 @MainThread
-inline fun <T> LiveData<T>.doOnChanged(crossinline onChanged: (T) -> Unit): LiveData<T> {
+inline fun <T> LiveData<T>.doOnChanged(crossinline action: (T) -> Unit): LiveData<T> {
     val result = MediatorLiveData<T>()
     result.addSource(this) {
         result.value = it
-        onChanged(it)
+        action(it)
     }
     return result
 }

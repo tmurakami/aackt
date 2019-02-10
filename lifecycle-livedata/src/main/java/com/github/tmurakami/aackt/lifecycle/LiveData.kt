@@ -39,19 +39,19 @@ inline fun <T> LiveData<T>.observe(crossinline observer: (T) -> Unit): Observati
     subscribe(observer)
 
 /**
- * Adds the given [onChanged] callback to the receiver. If the receiver already has a value, it will
- * be delivered to the callback.
+ * Adds the given [action] to the receiver. If the receiver already has a value, it will be
+ * delivered to the [action].
  *
  * To unsubscribe from the receiver, you should manually call [Subscription.unsubscribe] with the
  * resulting [Subscription].
  */
 @MainThread
-inline fun <T> LiveData<T>.subscribe(crossinline onChanged: (T) -> Unit): Subscription =
-    subscribe(Observer { onChanged(it) })
+inline fun <T> LiveData<T>.subscribe(crossinline action: (T) -> Unit): Subscription =
+    subscribe(Observer { action(it) })
 
 /**
- * Adds the given [observer] callback to the receiver. If the receiver already has a value, it will
- * be delivered to the callback.
+ * Adds the given [observer] to the receiver. If the receiver already has a value, it will be
+ * delivered to the [observer].
  *
  * To unsubscribe from the receiver, you should manually call [Subscription.unsubscribe] with the
  * resulting [Subscription].
@@ -67,20 +67,20 @@ inline fun <T> LiveData<T>.observeChanges(crossinline onChanged: (T) -> Unit): O
     subscribeChanges(onChanged)
 
 /**
- * Adds the given [onChanged] callback to the receiver. Unlike [subscribe] extension, the cached
- * value won't be delivered to the callback.
+ * Adds the given [action] to the receiver. Unlike [subscribe] extension, the cached value won't be
+ * delivered to the [action].
  *
  * To unsubscribe from the receiver, you should manually call [Subscription.unsubscribe] with the
  * resulting [Subscription].
  */
 // TODO https://issuetracker.google.com/issues/94056118
 @MainThread
-inline fun <T> LiveData<T>.subscribeChanges(crossinline onChanged: (T) -> Unit): Subscription =
-    subscribeChanges(Observer { onChanged(it) })
+inline fun <T> LiveData<T>.subscribeChanges(crossinline action: (T) -> Unit): Subscription =
+    subscribeChanges(Observer { action(it) })
 
 /**
- * Adds the given [observer] callback to the receiver. Unlike [subscribe] extension, the cached
- * value won't be delivered to the callback.
+ * Adds the given [observer] to the receiver. Unlike [subscribe] extension, the cached value won't
+ * be delivered to the [observer].
  *
  * To unsubscribe from the receiver, you should manually call [Subscription.unsubscribe] with the
  * resulting [Subscription].
@@ -99,8 +99,8 @@ inline fun <T> LiveData<T>.observe(
 ): Observation = subscribe(owner, observer)
 
 /**
- * Adds the given [onChanged] callback to the receiver. If the receiver already has a value, it will
- * be delivered to the callback.
+ * Adds the given [action] to the receiver. If the receiver already has a value, it will be
+ * delivered to the [action].
  *
  * The callback will receive values only while the given [owner] is active. You can manually
  * unsubscribe by calling [Subscription.unsubscribe] with the resulting [Subscription].
@@ -108,12 +108,12 @@ inline fun <T> LiveData<T>.observe(
 @MainThread
 inline fun <T> LiveData<T>.subscribe(
     owner: LifecycleOwner,
-    crossinline onChanged: (T) -> Unit
-): Subscription = subscribe(owner, Observer { onChanged(it) })
+    crossinline action: (T) -> Unit
+): Subscription = subscribe(owner, Observer { action(it) })
 
 /**
- * Adds the given [observer] callback to the receiver. If the receiver already has a value, it will
- * be delivered to the callback.
+ * Adds the given [observer] to the receiver. If the receiver already has a value, it will be
+ * delivered to the [observer].
  *
  * The callback will receive values only while the given [owner] is active. You can manually
  * unsubscribe by calling [Subscription.unsubscribe] with the resulting [Subscription].
@@ -131,8 +131,8 @@ inline fun <T> LiveData<T>.observeChanges(
 ): Observation = subscribeChanges(owner, onChanged)
 
 /**
- * Adds the given [onChanged] callback to the receiver. Unlike [subscribe] extension, the cached
- * value won't be delivered to the callback.
+ * Adds the given [action] to the receiver. Unlike [subscribe] extension, the cached value won't be
+ * delivered to the [action].
  *
  * The callback will receive values only while the given [owner] is active. You can manually
  * unsubscribe by calling [Subscription.unsubscribe] with the resulting [Subscription].
@@ -141,12 +141,12 @@ inline fun <T> LiveData<T>.observeChanges(
 @MainThread
 inline fun <T> LiveData<T>.subscribeChanges(
     owner: LifecycleOwner,
-    crossinline onChanged: (T) -> Unit
-): Subscription = subscribeChanges(owner, Observer { onChanged(it) })
+    crossinline action: (T) -> Unit
+): Subscription = subscribeChanges(owner, Observer { action(it) })
 
 /**
- * Adds the given [observer] callback to the receiver. Unlike [subscribe] extension, the cached
- * value won't be delivered to the callback.
+ * Adds the given [observer] to the receiver. Unlike [subscribe] extension, the cached value won't
+ * be delivered to the [observer].
  *
  * The callback will receive values only while the given [owner] is active. You can manually
  * unsubscribe by calling [Subscription.unsubscribe] with the resulting [Subscription].
