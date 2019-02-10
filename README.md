@@ -1,7 +1,7 @@
 # AAC.kt
 
 ![Android](https://img.shields.io/badge/Android-4.0%2B-blue.svg)
-![Kotlin](https://img.shields.io/badge/Kotlin-1.3.20%2B-blue.svg)
+![Kotlin](https://img.shields.io/badge/Kotlin-1.3.21%2B-blue.svg)
 [![CircleCI](https://circleci.com/gh/tmurakami/aackt.svg?style=shield)](https://circleci.com/gh/tmurakami/aackt)
 [![Release](https://jitpack.io/v/tmurakami/aackt.svg)](https://jitpack.io/#tmurakami/aackt)
 
@@ -104,7 +104,7 @@ repositories {
 
 dependencies {
 
-    def aacktVersion = '2.0.0-alpha04'
+    def aacktVersion = '2.0.0-alpha05'
 
     // LiveData and ViewModel
     implementation "com.github.tmurakami.aackt:lifecycle-extensions:$aacktVersion"
@@ -128,14 +128,14 @@ dependencies {
 
 ### Lifecycle
 
-- [Extensions](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-extensions/2.0.0-alpha04/javadoc/lifecycle-extensions/)
-- [LiveData](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-livedata/2.0.0-alpha04/javadoc/lifecycle-livedata/)
-- [ViewModel](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-viewmodel/2.0.0-alpha04/javadoc/lifecycle-viewmodel/)
+- [Extensions](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-extensions/2.0.0-alpha05/javadoc/lifecycle-extensions/)
+- [LiveData](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-livedata/2.0.0-alpha05/javadoc/lifecycle-livedata/)
+- [ViewModel](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-viewmodel/2.0.0-alpha05/javadoc/lifecycle-viewmodel/)
 
 ### Room
 
-- [Runtime](https://jitpack.io/com/github/tmurakami/aackt/room-runtime/2.0.0-alpha04/javadoc/room-runtime/)
-- [RxJava2](https://jitpack.io/com/github/tmurakami/aackt/room-rxjava2/2.0.0-alpha04/javadoc/room-rxjava2/)
+- [Runtime](https://jitpack.io/com/github/tmurakami/aackt/room-runtime/2.0.0-alpha05/javadoc/room-runtime/)
+- [RxJava2](https://jitpack.io/com/github/tmurakami/aackt/room-rxjava2/2.0.0-alpha05/javadoc/room-rxjava2/)
 
 ## License
 
