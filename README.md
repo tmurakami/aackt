@@ -86,9 +86,9 @@ class FooActivity : FragmentActivity() {
 val MIGRATION_1_2 = Migration(1, 2) { ... }
 
 // Create a new RoomDatabase instance
-val db = context.databaseBuilder<MyRoomDatabase>("app.db")
-    .addMigrations(MIGRATION_1_2)
-    .build()
+val db = context.createRoomDatabase<MyRoomDatabase>("app.db") {
+    addMigrations(MIGRATION_1_2)
+}
 ```
 
 ## Installation
