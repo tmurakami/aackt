@@ -18,7 +18,6 @@ package com.github.tmurakami.aackt.lifecycle.livedata
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import com.github.tmurakami.aackt.lifecycle.LiveDataOnLifecycle
 import org.junit.Rule
 import kotlin.test.Test
@@ -32,27 +31,26 @@ class LiveDataOnLifecycleTest {
     fun onActive() {
         val data = LiveDataOnLifecycle(MutableLiveData<Unit>())
         var count = 0
-        repeat(3) { data.onActiveListeners += Runnable { count++ } }
+        repeat(3) { data.onActiveActions += Runnable { count++ } }
         assertEquals(0, count)
-        data.observeForever { }
+        data.test()
         assertEquals(3, count)
     }
 
     @Test
     fun onChanged() {
-        val actual = mutableListOf<Int>()
         val data = MutableLiveData<Int>()
-        LiveDataOnLifecycle(data).observeForever { actual += it }
+        val observer = LiveDataOnLifecycle(data).test()
         data.value = 0
-        assertEquals(listOf(0), actual)
+        observer.assertValuesOnly(0)
     }
 
     @Test
     fun onInactive() {
         val data = LiveDataOnLifecycle(MutableLiveData<Unit>())
         var count = 0
-        repeat(3) { data.onInactiveListeners += Runnable { count++ } }
-        val observer = Observer<Unit> {}.also { data.observeForever(it) }
+        repeat(3) { data.onInactiveActions += Runnable { count++ } }
+        val observer = data.test()
         assertEquals(0, count)
         data.removeObserver(observer)
         assertEquals(3, count)

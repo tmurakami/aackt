@@ -23,9 +23,9 @@ import java.util.LinkedList
 
 internal class LiveDataOnLifecycle<T>(source: LiveData<T>) : MediatorLiveData<T>(), Observer<T> {
     @JvmField // Not to increase methods count
-    val onActiveListeners = LinkedList<Runnable>()
+    internal val onActiveActions = LinkedList<Runnable>()
     @JvmField // Not to increase methods count
-    val onInactiveListeners = LinkedList<Runnable>()
+    internal val onInactiveActions = LinkedList<Runnable>()
 
     init {
         addSource(source, this)
@@ -33,7 +33,7 @@ internal class LiveDataOnLifecycle<T>(source: LiveData<T>) : MediatorLiveData<T>
 
     override fun onActive() {
         super.onActive()
-        for (listener in onActiveListeners) listener.run()
+        for (action in onActiveActions) action.run()
     }
 
     override fun onChanged(t: T) {
@@ -42,6 +42,6 @@ internal class LiveDataOnLifecycle<T>(source: LiveData<T>) : MediatorLiveData<T>
 
     override fun onInactive() {
         super.onInactive()
-        for (listener in onInactiveListeners) listener.run()
+        for (action in onInactiveActions) action.run()
     }
 }

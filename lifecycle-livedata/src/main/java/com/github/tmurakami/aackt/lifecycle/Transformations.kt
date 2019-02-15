@@ -72,7 +72,7 @@ inline fun <T> LiveData<T>.doOnActive(crossinline action: () -> Unit): LiveData<
 @MainThread
 fun <T> LiveData<T>.doOnActive(action: Runnable): LiveData<T> {
     val result = this as? LiveDataOnLifecycle ?: LiveDataOnLifecycle(this)
-    result.onActiveListeners += action
+    result.onActiveActions += action
     return result
 }
 
@@ -95,7 +95,7 @@ inline fun <T> LiveData<T>.doOnInactive(crossinline action: () -> Unit): LiveDat
 @MainThread
 fun <T> LiveData<T>.doOnInactive(action: Runnable): LiveData<T> {
     val result = this as? LiveDataOnLifecycle ?: LiveDataOnLifecycle(this)
-    result.onInactiveListeners += action
+    result.onInactiveActions += action
     return result
 }
 

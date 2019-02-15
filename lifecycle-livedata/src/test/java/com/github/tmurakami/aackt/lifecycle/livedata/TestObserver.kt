@@ -18,11 +18,12 @@ package com.github.tmurakami.aackt.lifecycle.livedata
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import java.util.LinkedList
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class TestObserver<T> : Observer<T> {
-    private val received = ArrayList<T>()
+    private val received = LinkedList<T>()
     override fun onChanged(t: T) = received.plusAssign(t)
     fun assertNoValues() = assertTrue(received.isEmpty())
     fun assertValuesOnly(vararg values: T) = assertEquals(listOf(*values), received)
