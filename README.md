@@ -18,7 +18,7 @@ val owner = object : LifecycleOwner {
 
 val data = MutableLiveData<Any?>()
 
-val values = ArrayList<Int>()
+val values = mutableListOf<Int>()
 
 data.filterIsInstance<Int>() // Filter out non-int values
     .dropWhile { it < 3 } // Drop values less than 3
@@ -49,10 +49,10 @@ val owner = object : LifecycleOwner {
 
 val data = MutableLiveData(0)
 
-val values = ArrayList<Int>()
+val values = mutableListOf<Int>()
 data.subscribe(owner) { values += it }
 
-val updatedValues = ArrayList<Int>()
+val updatedValues = mutableListOf<Int>()
 // Observers added via `subscribeChanges` will only receive updated values.
 data.subscribeChanges(owner) { updatedValues += it }
 
