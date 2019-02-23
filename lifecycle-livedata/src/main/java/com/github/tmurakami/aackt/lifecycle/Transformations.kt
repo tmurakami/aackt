@@ -158,35 +158,29 @@ inline fun <reified R> LiveData<*>.filterIsInstance(): LiveData<R> =
     filter { it is R } as LiveData<R>
 
 /**
- * Returns a [LiveData] that emits only distinct values.
- *
- * Note that structurally equivalent values are regarded as identical. You can use [distinctBy] to
- * treat structurally equivalent values as different.
- *
- * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.distinct
- */
-@MainThread
-fun <T> LiveData<T>.distinct(): LiveData<T> = distinctBy { it }
-
-/**
  * Returns a [LiveData] that emits only distinct values according to the given [selector] function.
  *
  * Note that structurally equivalent keys are regarded as identical. To treat structurally
  * equivalent values emitted by the receiver [LiveData] as different, you will need to give a
  * [selector] that calls [System.identityHashCode], for instance
- * `distinctBy { System.identityHashCode(it) }`.
+ * `distinct { System.identityHashCode(it) }`.
  *
- * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.distinctBy
+ * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.distinct
  */
 @MainThread
-inline fun <T, K> LiveData<T>.distinctBy(crossinline selector: (T) -> K): LiveData<T> {
-    val set = HashSet<K>()
+inline fun <T> LiveData<T>.distinct(crossinline selector: (T) -> Any? = { it }): LiveData<T> {
+    val set = HashSet<Any?>()
     return filter { set.add(selector(it)) }
 }
 
+@Deprecated("", ReplaceWith("distinct(selector)"))
+@MainThread
+inline fun <T, K> LiveData<T>.distinctBy(crossinline selector: (T) -> K): LiveData<T> =
+    distinct(selector)
+
 @Deprecated("", ReplaceWith("distinctUntilChanged<T>()", "androidx.lifecycle.distinctUntilChanged"))
 @MainThread
-fun <T> LiveData<T>.distinctUntilChanged(): LiveData<T> = distinctUntilChangedBy { it }
+fun <T> LiveData<T>.distinctUntilChanged(): LiveData<T> = distinctUntilChanged { it }
 
 /**
  * Returns a [LiveData] that emits only distinct contiguous values according to the given [selector]
@@ -195,12 +189,12 @@ fun <T> LiveData<T>.distinctUntilChanged(): LiveData<T> = distinctUntilChangedBy
  * Note that structurally equivalent keys are regarded as identical. To treat structurally
  * equivalent values emitted by the receiver [LiveData] as different, you will need to give a
  * [selector] that calls [System.identityHashCode], for instance
- * `distinctUntilChangedBy { System.identityHashCode(it) }`.
+ * `distinctUntilChanged { System.identityHashCode(it) }`.
  *
- * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.distinctUntilChangedBy
+ * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.distinctUntilChanged
  */
 @MainThread
-inline fun <T, K> LiveData<T>.distinctUntilChangedBy(crossinline selector: (T) -> K): LiveData<T> {
+inline fun <T> LiveData<T>.distinctUntilChanged(crossinline selector: (T) -> Any?): LiveData<T> {
     val result = MediatorLiveData<T>()
     result.addSource(this, object : Observer<T> {
         private var lastKey: Any? = /* NOT_SET */ this
@@ -212,6 +206,11 @@ inline fun <T, K> LiveData<T>.distinctUntilChangedBy(crossinline selector: (T) -
     })
     return result
 }
+
+@Deprecated("", ReplaceWith("distinctUntilChanged(selector)"))
+@MainThread
+inline fun <T, K> LiveData<T>.distinctUntilChangedBy(crossinline selector: (T) -> K): LiveData<T> =
+    distinctUntilChanged(selector)
 
 /**
  * Returns a [LiveData] that emits values except first [n] items.

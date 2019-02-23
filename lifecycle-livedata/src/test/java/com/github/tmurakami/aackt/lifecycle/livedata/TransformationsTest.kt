@@ -20,8 +20,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import com.github.tmurakami.aackt.lifecycle.combineLatest
 import com.github.tmurakami.aackt.lifecycle.distinct
-import com.github.tmurakami.aackt.lifecycle.distinctBy
-import com.github.tmurakami.aackt.lifecycle.distinctUntilChangedBy
+import com.github.tmurakami.aackt.lifecycle.distinctUntilChanged
 import com.github.tmurakami.aackt.lifecycle.doOnActive
 import com.github.tmurakami.aackt.lifecycle.doOnChanged
 import com.github.tmurakami.aackt.lifecycle.doOnInactive
@@ -212,6 +211,21 @@ class TransformationsTest {
     @Test
     fun distinct() {
         val data = MutableLiveData<Int>()
+        val observer = data.distinct { it % 2 }.test()
+        data.run {
+            value = 0
+            value = 2
+            value = 1
+            value = 2
+            value = 1
+            value = 1
+        }
+        observer.assertValuesOnly(0, 1)
+    }
+
+    @Test
+    fun distinct_by_default_selector() {
+        val data = MutableLiveData<Int>()
         val observer = data.distinct().test()
         data.run {
             value = 0
@@ -225,24 +239,9 @@ class TransformationsTest {
     }
 
     @Test
-    fun distinctBy() {
-        val data = MutableLiveData<Int>()
-        val observer = data.distinctBy { it % 2 }.test()
-        data.run {
-            value = 0
-            value = 2
-            value = 1
-            value = 2
-            value = 1
-            value = 1
-        }
-        observer.assertValuesOnly(0, 1)
-    }
-
-    @Test
-    fun distinctBy_with_identityHashCode() {
+    fun distinct_by_selector_using_identityHashCode() {
         val data = MutableLiveData<String>()
-        val observer = data.distinctBy { System.identityHashCode(it) }.test()
+        val observer = data.distinct { System.identityHashCode(it) }.test()
         val s1 = String()
         val s2 = String()
         assertEquals(s1, s2)
@@ -258,9 +257,9 @@ class TransformationsTest {
     }
 
     @Test
-    fun distinctUntilChangedBy() {
+    fun distinctUntilChanged() {
         val data = MutableLiveData<Int>()
-        val observer = data.distinctUntilChangedBy { it % 2 }.test()
+        val observer = data.distinctUntilChanged { it % 2 }.test()
         data.run {
             value = 0
             value = 2
@@ -273,9 +272,9 @@ class TransformationsTest {
     }
 
     @Test
-    fun distinctUntilChangedBy_with_identityHashCode() {
+    fun distinctUntilChanged_by_selector_using_identityHashCode() {
         val data = MutableLiveData<String>()
-        val observer = data.distinctUntilChangedBy { System.identityHashCode(it) }.test()
+        val observer = data.distinctUntilChanged { System.identityHashCode(it) }.test()
         val s1 = String()
         val s2 = String()
         assertEquals(s1, s2)
