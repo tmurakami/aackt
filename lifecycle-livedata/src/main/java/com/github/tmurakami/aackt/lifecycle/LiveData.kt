@@ -153,7 +153,5 @@ inline fun <T> LiveData<T>.subscribeChanges(
  */
 // TODO https://issuetracker.google.com/issues/94056118
 @MainThread
-fun <T> LiveData<T>.subscribeChanges(
-    owner: LifecycleOwner,
-    observer: Observer<T>
-): Subscription = ChangesOnlySubscriptionImpl(this, observer).also { observe(owner, it) }
+fun <T> LiveData<T>.subscribeChanges(owner: LifecycleOwner, observer: Observer<T>): Subscription =
+    ChangesOnlySubscriptionImpl(this, observer).also { observe(owner, it) }

@@ -123,9 +123,7 @@ inline fun <T> LiveData<T>.doOnChanged(crossinline action: (T) -> Unit): LiveDat
 @MainThread
 inline fun <T> LiveData<T>.filter(crossinline predicate: (T) -> Boolean): LiveData<T> {
     val result = MediatorLiveData<T>()
-    result.addSource(this) {
-        if (predicate(it)) result.value = it
-    }
+    result.addSource(this) { if (predicate(it)) result.value = it }
     return result
 }
 
@@ -277,9 +275,7 @@ fun <T> LiveData<T>.take(n: Int): LiveData<T> {
 @MainThread
 inline fun <T> LiveData<T>.takeWhile(crossinline predicate: (T) -> Boolean): LiveData<T> {
     val result = MediatorLiveData<T>()
-    result.addSource(this) {
-        if (predicate(it)) result.value = it else result.removeSource(this)
-    }
+    result.addSource(this) { if (predicate(it)) result.value = it else result.removeSource(this) }
     return result
 }
 
@@ -309,7 +305,7 @@ operator fun <T> LiveData<T>.plus(other: LiveData<out T>): LiveData<T> {
  */
 @MainThread
 fun <T, R> LiveData<T>.combineLatest(other: LiveData<R>): LiveData<Pair<T, R>> =
-    combineLatest(other) { a, b -> a to b }
+    combineLatest(other, ::Pair)
 
 /**
  * Returns a [LiveData] that emits the results of applying the given [transform] function to values
@@ -351,7 +347,7 @@ inline fun <T, R, V> LiveData<T>.combineLatest(
  */
 @MainThread
 fun <T, R> LiveData<T>.withLatestFrom(other: LiveData<R>): LiveData<Pair<T, R>> =
-    withLatestFrom(other) { a, b -> a to b }
+    withLatestFrom(other, ::Pair)
 
 /**
  * Returns a [LiveData] that emits the results of applying the given [transform] function to values
@@ -389,7 +385,7 @@ inline fun <T, R, V> LiveData<T>.withLatestFrom(
  * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.zip
  */
 @MainThread
-fun <T, R> LiveData<T>.zip(other: LiveData<R>): LiveData<Pair<T, R>> = zip(other) { a, b -> a to b }
+fun <T, R> LiveData<T>.zip(other: LiveData<R>): LiveData<Pair<T, R>> = zip(other, ::Pair)
 
 /**
  * Returns a [LiveData] that emits the results of applying the given [transform] function to values
@@ -430,7 +426,7 @@ inline fun <T, R, V> LiveData<T>.zip(
  * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.zipWithNext
  */
 @MainThread
-fun <T> LiveData<T>.zipWithNext(): LiveData<Pair<T, T>> = zipWithNext { a, b -> a to b }
+fun <T> LiveData<T>.zipWithNext(): LiveData<Pair<T, T>> = zipWithNext(::Pair)
 
 /**
  * Returns a [LiveData] that emits the results of applying the given [transform] function to each
