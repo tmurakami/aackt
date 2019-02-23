@@ -179,8 +179,8 @@ fun <T> LiveData<T>.distinct(): LiveData<T> = distinctBy { it }
  * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.distinctBy
  */
 @MainThread
-inline fun <T, K> LiveData<T>.distinctBy(crossinline selector: (T) -> K): LiveData<T> {
-    val set = HashSet<K>()
+inline fun <T> LiveData<T>.distinctBy(crossinline selector: (T) -> Any?): LiveData<T> {
+    val set = HashSet<Any?>()
     return filter { set.add(selector(it)) }
 }
 
@@ -200,7 +200,7 @@ fun <T> LiveData<T>.distinctUntilChanged(): LiveData<T> = distinctUntilChangedBy
  * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.distinctUntilChangedBy
  */
 @MainThread
-inline fun <T, K> LiveData<T>.distinctUntilChangedBy(crossinline selector: (T) -> K): LiveData<T> {
+inline fun <T> LiveData<T>.distinctUntilChangedBy(crossinline selector: (T) -> Any?): LiveData<T> {
     val result = MediatorLiveData<T>()
     result.addSource(this, object : Observer<T> {
         private var lastKey: Any? = /* NOT_SET */ this
