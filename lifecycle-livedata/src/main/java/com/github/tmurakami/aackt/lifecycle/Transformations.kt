@@ -170,7 +170,7 @@ inline fun <T> LiveData<T>.distinct(crossinline selector: (T) -> Any? = { it }):
 inline fun <T, K> LiveData<T>.distinctBy(crossinline selector: (T) -> K): LiveData<T> =
     distinct(selector)
 
-@Deprecated("", ReplaceWith("distinctUntilChanged<T>()", "androidx.lifecycle.distinctUntilChanged"))
+@Deprecated("", ReplaceWith("distinctUntilChanged()", "androidx.lifecycle.distinctUntilChanged"))
 @MainThread
 fun <T> LiveData<T>.distinctUntilChanged(): LiveData<T> = distinctUntilChanged { it }
 
