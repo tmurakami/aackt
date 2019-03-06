@@ -30,10 +30,8 @@ import com.github.tmurakami.aackt.lifecycle.filter
 import com.github.tmurakami.aackt.lifecycle.filterIsInstance
 import com.github.tmurakami.aackt.lifecycle.filterNot
 import com.github.tmurakami.aackt.lifecycle.filterNotNull
-import com.github.tmurakami.aackt.lifecycle.map
 import com.github.tmurakami.aackt.lifecycle.mapNotNull
 import com.github.tmurakami.aackt.lifecycle.plus
-import com.github.tmurakami.aackt.lifecycle.switchMap
 import com.github.tmurakami.aackt.lifecycle.take
 import com.github.tmurakami.aackt.lifecycle.takeWhile
 import com.github.tmurakami.aackt.lifecycle.withLatestFrom
@@ -51,27 +49,11 @@ class TransformationsTest {
     val instantTaskExecutorRule: InstantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Test
-    fun map() {
-        val data = MutableLiveData<Int>()
-        val observer = data.map { it * it }.test()
-        repeat(5) { data.value = it }
-        observer.assertValuesOnly(0, 1, 4, 9, 16)
-    }
-
-    @Test
     fun mapNotNull() {
         val data = MutableLiveData<Int>()
         val observer = data.mapNotNull { if (it % 2 == 0) null else it }.test()
         repeat(5) { data.value = it }
         observer.assertValuesOnly(1, 3)
-    }
-
-    @Test
-    fun switchMap() {
-        val data = MutableLiveData<Int>()
-        val observer = data.switchMap { MutableLiveData(it * it) }.test()
-        repeat(5) { data.value = it }
-        observer.assertValuesOnly(0, 1, 4, 9, 16)
     }
 
     @Test

@@ -23,11 +23,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.Transformations
 import java.util.LinkedList
 
-/**
- * Returns a [LiveData] that emits the results of applying the given [transform] function.
- *
- * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.map
- */
+@Deprecated("", ReplaceWith("map(transform)", "androidx.lifecycle.map"))
 @MainThread
 inline fun <T, R> LiveData<T>.map(crossinline transform: (T) -> R): LiveData<R> =
     Transformations.map(this) { transform(it) }
@@ -44,11 +40,7 @@ inline fun <T, R : Any> LiveData<T>.mapNotNull(crossinline transform: (T) -> R?)
     return result
 }
 
-/**
- * Returns a [LiveData] whose source is switched by the given [transform] function.
- *
- * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.switchMap
- */
+@Deprecated("", ReplaceWith("switchMap(transform)", "androidx.lifecycle.switchMap"))
 @MainThread
 inline fun <T, R> LiveData<T>.switchMap(crossinline transform: (T) -> LiveData<R>?): LiveData<R> =
     Transformations.switchMap(this) { transform(it) }
