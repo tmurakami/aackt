@@ -4,3 +4,5 @@ include ':lifecycle-viewmodel'
 
 include ':room-runtime'
 include ':room-rxjava2'
+
+include ':work-runtime'

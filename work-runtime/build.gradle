@@ -1,13 +1,5 @@
 apply from: "$rootDir/gradle/android-library.gradle"
 
 dependencies {
-    api deps.android.arch.work.runtime
-}
-
-dokka {
-    externalDocumentationLink {
-        url = 'https://developer.android.com/reference/'.toURL()
-        // TODO https://github.com/Kotlin/dokka/issues/213
-        packageListUrl = file("$rootDir/androidx-package-list").toURI().toURL()
-    }
+    api deps.androidx.work.runtime
 }
