@@ -57,7 +57,7 @@ inline fun <T> LiveData<T>.subscribe(crossinline action: (T) -> Unit): Subscript
  * resulting [Subscription].
  */
 @MainThread
-fun <T> LiveData<T>.subscribe(observer: Observer<T>): Subscription =
+fun <T> LiveData<T>.subscribe(observer: Observer<in T>): Subscription =
     SubscriptionImpl(this, observer).also { observeForever(observer) }
 
 @Suppress("DEPRECATION")
@@ -87,7 +87,7 @@ inline fun <T> LiveData<T>.subscribeChanges(crossinline action: (T) -> Unit): Su
  */
 // TODO https://issuetracker.google.com/issues/94056118
 @MainThread
-fun <T> LiveData<T>.subscribeChanges(observer: Observer<T>): Subscription =
+fun <T> LiveData<T>.subscribeChanges(observer: Observer<in T>): Subscription =
     ChangesOnlySubscriptionImpl(this, observer).also { observeForever(it) }
 
 @Suppress("DEPRECATION")
@@ -119,7 +119,7 @@ inline fun <T> LiveData<T>.subscribe(
  * unsubscribe by calling [Subscription.unsubscribe] with the resulting [Subscription].
  */
 @MainThread
-fun <T> LiveData<T>.subscribe(owner: LifecycleOwner, observer: Observer<T>): Subscription =
+fun <T> LiveData<T>.subscribe(owner: LifecycleOwner, observer: Observer<in T>): Subscription =
     SubscriptionImpl(this, observer).also { observe(owner, observer) }
 
 @Suppress("DEPRECATION")
@@ -153,5 +153,7 @@ inline fun <T> LiveData<T>.subscribeChanges(
  */
 // TODO https://issuetracker.google.com/issues/94056118
 @MainThread
-fun <T> LiveData<T>.subscribeChanges(owner: LifecycleOwner, observer: Observer<T>): Subscription =
-    ChangesOnlySubscriptionImpl(this, observer).also { observe(owner, it) }
+fun <T> LiveData<T>.subscribeChanges(
+    owner: LifecycleOwner,
+    observer: Observer<in T>
+): Subscription = ChangesOnlySubscriptionImpl(this, observer).also { observe(owner, it) }

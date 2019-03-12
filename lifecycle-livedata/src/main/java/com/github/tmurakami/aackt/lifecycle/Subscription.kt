@@ -37,7 +37,7 @@ interface Subscription : Observation {
 
 internal class SubscriptionImpl<T>(
     private val data: LiveData<T>,
-    private val observer: Observer<T>
+    private val observer: Observer<in T>
 ) : Subscription {
     override fun unsubscribe() = data.removeObserver(observer)
 }
