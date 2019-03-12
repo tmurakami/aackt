@@ -54,7 +54,7 @@ task clean(type: Delete) {
 ext {
     deps = [:]
 
-    deps.ktlint = 'com.github.shyiko:ktlint:0.30.0'
+    deps.ktlint = 'com.github.shyiko:ktlint:0.31.0'
 
     deps.kotlin = [stdlib: "org.jetbrains.kotlin:kotlin-stdlib:${versions.kotlin}",
                    junit4: "org.jetbrains.kotlin:kotlin-test-junit:${versions.kotlin}",]
