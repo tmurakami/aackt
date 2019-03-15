@@ -74,7 +74,7 @@ class FooActivity : FragmentActivity() {
         val viewModelProvider = createViewModelProvider()
         val fooViewModel: FooViewModel by viewModelProvider
 
-        ...
+        /* ... */
     }
 }
 ```
@@ -83,7 +83,7 @@ class FooActivity : FragmentActivity() {
 
 ```kotlin
 // Create a new Migration instance
-val MIGRATION_1_2 = Migration(1, 2) { ... }
+val MIGRATION_1_2 = Migration(1, 2) { /* ... */ }
 
 // Create a new RoomDatabase instance
 val db = context.createRoomDatabase<MyRoomDatabase>("app.db") {
@@ -99,6 +99,8 @@ Add the following to your `build.gradle`:
 repositories {
     google()
     maven { url 'https://jitpack.io' }
+    // https://youtrack.jetbrains.com/issue/KT-27991
+    maven { url 'https://kotlin.bintray.com/kotlinx/' }
     jcenter()
 }
 
