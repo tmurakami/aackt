@@ -91,6 +91,22 @@ val db = context.createRoomDatabase<MyRoomDatabase>("app.db") {
 }
 ```
 
+## WorkManager
+
+```kotlin
+class MyWorker(context: Context, params: WorkerParameters) : Worker(context, params) {
+    override fun doWork(): Result {
+        /* ... */
+    }
+}
+
+val workRequest = OneTimeWorkRequestBuilder<MyWorker>().build()
+
+// `DefaultWorkManager` is a top-level property that returns the
+// singleton instance of `WorkManager`.
+DefaultWorkManager.enqueue(workRequest)
+```
+
 ## Installation
 
 Add the following to your `build.gradle`:
@@ -123,6 +139,9 @@ dependencies {
     // Room with RxJava2
     implementation "com.github.tmurakami.aackt:room-rxjava2:$aacktVersion"
 
+    // WorkManager
+    implementation "com.github.tmurakami.aackt:work-runtime:$aacktVersion"
+
 }
 ```
 
@@ -138,6 +157,10 @@ dependencies {
 
 - [Runtime](https://jitpack.io/com/github/tmurakami/aackt/room-runtime/2.0.0-alpha06/javadoc/room-runtime/)
 - [RxJava2](https://jitpack.io/com/github/tmurakami/aackt/room-rxjava2/2.0.0-alpha06/javadoc/room-rxjava2/)
+
+### WorkManager
+
+- [Runtime](https://jitpack.io/com/github/tmurakami/aackt/work-runtime/2.0.0-alpha06/javadoc/work-runtime/)
 
 ## License
 
