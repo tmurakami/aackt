@@ -20,30 +20,36 @@ import android.os.Bundle
 import androidx.lifecycle.AbstractSavedStateVMFactory
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.savedstate.SavedStateRegistryOwner
+import com.github.tmurakami.aackt.lifecycle.StateAwareViewModelFactory.Creator
 
 /**
- * An interface that instantiates [ViewModel]s.
+ * A subclass of [AbstractSavedStateVMFactory] which delegates the instantiation of [ViewModel]s to
+ * the [Creator] specified in the constructor.
  */
-interface SavedStateVMCreator {
-    /**
-     * Creates a new [ViewModel] of the given [modelClass]. You can write and read values to and
-     * from the saved state using the given [handle].
-     */
-    fun <T : ViewModel> create(key: String, modelClass: Class<T>, handle: SavedStateHandle): T
-}
-
-/**
- * Creates a new [ViewModelProvider.Factory] with the given [owner] and [defaultArgs].
- */
-fun SavedStateVMCreator.toFactory(
+class StateAwareViewModelFactory(
     owner: SavedStateRegistryOwner,
+    private val creator: Creator,
     defaultArgs: Bundle? = null
-): ViewModelProvider.Factory = object : AbstractSavedStateVMFactory(owner, defaultArgs) {
+) : AbstractSavedStateVMFactory(owner, defaultArgs) {
+    /**
+     * Delegates the instantiation of a new [ViewModel] to the [Creator] specified in the
+     * constructor.
+     */
     override fun <T : ViewModel> create(
         key: String,
         modelClass: Class<T>,
         handle: SavedStateHandle
-    ): T = this@toFactory.create(key, modelClass, handle)
+    ): T = creator.create(key, modelClass, handle)
+
+    /**
+     * An interface that instantiates [ViewModel]s.
+     */
+    interface Creator {
+        /**
+         * Creates a new [ViewModel] of the given [modelClass]. You can write and read values to and
+         * from the saved state using the given [handle].
+         */
+        fun <T : ViewModel> create(key: String, modelClass: Class<T>, handle: SavedStateHandle): T
+    }
 }
