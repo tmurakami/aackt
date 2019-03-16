@@ -1,6 +1,7 @@
 include ':lifecycle-extensions'
 include ':lifecycle-livedata'
 include ':lifecycle-viewmodel'
+include ':lifecycle-viewmodel-savedstate'
 
 include ':room-runtime'
 include ':room-rxjava2'
