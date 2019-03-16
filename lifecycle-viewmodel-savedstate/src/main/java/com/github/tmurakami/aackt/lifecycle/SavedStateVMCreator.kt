@@ -24,7 +24,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.savedstate.SavedStateRegistryOwner
 
 /**
- * An interface that instantiate [ViewModel]s.
+ * An interface that instantiates [ViewModel]s.
  */
 interface SavedStateVMCreator {
     /**
