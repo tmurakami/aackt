@@ -28,11 +28,16 @@ import androidx.savedstate.SavedStateRegistryOwner
 import com.github.tmurakami.aackt.lifecycle.SavedStateVMCreator
 import com.github.tmurakami.aackt.lifecycle.toFactory
 import kotlin.test.Test
+import kotlin.test.assertSame
 
 class SavedStateVMCreatorTest {
     @Test
-    fun getViewModel() {
-        class TestViewModel(@Suppress("UNUSED_PARAMETER") handle: SavedStateHandle) : ViewModel()
+    fun create() {
+        class TestViewModel(val handle: SavedStateHandle) : ViewModel() {
+            init {
+                handle.set("test", 0)
+            }
+        }
 
         val owner = object : SavedStateRegistryOwner {
             private val lifecycle = LifecycleRegistry(this)
@@ -50,6 +55,8 @@ class SavedStateVMCreatorTest {
                 handle: SavedStateHandle
             ): T = modelClass.cast(TestViewModel(handle))!!
         }.toFactory(owner)
-        ViewModelProvider(ViewModelStore(), factory).get("testViewModel", TestViewModel::class.java)
+        val provider = ViewModelProvider(ViewModelStore(), factory)
+        val viewModel = provider.get("testViewModel", TestViewModel::class.java)
+        assertSame(0, viewModel.handle.get<Int?>("test"))
     }
 }
