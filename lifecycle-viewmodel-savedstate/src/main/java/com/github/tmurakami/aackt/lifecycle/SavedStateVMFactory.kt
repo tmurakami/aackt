@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-@file:Suppress("FunctionName")
-
 package com.github.tmurakami.aackt.lifecycle
 
 import android.os.Bundle
@@ -24,17 +22,13 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.SavedStateVMFactory
 
 /**
- * Creates a [ViewModelFactoryCreator] responsible for instantiation of [SavedStateVMFactory].
+ * A factory responsible for instantiation of [SavedStateVMFactory].
  */
-fun SavedStateVMFactoryCreator(
-    fragment: Fragment,
-    defaultArgs: Bundle? = null
-): ViewModelFactoryCreator = { SavedStateVMFactory(fragment, defaultArgs) }
+typealias SavedStateVMFactoryCreatorForFragment =
+        (Fragment, defaultArgs: Bundle?) -> SavedStateVMFactory
 
 /**
- * Creates a [ViewModelFactoryCreator] responsible for instantiation of [SavedStateVMFactory].
+ * A factory responsible for instantiation of [SavedStateVMFactory].
  */
-fun SavedStateVMFactoryCreator(
-    activity: FragmentActivity,
-    defaultArgs: Bundle? = null
-): ViewModelFactoryCreator = { SavedStateVMFactory(activity, defaultArgs) }
+typealias SavedStateVMFactoryCreatorForActivity =
+        (activity: FragmentActivity, defaultArgs: Bundle?) -> SavedStateVMFactory
