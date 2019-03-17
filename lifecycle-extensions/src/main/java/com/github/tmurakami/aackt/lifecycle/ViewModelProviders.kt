@@ -31,15 +31,6 @@ import androidx.lifecycle.ViewModelProviders
 @MainThread
 inline fun Fragment.createViewModelProvider(): ViewModelProvider = ViewModelProviders.of(this)
 
-@Deprecated(
-    "",
-    ReplaceWith("ViewModelProvider(this, factory)", "androidx.lifecycle.ViewModelProvider")
-)
-@MainThread
-inline fun Fragment.createViewModelProvider(
-    factory: ViewModelProvider.Factory? = null
-): ViewModelProvider = ViewModelProviders.of(this, factory)
-
 /**
  * Creates a [ViewModelProvider] that uses [ViewModelProvider.AndroidViewModelFactory] to
  * instantiate new ViewModels.
@@ -47,12 +38,3 @@ inline fun Fragment.createViewModelProvider(
 @MainThread
 inline fun FragmentActivity.createViewModelProvider(): ViewModelProvider =
     ViewModelProviders.of(this)
-
-@Deprecated(
-    "",
-    ReplaceWith("ViewModelProvider(this, factory)", "androidx.lifecycle.ViewModelProvider")
-)
-@MainThread
-inline fun FragmentActivity.createViewModelProvider(
-    factory: ViewModelProvider.Factory? = null
-): ViewModelProvider = ViewModelProviders.of(this, factory)

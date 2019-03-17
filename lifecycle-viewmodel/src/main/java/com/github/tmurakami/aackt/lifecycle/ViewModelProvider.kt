@@ -14,12 +14,22 @@
  * limitations under the License.
  */
 
+@file:Suppress("NOTHING_TO_INLINE")
+
 package com.github.tmurakami.aackt.lifecycle
 
 import androidx.annotation.MainThread
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStoreOwner
 import kotlin.reflect.KProperty
+
+/**
+ * Creates a [ViewModelProvider] that uses the given [factory] to instantiate new ViewModels.
+ */
+inline fun ViewModelStoreOwner.createViewModelProvider(
+    factory: ViewModelProvider.Factory
+): ViewModelProvider = ViewModelProvider(this, factory)
 
 /**
  * Returns an existing [ViewModel] with the given [key], or creates a new one.
