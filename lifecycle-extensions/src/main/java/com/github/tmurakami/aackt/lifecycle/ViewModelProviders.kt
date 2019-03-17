@@ -29,7 +29,8 @@ import androidx.lifecycle.ViewModelProviders
  * instantiate new ViewModels.
  */
 @MainThread
-inline fun Fragment.createViewModelProvider(): ViewModelProvider = ViewModelProviders.of(this)
+inline fun Fragment.createViewModelProvider(): ViewModelProvider =
+    ViewModelProviders.of(this)
 
 /**
  * Creates a [ViewModelProvider] that uses [ViewModelProvider.AndroidViewModelFactory] to
