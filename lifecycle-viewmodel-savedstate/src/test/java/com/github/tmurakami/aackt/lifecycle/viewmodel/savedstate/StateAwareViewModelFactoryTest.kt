@@ -16,15 +16,10 @@
 
 package com.github.tmurakami.aackt.lifecycle.viewmodel.savedstate
 
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStore
-import androidx.savedstate.SavedStateRegistry
-import androidx.savedstate.SavedStateRegistryController
-import androidx.savedstate.SavedStateRegistryOwner
 import com.github.tmurakami.aackt.lifecycle.StateAwareViewModelFactory
 import kotlin.test.Test
 import kotlin.test.assertSame
@@ -38,15 +33,6 @@ class StateAwareViewModelFactoryTest {
             }
         }
 
-        val owner = object : SavedStateRegistryOwner {
-            private val lifecycle = LifecycleRegistry(this)
-            private val controller = SavedStateRegistryController.create(this).apply {
-                performRestore(null)
-            }
-
-            override fun getLifecycle(): Lifecycle = lifecycle
-            override fun getSavedStateRegistry(): SavedStateRegistry = controller.savedStateRegistry
-        }
         val creator = object : StateAwareViewModelFactory.Creator {
             override fun <T : ViewModel> create(
                 key: String,
@@ -54,7 +40,7 @@ class StateAwareViewModelFactoryTest {
                 handle: SavedStateHandle
             ): T = modelClass.cast(TestViewModel(handle))!!
         }
-        val factory = StateAwareViewModelFactory(owner, creator)
+        val factory = StateAwareViewModelFactory(FakeSavedStateRegistryOwner(), creator)
         val provider = ViewModelProvider(ViewModelStore(), factory)
         val viewModel = provider.get("testViewModel", TestViewModel::class.java)
         assertSame(0, viewModel.handle.get<Int?>("test"))
