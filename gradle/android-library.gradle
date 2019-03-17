@@ -9,6 +9,9 @@ android {
     defaultConfig {
         minSdkVersion 14
     }
+    lintOptions {
+        check 'Interoperability'
+    }
     kotlinOptions {
         allWarningsAsErrors = true
         freeCompilerArgs += ['-Xno-param-assertions']
