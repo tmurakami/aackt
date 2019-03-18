@@ -30,8 +30,9 @@ import androidx.lifecycle.ViewModelProvider
  * val viewModelFactory = createViewModelFactory(arguments)
  * ```
  *
- * For example, to replace the [ViewModelProvider.Factory] instance with a mock object for testing,
- * you could replace [ViewModelFactoryWithBundleMaker] as follows:
+ * For example, if you want to replace the [SavedStateVMFactory] instance with a mock
+ * [ViewModelProvider.Factory] for testing, you could replace the [ViewModelFactoryWithBundleMaker]
+ * by doing the following:
  *
  * ```
  * class MyFragment @VisibleForTesting constructor(
