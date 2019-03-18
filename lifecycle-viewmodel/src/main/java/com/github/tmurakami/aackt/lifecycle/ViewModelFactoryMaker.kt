@@ -16,19 +16,14 @@
 
 package com.github.tmurakami.aackt.lifecycle
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.SavedStateVMFactory
+import androidx.lifecycle.ViewModelProvider
 
 /**
- * A factory responsible for instantiation of [SavedStateVMFactory].
+ * A factory responsible for instantiation of [ViewModelProvider.Factory].
  */
-typealias SavedStateVMFactoryCreatorForFragment =
-        (Fragment, defaultArgs: Bundle?) -> SavedStateVMFactory
+typealias ViewModelFactoryMaker<T> = T.() -> ViewModelProvider.Factory
 
 /**
- * A factory responsible for instantiation of [SavedStateVMFactory].
+ * A factory responsible for instantiation of [ViewModelProvider.Factory].
  */
-typealias SavedStateVMFactoryCreatorForActivity =
-        (activity: FragmentActivity, defaultArgs: Bundle?) -> SavedStateVMFactory
+typealias ViewModelFactoryWithArgsMaker<T, A> = T.(args: A) -> ViewModelProvider.Factory
