@@ -38,9 +38,7 @@ inline fun ViewModelStoreOwner.createViewModelProvider(
 inline operator fun <reified T : ViewModel> ViewModelProvider.get(key: String): T =
     get(key, T::class.java)
 
-/**
- * Returns an existing [ViewModel] with the given [property] name, or creates a new one.
- */
+@Deprecated("", ReplaceWith(""))
 @MainThread
 inline operator fun <reified T : ViewModel> ViewModelProvider.getValue(
     thisRef: Any?,
