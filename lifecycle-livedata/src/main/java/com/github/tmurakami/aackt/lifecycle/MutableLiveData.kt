@@ -23,7 +23,7 @@ import androidx.lifecycle.MutableLiveData
 import kotlin.reflect.KProperty
 
 /**
- * Sets the value.
+ * Sets the [value].
  */
 @MainThread
 inline operator fun <T> MutableLiveData<T>.setValue(
