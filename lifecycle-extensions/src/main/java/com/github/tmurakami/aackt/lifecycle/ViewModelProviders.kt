@@ -21,12 +21,13 @@ package com.github.tmurakami.aackt.lifecycle
 import androidx.annotation.MainThread
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 
 /**
  * Creates a [ViewModelProvider] that uses [ViewModelProvider.AndroidViewModelFactory] to
- * instantiate new ViewModels.
+ * instantiate new [ViewModel]s.
  */
 @MainThread
 inline fun Fragment.createViewModelProvider(): ViewModelProvider =
@@ -34,7 +35,7 @@ inline fun Fragment.createViewModelProvider(): ViewModelProvider =
 
 /**
  * Creates a [ViewModelProvider] that uses [ViewModelProvider.AndroidViewModelFactory] to
- * instantiate new ViewModels.
+ * instantiate new [ViewModel]s.
  */
 @MainThread
 inline fun FragmentActivity.createViewModelProvider(): ViewModelProvider =
