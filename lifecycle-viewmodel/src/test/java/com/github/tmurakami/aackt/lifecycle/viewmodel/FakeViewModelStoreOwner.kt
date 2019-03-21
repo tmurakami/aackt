@@ -16,23 +16,10 @@
 
 package com.github.tmurakami.aackt.lifecycle.viewmodel
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStore
-import com.github.tmurakami.aackt.lifecycle.getValue
-import kotlin.test.Test
-import kotlin.test.assertNotSame
-import kotlin.test.assertSame
+import androidx.lifecycle.ViewModelStoreOwner
 
-class ViewModelProviderTest {
-    @Test
-    fun getValue() {
-        class TestViewModel : ViewModel()
-
-        val provider = ViewModelProvider(ViewModelStore(), ViewModelProvider.NewInstanceFactory())
-        val vm1: TestViewModel by provider
-        assertSame(vm1, vm1)
-        val vm2: TestViewModel by provider
-        assertNotSame(vm1, vm2)
-    }
+class FakeViewModelStoreOwner(private val viewModelStore: ViewModelStore = ViewModelStore()) :
+    ViewModelStoreOwner {
+    override fun getViewModelStore(): ViewModelStore = viewModelStore
 }

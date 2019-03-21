@@ -3,4 +3,12 @@ apply from: "$rootDir/gradle/android-library.gradle"
 dependencies {
     api deps.androidx.lifecycle.viewmodel_savedstate
     api project(':lifecycle-viewmodel')
+    testImplementation deps.androidx.arch.core.testing
+}
+
+dokka {
+    externalDocumentationLink {
+        url = "https://javadoc.jitpack.io/${project.group.tr(".", "/")}/lifecycle-viewmodel/$version/javadoc/lifecycle-viewmodel/".toURL()
+        packageListUrl = file("${project(':lifecycle-viewmodel').buildDir}/docs/javadoc/lifecycle-viewmodel/package-list").toURI().toURL()
+    }
 }
