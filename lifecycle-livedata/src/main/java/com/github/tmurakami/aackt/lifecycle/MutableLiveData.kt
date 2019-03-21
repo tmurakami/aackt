@@ -30,9 +30,7 @@ inline operator fun <T> MutableLiveData<T>.setValue(
     thisRef: Any?,
     property: KProperty<*>,
     value: T
-) {
-    this.value = value
-}
+) = setValue(value)
 
 @Deprecated("", ReplaceWith("MutableLiveData(value)", "androidx.lifecycle.MutableLiveData"))
 @MainThread

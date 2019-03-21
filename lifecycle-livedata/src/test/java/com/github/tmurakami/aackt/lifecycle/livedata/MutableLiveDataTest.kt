@@ -32,7 +32,7 @@ class MutableLiveDataTest {
     @Test
     fun setValue() {
         val data = MutableLiveData<Int?>()
-        var value: Int? by data
+        var value by data
         assertNull(value)
         value = 0
         assertSame(0, value)
