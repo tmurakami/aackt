@@ -20,58 +20,50 @@ import androidx.annotation.MainThread
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
-import kotlin.reflect.KClass
+import androidx.lifecycle.get
 
 /**
- * A factory that defers instantiation of [ViewModel]s.
+ * Represents [ViewModel]s.
  */
-@MainThread
 interface ViewModels<in O : ViewModelStoreOwner> {
     /**
-     * Creates a [Lazy] which will instantiate a [ViewModel] of the owner returned by the given
-     * [ownerProvider].
+     * Creates this owner's [ViewModelProvider].
      */
-    fun <T : ViewModel> viewModelLazy(modelClass: KClass<T>, ownerProvider: () -> O): Lazy<T>
+    fun O.createViewModelProvider(): ViewModelProvider
 }
 
 /**
- * Creates a [Lazy] which will instantiate a [ViewModel] of this owner.
+ * Creates a [Lazy] which will instantiate this owner's [ViewModel].
  *
  * You can call this by using interface delegation, as shown below:
  *
  * ```
- * class MyFragment(viewModels: ViewModels<Fragment> = ...) :
+ * class MyFragment(viewModels: ViewModels<Fragment> = ViewModels { ... }) :
  *     Fragment(), ViewModels<Fragment> by viewModels {
- *     private val viewModel: MyViewModel by viewModelLazy()
+ *     private val viewModel: MyViewModel by viewModel()
  * }
  * ```
  */
 @MainThread
-inline fun <reified T : ViewModel, O> O.viewModelLazy(): Lazy<T>
-    where O : ViewModelStoreOwner, O : ViewModels<O> = viewModelLazy { this }
+inline fun <reified T : ViewModel, O> O.viewModel(): Lazy<T>
+    where O : ViewModelStoreOwner, O : ViewModels<O> = viewModel { this }
 
 /**
- * Creates a [Lazy] which will instantiate a [ViewModel] of the owner returned by the given
- * [ownerProvider].
+ * Creates a [Lazy] which will instantiate the given [owner]'s [ViewModel].
  */
 @MainThread
-inline fun <reified T : ViewModel, O : ViewModelStoreOwner> ViewModels<O>.viewModelLazy(
-    noinline ownerProvider: () -> O
-): Lazy<T> = viewModelLazy(T::class, ownerProvider)
+inline fun <reified T : ViewModel, O : ViewModelStoreOwner> ViewModels<O>.viewModel(
+    crossinline owner: () -> O
+): Lazy<T> = lazy(LazyThreadSafetyMode.NONE) { owner().createViewModelProvider().get<T>() }
 
 /**
  * Creates a [ViewModels].
  *
- * The given [factoryMaker] will be called for each instantiation of [ViewModel]s.
+ * The given [factory] function will be called for each instantiation of [ViewModel]s.
  */
 @Suppress("FunctionName")
-fun <O : ViewModelStoreOwner> ViewModels(
-    factoryMaker: O.() -> ViewModelProvider.Factory
+inline fun <O : ViewModelStoreOwner> ViewModels(
+    crossinline factory: O.() -> ViewModelProvider.Factory
 ): ViewModels<O> = object : ViewModels<O> {
-    override fun <T : ViewModel> viewModelLazy(
-        modelClass: KClass<T>,
-        ownerProvider: () -> O
-    ): Lazy<T> = lazy(LazyThreadSafetyMode.NONE) {
-        ownerProvider().let { ViewModelProvider(it, factoryMaker(it)) }.get(modelClass.java)
-    }
+    override fun O.createViewModelProvider(): ViewModelProvider = createViewModelProvider(factory())
 }
