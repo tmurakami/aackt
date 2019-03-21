@@ -23,8 +23,8 @@ import com.github.tmurakami.aackt.lifecycle.liveData
 import com.github.tmurakami.aackt.lifecycle.setValue
 import org.junit.Rule
 import kotlin.test.Test
-import kotlin.test.assertEquals
 import kotlin.test.assertNull
+import kotlin.test.assertSame
 
 class SavedStateHandleTest {
     @[Rule JvmField]
@@ -33,27 +33,27 @@ class SavedStateHandleTest {
     @Test
     fun liveData() {
         val handle = SavedStateHandle()
-        val d by handle.liveData<String>()
-        assertNull(d.value)
-        handle["d"] = "test"
-        assertEquals("test", d.value)
+        val data by handle.liveData<Int>()
+        assertNull(data.value)
+        handle["data"] = 0
+        assertSame(0, data.value)
     }
 
     @Test
     fun getValue() {
         val handle = SavedStateHandle()
-        handle["s"] = "test"
-        val s: String by handle
-        assertEquals("test", s)
+        handle["value"] = 0
+        val value: Int by handle
+        assertSame(0, value)
     }
 
     @Test
     fun setValue() {
         val handle = SavedStateHandle()
-        var s: String? by handle
-        assertNull(s)
-        s = "test"
-        assertEquals("test", s)
-        assertEquals<String?>("test", handle["s"])
+        var value: Int? by handle
+        assertNull(value)
+        value = 0
+        assertSame(0, value)
+        assertSame<Int?>(0, handle["value"])
     }
 }

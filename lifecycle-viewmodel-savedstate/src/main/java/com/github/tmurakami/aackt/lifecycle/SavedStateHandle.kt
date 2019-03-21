@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-@file:Suppress("NOTHING_TO_INLINE")
-
 package com.github.tmurakami.aackt.lifecycle
 
+import androidx.annotation.MainThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.SavedStateHandle
 import kotlin.properties.ReadOnlyProperty
@@ -26,6 +25,7 @@ import kotlin.reflect.KProperty
 /**
  * Creates a [ReadOnlyProperty] to access a [LiveData] associated with the property name.
  */
+@MainThread
 fun <T> SavedStateHandle.liveData(): ReadOnlyProperty<Any?, LiveData<T>> =
     object : ReadOnlyProperty<Any?, LiveData<T>> {
         override fun getValue(thisRef: Any?, property: KProperty<*>): LiveData<T> =
@@ -35,12 +35,15 @@ fun <T> SavedStateHandle.liveData(): ReadOnlyProperty<Any?, LiveData<T>> =
 /**
  * Returns a value associated with the [property] name.
  */
-@Suppress("RemoveExplicitTypeArguments", "UNCHECKED_CAST")
-inline operator fun <T> SavedStateHandle.getValue(thisRef: Any?, property: KProperty<*>): T =
-    get<T>(property.name) as T
+@[MainThread Suppress("RemoveExplicitTypeArguments")]
+inline operator fun <reified T> SavedStateHandle.getValue(
+    thisRef: Any?,
+    property: KProperty<*>
+): T = get<T>(property.name) as T
 
 /**
  * Associates the given value with the [property] name.
  */
+@[MainThread Suppress("NOTHING_TO_INLINE")]
 inline operator fun <T> SavedStateHandle.setValue(thisRef: Any?, property: KProperty<*>, value: T) =
     set(property.name, value)
