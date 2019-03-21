@@ -17,19 +17,29 @@
 package com.github.tmurakami.aackt.lifecycle.livedata
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import com.github.tmurakami.aackt.lifecycle.getValue
 import com.github.tmurakami.aackt.lifecycle.subscribe
 import com.github.tmurakami.aackt.lifecycle.subscribeChanges
 import org.junit.Rule
 import kotlin.test.Test
 import kotlin.test.assertFalse
+import kotlin.test.assertSame
 import kotlin.test.assertTrue
 
 class LiveDataTest {
     @[Rule JvmField]
     val instantTaskExecutorRule: InstantTaskExecutorRule = InstantTaskExecutorRule()
+
+    @Test
+    fun getValue() {
+        val data = object : LiveData<Int>(0) {}
+        val value by data
+        assertSame(0, value)
+    }
 
     @Test
     fun subscribe() {
