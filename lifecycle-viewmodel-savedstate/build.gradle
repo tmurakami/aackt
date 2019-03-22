@@ -12,3 +12,4 @@ dokka {
         packageListUrl = file("${project(':lifecycle-viewmodel').buildDir}/docs/javadoc/lifecycle-viewmodel/package-list").toURI().toURL()
     }
 }
+dokka.dependsOn ':lifecycle-viewmodel:dokka'
