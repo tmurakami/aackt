@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-@file:Suppress("NOTHING_TO_INLINE")
-
 package com.github.tmurakami.aackt.lifecycle
 
 import androidx.fragment.app.Fragment
@@ -24,27 +22,17 @@ import androidx.lifecycle.SavedStateVMFactory
 import androidx.lifecycle.ViewModel
 
 /**
- * Represents Fragment-scoped [ViewModels].
+ * A [ViewModels] that uses [SavedStateVMFactory] to instantiate new [ViewModel]s.
+ *
+ * This is equivalent to `{ f -> ViewModelProvider(f, SavedStateVMFactory(f, f.arguments)) }`.
  */
-typealias FragmentViewModels = ViewModels<Fragment>
-
-/**
- * Represents Activity-scoped [ViewModels].
- */
-typealias ActivityViewModels = ViewModels<FragmentActivity>
+val FragmentStateAwareViewModels: ViewModels<Fragment> =
+    { it.createViewModelProvider(SavedStateVMFactory(it, it.arguments)) }
 
 /**
  * A [ViewModels] that uses [SavedStateVMFactory] to instantiate new [ViewModel]s.
  *
- * This is equivalent to `ViewModels { SavedStateVMFactory(this, arguments) }`.
+ * This is equivalent to `{ a -> ViewModelProvider(a, SavedStateVMFactory(a, a.intent.extras)) }`.
  */
-val FragmentStateAwareViewModels: FragmentViewModels =
-    ViewModels { SavedStateVMFactory(this, arguments) }
-
-/**
- * A [ViewModels] that uses [SavedStateVMFactory] to instantiate new [ViewModel]s.
- *
- * This is equivalent to `ViewModels { SavedStateVMFactory(this, intent.extras) }`.
- */
-val ActivityStateAwareViewModels: ActivityViewModels =
-    ViewModels { SavedStateVMFactory(this, intent.extras) }
+val ActivityStateAwareViewModels: ViewModels<FragmentActivity> =
+    { it.createViewModelProvider(SavedStateVMFactory(it, it.intent.extras)) }

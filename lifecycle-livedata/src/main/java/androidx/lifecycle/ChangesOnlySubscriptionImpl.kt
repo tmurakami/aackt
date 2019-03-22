@@ -21,7 +21,8 @@ import com.github.tmurakami.aackt.lifecycle.Subscription
 internal class ChangesOnlySubscriptionImpl<T>(
     private val data: LiveData<T>,
     private val observer: Observer<in T>
-) : Subscription, Observer<T> {
+) : Subscription,
+    Observer<T> {
     private val startVersion = data.version
 
     override fun onChanged(t: T) {

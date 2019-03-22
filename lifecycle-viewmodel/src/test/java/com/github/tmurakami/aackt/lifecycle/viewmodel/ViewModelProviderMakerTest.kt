@@ -19,32 +19,28 @@ package com.github.tmurakami.aackt.lifecycle.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
-import com.github.tmurakami.aackt.lifecycle.ViewModels
+import com.github.tmurakami.aackt.lifecycle.ViewModelProviderMaker
+import com.github.tmurakami.aackt.lifecycle.createViewModelProvider
 import com.github.tmurakami.aackt.lifecycle.viewModel
 import kotlin.test.Test
 import kotlin.test.assertSame
 
-class ViewModelsTest {
+class ViewModelProviderMakerTest {
     @Test
     fun viewModel() {
-        var createCount = 0
-        val viewModels = ViewModels<ViewModelStoreOwner> {
-            object : ViewModelProvider.Factory {
-                override fun <T : ViewModel> create(modelClass: Class<T>): T =
-                    modelClass.cast(TestViewModel(this@ViewModels))!!.also { createCount++ }
-            }
+        val providerMaker: ViewModelProviderMaker<ViewModelStoreOwner> = {
+            it.createViewModelProvider(object : ViewModelProvider.Factory {
+                override fun <T : ViewModel> create(c: Class<T>) = c.cast(TestViewModel(it))!!
+            })
         }
         val owner1 = object :
-            ViewModels<ViewModelStoreOwner> by viewModels,
+            ViewModelProviderMaker<ViewModelStoreOwner> by providerMaker,
             ViewModelStoreOwner by FakeViewModelStoreOwner() {}
         val owner2 = FakeViewModelStoreOwner()
         val owner1ViewModel: TestViewModel by owner1.viewModel()
-        val owner2ViewModel: TestViewModel by owner1.viewModel { owner2 }
-        assertSame(0, createCount)
         assertSame(owner1, owner1ViewModel.owner)
-        assertSame(1, createCount)
+        val owner2ViewModel: TestViewModel by owner1.viewModel { owner2 }
         assertSame(owner2, owner2ViewModel.owner)
-        assertSame(2, createCount)
     }
 
     class TestViewModel(val owner: ViewModelStoreOwner) : ViewModel()

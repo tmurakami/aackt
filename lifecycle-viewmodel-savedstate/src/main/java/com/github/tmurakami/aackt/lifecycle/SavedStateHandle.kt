@@ -28,8 +28,7 @@ import kotlin.reflect.KProperty
 @MainThread
 fun <T> SavedStateHandle.liveData(): ReadOnlyProperty<Any?, LiveData<T>> =
     object : ReadOnlyProperty<Any?, LiveData<T>> {
-        override fun getValue(thisRef: Any?, property: KProperty<*>): LiveData<T> =
-            getLiveData(property.name)
+        override fun getValue(thisRef: Any?, property: KProperty<*>) = getLiveData<T>(property.name)
     }
 
 /**
