@@ -31,9 +31,7 @@ inline fun ViewModelStoreOwner.createViewModelProvider(
     factory: ViewModelProvider.Factory
 ): ViewModelProvider = ViewModelProvider(this, factory)
 
-/**
- * Returns an existing [ViewModel] with the given [key], or creates a new one.
- */
+@Deprecated("", ReplaceWith("get(key, T::class.java)"))
 @MainThread
 inline operator fun <reified T : ViewModel> ViewModelProvider.get(key: String): T =
     get(key, T::class.java)
@@ -43,4 +41,4 @@ inline operator fun <reified T : ViewModel> ViewModelProvider.get(key: String): 
 inline operator fun <reified T : ViewModel> ViewModelProvider.getValue(
     thisRef: Any?,
     property: KProperty<*>
-): T = get(property.name)
+): T = get(property.name, T::class.java)
