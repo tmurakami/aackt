@@ -35,10 +35,10 @@ class ViewModelsTest {
         }
         val one = FakeViewModelStoreOwner()
         val another = FakeViewModelStoreOwner()
-        val owner1ViewModel: TestViewModel by viewModels of { one }
-        assertSame(one, owner1ViewModel.owner)
-        val owner2ViewModel: TestViewModel by viewModels of { another }
-        assertSame(another, owner2ViewModel.owner)
+        val oneViewModel: TestViewModel by viewModels of { one }
+        assertSame(one, oneViewModel.owner)
+        val anotherViewModel: TestViewModel by viewModels of { another }
+        assertSame(another, anotherViewModel.owner)
     }
 
     class TestViewModel(val owner: ViewModelStoreOwner) : ViewModel()
