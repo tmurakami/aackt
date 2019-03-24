@@ -25,10 +25,7 @@ import androidx.lifecycle.ViewModelStoreOwner
 /**
  * A provider of [ViewModel]s that uses [SavedStateVMFactory] to instantiate new [ViewModel]s.
  *
- * This is the same as follows:
- * ```
- * { f -> f.createViewModelProvider(SavedStateVMFactory(f, f.arguments)) }
- * ```
+ * This is equivalent to `{ f -> f.createViewModelProvider(SavedStateVMFactory(f, f.arguments)) }`.
  *
  * @see ViewModelStoreOwner.createViewModelProvider
  * @see SavedStateVMFactory
@@ -39,10 +36,8 @@ val FragmentStateAwareViewModels: ViewModels<Fragment> =
 /**
  * A provider of [ViewModel]s that uses [SavedStateVMFactory] to instantiate new [ViewModel]s.
  *
- * This is the same as follows:
- * ```
- * { a -> a.createViewModelProvider(SavedStateVMFactory(a, a.intent.extras)) }
- * ```
+ * This is equivalent to
+ * `{ a -> a.createViewModelProvider(SavedStateVMFactory(a, a.intent.extras)) }`.
  *
  * @see ViewModelStoreOwner.createViewModelProvider
  * @see SavedStateVMFactory
