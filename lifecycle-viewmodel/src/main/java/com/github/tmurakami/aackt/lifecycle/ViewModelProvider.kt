@@ -27,6 +27,7 @@ import kotlin.reflect.KProperty
 /**
  * Creates a [ViewModelProvider] that uses the given [factory] to instantiate new ViewModels.
  */
+@MainThread
 inline fun ViewModelStoreOwner.createViewModelProvider(
     factory: ViewModelProvider.Factory
 ): ViewModelProvider = ViewModelProvider(this, factory)

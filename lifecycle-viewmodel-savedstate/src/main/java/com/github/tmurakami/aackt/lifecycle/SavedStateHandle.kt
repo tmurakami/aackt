@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+@file:Suppress("NOTHING_TO_INLINE")
+
 package com.github.tmurakami.aackt.lifecycle
 
 import androidx.annotation.MainThread
@@ -43,6 +45,6 @@ inline operator fun <reified T> SavedStateHandle.getValue(
 /**
  * Associates the given value with the [property] name.
  */
-@[MainThread Suppress("NOTHING_TO_INLINE")]
+@MainThread
 inline operator fun <T> SavedStateHandle.setValue(thisRef: Any?, property: KProperty<*>, value: T) =
     set(property.name, value)
