@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+@file:Suppress("FunctionName")
+
 package com.github.tmurakami.aackt.lifecycle
 
 import androidx.annotation.MainThread
@@ -23,29 +25,14 @@ import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.get
 
 /**
- * A factory responsible for instantiation of [ViewModelProvider]s.
- */
-typealias ViewModelProviderMaker<O> = (O) -> ViewModelProvider
-
-/**
  * Represents [ViewModel]s.
- *
- * This is an alias of [ViewModelProviderMaker].
  */
-typealias ViewModels<O> = ViewModelProviderMaker<O>
-
-/**
- * Creates a [Lazy] which will instantiate this owner's [ViewModel].
- */
-@MainThread
-inline fun <reified T : ViewModel, O> O.viewModel(): Lazy<T> where O : ViewModelStoreOwner,
-                                                                   O : ViewModelProviderMaker<O> =
-    viewModel { this }
+typealias ViewModels<O> = (owner: O) -> ViewModelProvider
 
 /**
  * Creates a [Lazy] which will instantiate the given [owner]'s [ViewModel].
  */
 @MainThread
-inline fun <reified T : ViewModel, O : ViewModelStoreOwner> ViewModelProviderMaker<O>.viewModel(
+inline infix fun <reified T : ViewModel, O : ViewModelStoreOwner> ViewModels<O>.of(
     crossinline owner: () -> O
 ): Lazy<T> = lazy(LazyThreadSafetyMode.NONE) { invoke(owner()).get<T>() }
