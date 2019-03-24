@@ -16,6 +16,7 @@
 
 package com.github.tmurakami.aackt.lifecycle
 
+import androidx.annotation.MainThread
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
@@ -61,6 +62,7 @@ typealias ActivityViewModels = ViewModels<FragmentActivity>
  *
  * @see Fragment.createViewModelProvider
  */
+@get:MainThread
 val FragmentApplicationViewModels: FragmentViewModels = Fragment::createViewModelProvider
 
 /**
@@ -71,4 +73,5 @@ val FragmentApplicationViewModels: FragmentViewModels = Fragment::createViewMode
  *
  * @see FragmentActivity.createViewModelProvider
  */
+@get:MainThread
 val ActivityApplicationViewModels: ActivityViewModels = FragmentActivity::createViewModelProvider

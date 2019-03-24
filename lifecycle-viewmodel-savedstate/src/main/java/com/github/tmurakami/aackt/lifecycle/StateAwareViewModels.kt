@@ -16,6 +16,7 @@
 
 package com.github.tmurakami.aackt.lifecycle
 
+import androidx.annotation.MainThread
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.SavedStateVMFactory
@@ -30,6 +31,7 @@ import androidx.lifecycle.ViewModelStoreOwner
  * @see ViewModelStoreOwner.createViewModelProvider
  * @see SavedStateVMFactory
  */
+@get:MainThread
 val FragmentStateAwareViewModels: ViewModels<Fragment> =
     { it.createViewModelProvider(SavedStateVMFactory(it, it.arguments)) }
 
@@ -42,5 +44,6 @@ val FragmentStateAwareViewModels: ViewModels<Fragment> =
  * @see ViewModelStoreOwner.createViewModelProvider
  * @see SavedStateVMFactory
  */
+@get:MainThread
 val ActivityStateAwareViewModels: ViewModels<FragmentActivity> =
     { it.createViewModelProvider(SavedStateVMFactory(it, it.intent.extras)) }
