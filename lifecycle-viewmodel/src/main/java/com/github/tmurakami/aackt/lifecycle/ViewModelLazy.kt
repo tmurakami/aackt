@@ -14,23 +14,17 @@
  * limitations under the License.
  */
 
-@file:Suppress("NOTHING_TO_INLINE")
+@file:Suppress("FunctionName")
 
 package com.github.tmurakami.aackt.lifecycle
 
-import androidx.annotation.MainThread
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import kotlin.reflect.KProperty
+import androidx.lifecycle.get
 
-@Deprecated("", ReplaceWith("get(key, T::class.java)"))
-@MainThread
-inline operator fun <reified T : ViewModel> ViewModelProvider.get(key: String): T =
-    get(key, T::class.java)
-
-@Deprecated("", ReplaceWith(""))
-@MainThread
-inline operator fun <reified T : ViewModel> ViewModelProvider.getValue(
-    thisRef: Any?,
-    property: KProperty<*>
-): T = get(property.name, T::class.java)
+/**
+ * Creates a [Lazy] which will instantiate a [ViewModel] using the given [provider].
+ */
+inline fun <reified T : ViewModel> viewModelLazy(
+    crossinline provider: () -> ViewModelProvider
+): Lazy<T> = lazy(LazyThreadSafetyMode.NONE) { provider().get<T>() }

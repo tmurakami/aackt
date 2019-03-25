@@ -14,25 +14,23 @@
  * limitations under the License.
  */
 
-@file:Suppress("FunctionName")
+package com.github.tmurakami.aackt.lifecycle.viewmodel
 
-package com.github.tmurakami.aackt.lifecycle
-
-import androidx.annotation.MainThread
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStoreOwner
-import androidx.lifecycle.get
+import com.github.tmurakami.aackt.lifecycle.viewModelLazy
+import kotlin.test.Test
+import kotlin.test.assertSame
 
-/**
- * Represents [ViewModel]s.
- */
-typealias ViewModels<O> = (owner: O) -> ViewModelProvider
+class ViewModelLazyTest {
+    @Test
+    fun viewModelLazy() {
+        val owner = FakeViewModelStoreOwner()
+        val viewModel by viewModelLazy<TestViewModel> {
+            ViewModelProvider(owner, ViewModelProvider.NewInstanceFactory())
+        }
+        assertSame(viewModel, viewModel)
+    }
 
-/**
- * Creates a [Lazy] which will instantiate the given [owner]'s [ViewModel].
- */
-@MainThread
-inline infix fun <reified T : ViewModel, O : ViewModelStoreOwner> ViewModels<O>.of(
-    crossinline owner: () -> O
-): Lazy<T> = lazy(LazyThreadSafetyMode.NONE) { invoke(owner()).get<T>() }
+    class TestViewModel : ViewModel()
+}
