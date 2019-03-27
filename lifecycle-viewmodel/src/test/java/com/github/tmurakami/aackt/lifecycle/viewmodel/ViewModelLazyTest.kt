@@ -20,7 +20,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.NewInstanceFactory
 import com.github.tmurakami.aackt.lifecycle.viewModel
-import com.github.tmurakami.aackt.lifecycle.viewModelFrom
+import com.github.tmurakami.aackt.lifecycle.viewModels
 import kotlin.test.Test
 import kotlin.test.assertSame
 
@@ -32,10 +32,10 @@ class ViewModelLazyTest {
     }
 
     @Test
-    fun testViewModelFrom() {
+    fun testViewModels() {
         val owner = FakeViewModelStoreOwner()
         var providers = 0
-        val viewModel: TestViewModel by viewModelFrom {
+        val viewModel by viewModels<TestViewModel> {
             ViewModelProvider(owner, NewInstanceFactory()).also { providers++ }
         }
         assertSame(0, providers)

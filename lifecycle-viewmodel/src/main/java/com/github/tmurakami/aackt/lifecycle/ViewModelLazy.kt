@@ -35,6 +35,6 @@ inline fun <reified T : ViewModel> viewModel(
  * [ViewModel]. If you want to instantiate [ViewModel] with some key, use [viewModel] instead.
  */
 @MainThread
-inline fun <reified T : ViewModel> viewModelFrom(
+inline fun <reified T : ViewModel> viewModels(
     crossinline provider: () -> ViewModelProvider
 ): Lazy<T> = viewModel { provider().get(it) }
