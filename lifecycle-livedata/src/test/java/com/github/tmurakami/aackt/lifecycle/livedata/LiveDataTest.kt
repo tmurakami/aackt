@@ -35,14 +35,14 @@ class LiveDataTest {
     val instantTaskExecutorRule: InstantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Test
-    fun getValue() {
+    fun testGetValue() {
         val data = object : LiveData<Int>(0) {}
         val value by data
         assertSame(0, value)
     }
 
     @Test
-    fun subscribe() {
+    fun testSubscribe() {
         val data = MutableLiveData(-1)
         val observer = TestObserver<Int>()
         val subscription = data.subscribe { observer.onChanged(it) }
@@ -54,7 +54,7 @@ class LiveDataTest {
     }
 
     @Test
-    fun subscribe_unsubscribe() {
+    fun testSubscribe_unsubscribe() {
         val data = MutableLiveData<Unit>()
         val subscription = data.subscribe { }
         data.run {
@@ -67,7 +67,7 @@ class LiveDataTest {
     }
 
     @Test
-    fun subscribe_Observer() {
+    fun testSubscribe_Observer() {
         val data = MutableLiveData(-1)
         val observer = TestObserver<Int>()
         val subscription = data.subscribe(observer)
@@ -79,7 +79,7 @@ class LiveDataTest {
     }
 
     @Test
-    fun subscribe_Observer_unsubscribe() {
+    fun testSubscribe_Observer_unsubscribe() {
         val data = MutableLiveData<Unit>()
         val subscription = data.subscribe(Observer { })
         data.run {
@@ -92,7 +92,7 @@ class LiveDataTest {
     }
 
     @Test
-    fun subscribeChanges() {
+    fun testSubscribeChanges() {
         val data = MutableLiveData(-1)
         val observer = TestObserver<Int>()
         val subscription = data.subscribeChanges { observer.onChanged(it) }
@@ -104,7 +104,7 @@ class LiveDataTest {
     }
 
     @Test
-    fun subscribeChanges_unsubscribe() {
+    fun testSubscribeChanges_unsubscribe() {
         val data = MutableLiveData<Unit>()
         val subscription = data.subscribeChanges { }
         data.run {
@@ -117,7 +117,7 @@ class LiveDataTest {
     }
 
     @Test
-    fun subscribeChanges_subscribe_MediatorLiveData() {
+    fun testSubscribeChanges_subscribe_MediatorLiveData() {
         val data = MediatorLiveData<Int>().apply { addSource(MutableLiveData(-1)) { value = it } }
         data.value = 0
         val observer = TestObserver<Int>()
@@ -126,7 +126,7 @@ class LiveDataTest {
     }
 
     @Test
-    fun subscribeChanges_Observer() {
+    fun testSubscribeChanges_Observer() {
         val data = MutableLiveData(-1)
         val observer = TestObserver<Int>()
         val subscription = data.subscribeChanges(observer)
@@ -138,7 +138,7 @@ class LiveDataTest {
     }
 
     @Test
-    fun subscribeChanges_Observer_unsubscribe() {
+    fun testSubscribeChanges_Observer_unsubscribe() {
         val data = MutableLiveData<Unit>()
         val subscription = data.subscribeChanges(Observer { })
         data.run {
@@ -151,7 +151,7 @@ class LiveDataTest {
     }
 
     @Test
-    fun subscribeChanges_Observer_subscribe_MediatorLiveData() {
+    fun testSubscribeChanges_Observer_subscribe_MediatorLiveData() {
         val data = MediatorLiveData<Int>().apply { addSource(MutableLiveData(-1)) { value = it } }
         data.value = 0
         val observer = TestObserver<Int>()
@@ -160,7 +160,7 @@ class LiveDataTest {
     }
 
     @Test
-    fun subscribe_LifecycleOwner() {
+    fun testSubscribe_LifecycleOwner() {
         val owner = FakeLifecycleOwner()
         val data = MutableLiveData(-1)
         val observer = TestObserver<Int>()
@@ -174,7 +174,7 @@ class LiveDataTest {
     }
 
     @Test
-    fun subscribe_LifecycleOwner_unsubscribe() {
+    fun testSubscribe_LifecycleOwner_unsubscribe() {
         val owner = FakeLifecycleOwner()
         val data = MutableLiveData<Unit>()
         val subscription = data.subscribe(owner) { }
@@ -191,7 +191,7 @@ class LiveDataTest {
     }
 
     @Test
-    fun subscribe_LifecycleOwner_Observer() {
+    fun testSubscribe_LifecycleOwner_Observer() {
         val owner = FakeLifecycleOwner()
         val data = MutableLiveData(-1)
         val observer = TestObserver<Int>()
@@ -205,7 +205,7 @@ class LiveDataTest {
     }
 
     @Test
-    fun subscribe_LifecycleOwner_Observer_unsubscribe() {
+    fun testSubscribe_LifecycleOwner_Observer_unsubscribe() {
         val owner = FakeLifecycleOwner()
         val data = MutableLiveData<Unit>()
         val subscription = data.subscribe(owner, Observer { })
@@ -222,7 +222,7 @@ class LiveDataTest {
     }
 
     @Test
-    fun subscribeChanges_LifecycleOwner() {
+    fun testSubscribeChanges_LifecycleOwner() {
         val owner = FakeLifecycleOwner()
         val data = MutableLiveData(-1)
         val observer = TestObserver<Int>()
@@ -236,7 +236,7 @@ class LiveDataTest {
     }
 
     @Test
-    fun subscribeChanges_LifecycleOwner_unsubscribe() {
+    fun testSubscribeChanges_LifecycleOwner_unsubscribe() {
         val owner = FakeLifecycleOwner()
         val data = MutableLiveData<Unit>()
         val subscription = data.subscribeChanges(owner) { }
@@ -253,7 +253,7 @@ class LiveDataTest {
     }
 
     @Test
-    fun subscribeChanges_LifecycleOwner_subscribe_MediatorLiveData() {
+    fun testSubscribeChanges_LifecycleOwner_subscribe_MediatorLiveData() {
         val owner = FakeLifecycleOwner()
         val data = MediatorLiveData<Int>().apply { addSource(MutableLiveData(-1)) { value = it } }
         data.value = 0
@@ -263,7 +263,7 @@ class LiveDataTest {
     }
 
     @Test
-    fun subscribeChanges_LifecycleOwner_Observer() {
+    fun testSubscribeChanges_LifecycleOwner_Observer() {
         val owner = FakeLifecycleOwner()
         val data = MutableLiveData(-1)
         val observer = TestObserver<Int>()
@@ -277,7 +277,7 @@ class LiveDataTest {
     }
 
     @Test
-    fun subscribeChanges_LifecycleOwner_Observer_unsubscribe() {
+    fun testSubscribeChanges_LifecycleOwner_Observer_unsubscribe() {
         val owner = FakeLifecycleOwner()
         val data = MutableLiveData<Unit>()
         val subscription = data.subscribeChanges(owner, Observer { })
@@ -294,7 +294,7 @@ class LiveDataTest {
     }
 
     @Test
-    fun subscribeChanges_LifecycleOwner_Observer_subscribe_MediatorLiveData() {
+    fun testSubscribeChanges_LifecycleOwner_Observer_subscribe_MediatorLiveData() {
         val owner = FakeLifecycleOwner()
         val data = MediatorLiveData<Int>().apply { addSource(MutableLiveData(-1)) { value = it } }
         data.value = 0

@@ -49,7 +49,7 @@ class TransformationsTest {
     val instantTaskExecutorRule: InstantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Test
-    fun mapNotNull() {
+    fun testMapNotNull() {
         val data = MutableLiveData<Int>()
         val observer = data.mapNotNull { if (it % 2 == 0) null else it }.test()
         repeat(5) { data.value = it }
@@ -57,7 +57,7 @@ class TransformationsTest {
     }
 
     @Test
-    fun doOnActive() {
+    fun testDoOnActive() {
         var active = false
         val data = MutableLiveData<Unit>().doOnActive { active = true }
         assertFalse(active)
@@ -66,7 +66,7 @@ class TransformationsTest {
     }
 
     @Test
-    fun doOnActive_Runnable() {
+    fun testDoOnActive_Runnable() {
         var active = false
         val data = MutableLiveData<Unit>().doOnActive(Runnable { active = true })
         assertFalse(active)
@@ -75,7 +75,7 @@ class TransformationsTest {
     }
 
     @Test
-    fun doOnInactive() {
+    fun testDoOnInactive() {
         var inactive = false
         val data = MutableLiveData<Unit>().doOnInactive { inactive = true }
         val observer = data.test()
@@ -85,7 +85,7 @@ class TransformationsTest {
     }
 
     @Test
-    fun doOnInactive_Runnable() {
+    fun testDoOnInactive_Runnable() {
         var inactive = false
         val data = MutableLiveData<Unit>().doOnInactive(Runnable { inactive = true })
         val observer = data.test()
@@ -95,7 +95,7 @@ class TransformationsTest {
     }
 
     @Test
-    fun doOnChanged() {
+    fun testDoOnChanged() {
         val data = MutableLiveData<Unit>()
         var changed = false
         data.doOnChanged { changed = true }.test()
@@ -105,7 +105,7 @@ class TransformationsTest {
     }
 
     @Test
-    fun filter() {
+    fun testFilter() {
         val data = MutableLiveData<Int>()
         val observer = data.filter { it > 10 }.test()
         data.run {
@@ -120,7 +120,7 @@ class TransformationsTest {
     }
 
     @Test
-    fun filterNot() {
+    fun testFilterNot() {
         val data = MutableLiveData<Int>()
         val observer = data.filterNot { it > 10 }.test()
         data.run {
@@ -135,7 +135,7 @@ class TransformationsTest {
     }
 
     @Test
-    fun filterNotNull() {
+    fun testFilterNotNull() {
         val data = MutableLiveData<Int?>()
         val observer = data.filterNotNull().test()
         data.run {
@@ -153,7 +153,7 @@ class TransformationsTest {
     }
 
     @Test
-    fun filterIsInstance() {
+    fun testFilterIsInstance() {
         val data = MutableLiveData<Any?>()
         val observer = data.filterIsInstance<Int>().test()
         data.run {
@@ -172,7 +172,7 @@ class TransformationsTest {
     }
 
     @Test
-    fun filterIsInstance_nullable() {
+    fun testFilterIsInstance_nullable() {
         val data = MutableLiveData<Any?>()
         val observer = data.filterIsInstance<Int?>().test()
         data.run {
@@ -191,7 +191,7 @@ class TransformationsTest {
     }
 
     @Test
-    fun distinct() {
+    fun testDistinct() {
         val data = MutableLiveData<Int>()
         val observer = data.distinct { it % 2 }.test()
         data.run {
@@ -206,7 +206,7 @@ class TransformationsTest {
     }
 
     @Test
-    fun distinct_by_default_selector() {
+    fun testDistinct_by_default_selector() {
         val data = MutableLiveData<Int>()
         val observer = data.distinct().test()
         data.run {
@@ -221,7 +221,7 @@ class TransformationsTest {
     }
 
     @Test
-    fun distinct_by_selector_using_identityHashCode() {
+    fun testDistinct_by_selector_using_identityHashCode() {
         val data = MutableLiveData<String>()
         val observer = data.distinct { System.identityHashCode(it) }.test()
         val s1 = String()
@@ -239,7 +239,7 @@ class TransformationsTest {
     }
 
     @Test
-    fun distinctUntilChanged() {
+    fun testDistinctUntilChanged() {
         val data = MutableLiveData<Int>()
         val observer = data.distinctUntilChanged { it % 2 }.test()
         data.run {
@@ -254,7 +254,7 @@ class TransformationsTest {
     }
 
     @Test
-    fun distinctUntilChanged_by_selector_using_identityHashCode() {
+    fun testDistinctUntilChanged_by_selector_using_identityHashCode() {
         val data = MutableLiveData<String>()
         val observer = data.distinctUntilChanged { System.identityHashCode(it) }.test()
         val s1 = String()
@@ -272,7 +272,7 @@ class TransformationsTest {
     }
 
     @Test
-    fun drop() {
+    fun testDrop() {
         val data = MutableLiveData<Int>()
         val observer = data.drop(3).test()
         repeat(5) { data.value = it }
@@ -280,7 +280,7 @@ class TransformationsTest {
     }
 
     @Test
-    fun dropWhile() {
+    fun testDropWhile() {
         val data = MutableLiveData<Int>()
         val observer = data.dropWhile { it < 4 }.test()
         repeat(5) { data.value = it }
@@ -289,7 +289,7 @@ class TransformationsTest {
     }
 
     @Test
-    fun take() {
+    fun testTake() {
         val data = MutableLiveData<Int>()
         val observer = data.take(3).test()
         repeat(5) { data.value = it }
@@ -297,7 +297,7 @@ class TransformationsTest {
     }
 
     @Test
-    fun takeWhile() {
+    fun testTakeWhile() {
         val data = MutableLiveData<Int>()
         val observer = data.takeWhile { it < 4 }.test()
         repeat(5) { data.value = it }
@@ -306,7 +306,7 @@ class TransformationsTest {
     }
 
     @Test
-    fun plus() {
+    fun testPlus() {
         val anyData = MutableLiveData<Any>()
         val intData = MutableLiveData<Int>()
         val observer = (anyData + intData).test()
@@ -325,7 +325,7 @@ class TransformationsTest {
     }
 
     @Test
-    fun combineLatest() {
+    fun testCombineLatest() {
         val intData = MutableLiveData<Int>()
         val charData = MutableLiveData<Char>()
         val observer = intData.combineLatest(charData).test()
@@ -338,7 +338,7 @@ class TransformationsTest {
     }
 
     @Test
-    fun combineLatest_transform() {
+    fun testCombineLatest_transform() {
         val intData = MutableLiveData<Int>()
         val charData = MutableLiveData<Char>()
         val observer = intData.combineLatest(charData) { a, b -> "$a$b" }.test()
@@ -351,7 +351,7 @@ class TransformationsTest {
     }
 
     @Test
-    fun withLatestFrom() {
+    fun testWithLatestFrom() {
         val intData = MutableLiveData<Int>()
         val charData = MutableLiveData<Char>()
         val observer = intData.withLatestFrom(charData).test()
@@ -364,7 +364,7 @@ class TransformationsTest {
     }
 
     @Test
-    fun withLatestFrom_transform() {
+    fun testWithLatestFrom_transform() {
         val intData = MutableLiveData<Int>()
         val charData = MutableLiveData<Char>()
         val observer = intData.withLatestFrom(charData) { a, b -> "$a$b" }.test()
@@ -377,7 +377,7 @@ class TransformationsTest {
     }
 
     @Test
-    fun zip() {
+    fun testZip() {
         val intData = MutableLiveData<Int>()
         val charData = MutableLiveData<Char>()
         val observer = intData.zip(charData).test()
@@ -390,7 +390,7 @@ class TransformationsTest {
     }
 
     @Test
-    fun zip_transform() {
+    fun testZip_transform() {
         val intData = MutableLiveData<Int>()
         val charData = MutableLiveData<Char>()
         val observer = intData.zip(charData) { a, b -> "$a$b" }.test()
@@ -403,7 +403,7 @@ class TransformationsTest {
     }
 
     @Test
-    fun zipWithNext() {
+    fun testZipWithNext() {
         val data = MutableLiveData<Any>()
         val observer = data.zipWithNext().test()
         data.run {
@@ -419,7 +419,7 @@ class TransformationsTest {
     }
 
     @Test
-    fun zipWithNext_transform() {
+    fun testZipWithNext_transform() {
         val data = MutableLiveData<Any>()
         val observer = data.zipWithNext { a, b -> "$a$b" }.test()
         data.run {

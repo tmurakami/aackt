@@ -30,7 +30,7 @@ class MutableLiveDataTest {
     val instantTaskExecutorRule: InstantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Test
-    fun setValue() {
+    fun testSetValue() {
         val data = MutableLiveData<Int?>()
         var value by data
         assertNull(value)

@@ -31,7 +31,7 @@ inline fun <T, R> LiveData<T>.map(crossinline transform: (T) -> R): LiveData<R> 
 /**
  * Returns a [LiveData] that emits the non-null results of applying the given [transform] function.
  *
- * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.mapNotNull
+ * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.testMapNotNull
  */
 @MainThread
 inline fun <T, R : Any> LiveData<T>.mapNotNull(crossinline transform: (T) -> R?): LiveData<R> {
@@ -49,7 +49,7 @@ inline fun <T, R> LiveData<T>.switchMap(crossinline transform: (T) -> LiveData<R
  * Returns a [LiveData] with the given [action] which will be called when the resulting [LiveData]
  * becomes active.
  *
- * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.doOnActive
+ * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.testDoOnActive
  */
 @MainThread
 inline fun <T> LiveData<T>.doOnActive(crossinline action: () -> Unit): LiveData<T> =
@@ -59,7 +59,7 @@ inline fun <T> LiveData<T>.doOnActive(crossinline action: () -> Unit): LiveData<
  * Returns a [LiveData] with the given [action] which will be called when the resulting [LiveData]
  * becomes active.
  *
- * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.doOnActive_Runnable
+ * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.testDoOnActive_Runnable
  */
 @MainThread
 fun <T> LiveData<T>.doOnActive(action: Runnable): LiveData<T> {
@@ -72,7 +72,7 @@ fun <T> LiveData<T>.doOnActive(action: Runnable): LiveData<T> {
  * Returns a [LiveData] with the given [action] which will be called when the resulting [LiveData]
  * becomes inactive.
  *
- * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.doOnInactive
+ * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.testDoOnInactive
  */
 @MainThread
 inline fun <T> LiveData<T>.doOnInactive(crossinline action: () -> Unit): LiveData<T> =
@@ -82,7 +82,7 @@ inline fun <T> LiveData<T>.doOnInactive(crossinline action: () -> Unit): LiveDat
  * Returns a [LiveData] with the given [action] which will be called when the resulting [LiveData]
  * becomes inactive.
  *
- * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.doOnInactive_Runnable
+ * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.testDoOnInactive_Runnable
  */
 @MainThread
 fun <T> LiveData<T>.doOnInactive(action: Runnable): LiveData<T> {
@@ -95,7 +95,7 @@ fun <T> LiveData<T>.doOnInactive(action: Runnable): LiveData<T> {
  * Returns a [LiveData] with the given [action] which will be called when the value of the resulting
  * [LiveData] is changed.
  *
- * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.doOnChanged
+ * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.testDoOnChanged
  */
 @MainThread
 inline fun <T> LiveData<T>.doOnChanged(crossinline action: (T) -> Unit): LiveData<T> {
@@ -110,7 +110,7 @@ inline fun <T> LiveData<T>.doOnChanged(crossinline action: (T) -> Unit): LiveDat
 /**
  * Returns a [LiveData] that emits only values matching the given [predicate] function.
  *
- * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.filter
+ * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.testFilter
  */
 @MainThread
 inline fun <T> LiveData<T>.filter(crossinline predicate: (T) -> Boolean): LiveData<T> {
@@ -122,7 +122,7 @@ inline fun <T> LiveData<T>.filter(crossinline predicate: (T) -> Boolean): LiveDa
 /**
  * Returns a [LiveData] that emits only values not matching the given [predicate] function.
  *
- * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.filterNot
+ * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.testFilterNot
  */
 @MainThread
 inline fun <T> LiveData<T>.filterNot(crossinline predicate: (T) -> Boolean): LiveData<T> =
@@ -131,7 +131,7 @@ inline fun <T> LiveData<T>.filterNot(crossinline predicate: (T) -> Boolean): Liv
 /**
  * Returns a [LiveData] that emits only non-null values.
  *
- * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.filterNotNull
+ * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.testFilterNotNull
  */
 @Suppress("UNCHECKED_CAST")
 @MainThread
@@ -142,7 +142,7 @@ fun <T : Any> LiveData<T?>.filterNotNull(): LiveData<T> = filter { it != null } 
  *
  * If [R] is a nullable type then null will be emitted otherwise null will be dropped.
  *
- * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.filterIsInstance
+ * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.testFilterIsInstance
  */
 @Suppress("UNCHECKED_CAST")
 @MainThread
@@ -157,7 +157,7 @@ inline fun <reified R> LiveData<*>.filterIsInstance(): LiveData<R> =
  * [selector] that calls [System.identityHashCode], for instance
  * `distinct { System.identityHashCode(it) }`.
  *
- * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.distinct
+ * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.testDistinct
  */
 @MainThread
 inline fun <T> LiveData<T>.distinct(crossinline selector: (T) -> Any? = { it }): LiveData<T> {
@@ -183,7 +183,7 @@ fun <T> LiveData<T>.distinctUntilChanged(): LiveData<T> = distinctUntilChanged {
  * [selector] that calls [System.identityHashCode], for instance
  * `distinctUntilChanged { System.identityHashCode(it) }`.
  *
- * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.distinctUntilChanged
+ * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.testDistinctUntilChanged
  */
 @MainThread
 inline fun <T> LiveData<T>.distinctUntilChanged(crossinline selector: (T) -> Any?): LiveData<T> {
@@ -207,7 +207,7 @@ inline fun <T, K> LiveData<T>.distinctUntilChangedBy(crossinline selector: (T) -
 /**
  * Returns a [LiveData] that emits values except first [n] items.
  *
- * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.drop
+ * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.testDrop
  */
 @MainThread
 fun <T> LiveData<T>.drop(n: Int): LiveData<T> {
@@ -225,7 +225,7 @@ fun <T> LiveData<T>.drop(n: Int): LiveData<T> {
  * Returns a [LiveData] that emits values except first items satisfying the given [predicate]
  * function.
  *
- * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.dropWhile
+ * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.testDropWhile
  */
 @MainThread
 inline fun <T> LiveData<T>.dropWhile(crossinline predicate: (T) -> Boolean): LiveData<T> {
@@ -244,7 +244,7 @@ inline fun <T> LiveData<T>.dropWhile(crossinline predicate: (T) -> Boolean): Liv
 /**
  * Returns a [LiveData] that emits first [n] items.
  *
- * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.take
+ * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.testTake
  */
 @MainThread
 fun <T> LiveData<T>.take(n: Int): LiveData<T> {
@@ -261,7 +261,7 @@ fun <T> LiveData<T>.take(n: Int): LiveData<T> {
 /**
  * Returns a [LiveData] that emits first values satisfying the given [predicate] function.
  *
- * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.takeWhile
+ * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.testTakeWhile
  */
 @MainThread
 inline fun <T> LiveData<T>.takeWhile(crossinline predicate: (T) -> Boolean): LiveData<T> {
@@ -273,7 +273,7 @@ inline fun <T> LiveData<T>.takeWhile(crossinline predicate: (T) -> Boolean): Liv
 /**
  * Returns a [LiveData] that emits values emitted by the sources.
  *
- * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.plus
+ * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.testPlus
  */
 @MainThread
 operator fun <T> LiveData<T>.plus(other: LiveData<out T>): LiveData<T> {
@@ -292,7 +292,7 @@ operator fun <T> LiveData<T>.plus(other: LiveData<out T>): LiveData<T> {
  * Note that the resulting [LiveData] will not emit an initial value until both [LiveData] emit at
  * least one value.
  *
- * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.combineLatest
+ * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.testCombineLatest
  */
 @MainThread
 fun <T, R> LiveData<T>.combineLatest(other: LiveData<R>): LiveData<Pair<T, R>> =
@@ -305,7 +305,7 @@ fun <T, R> LiveData<T>.combineLatest(other: LiveData<R>): LiveData<Pair<T, R>> =
  * Note that the resulting [LiveData] will not emit an initial value until both [LiveData] emit at
  * least one value.
  *
- * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.combineLatest_transform
+ * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.testCombineLatest_transform
  */
 @MainThread
 inline fun <T, R, V> LiveData<T>.combineLatest(
@@ -334,7 +334,7 @@ inline fun <T, R, V> LiveData<T>.combineLatest(
  * Note that the resulting [LiveData] will not emit an initial value until both [LiveData] emit at
  * least one value.
  *
- * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.withLatestFrom
+ * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.testWithLatestFrom
  */
 @MainThread
 fun <T, R> LiveData<T>.withLatestFrom(other: LiveData<R>): LiveData<Pair<T, R>> =
@@ -347,7 +347,7 @@ fun <T, R> LiveData<T>.withLatestFrom(other: LiveData<R>): LiveData<Pair<T, R>> 
  * Note that the resulting [LiveData] will not emit an initial value until both [LiveData] emit at
  * least one value.
  *
- * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.withLatestFrom_transform
+ * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.testWithLatestFrom_transform
  */
 @MainThread
 inline fun <T, R, V> LiveData<T>.withLatestFrom(
@@ -373,7 +373,7 @@ inline fun <T, R, V> LiveData<T>.withLatestFrom(
  * Note that the resulting [LiveData] will not emit an initial value until both [LiveData] emit at
  * least one value.
  *
- * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.zip
+ * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.testZip
  */
 @MainThread
 fun <T, R> LiveData<T>.zip(other: LiveData<R>): LiveData<Pair<T, R>> = zip(other, ::Pair)
@@ -385,7 +385,7 @@ fun <T, R> LiveData<T>.zip(other: LiveData<R>): LiveData<Pair<T, R>> = zip(other
  * Note that the resulting [LiveData] will not emit an initial value until both [LiveData] emit at
  * least one value.
  *
- * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.zip_transform
+ * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.testZip_transform
  */
 @MainThread
 inline fun <T, R, V> LiveData<T>.zip(
@@ -414,7 +414,7 @@ inline fun <T, R, V> LiveData<T>.zip(
  * Note that the resulting [LiveData] will not emit an initial value until the receiver [LiveData]
  * emits at least two values.
  *
- * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.zipWithNext
+ * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.testZipWithNext
  */
 @MainThread
 fun <T> LiveData<T>.zipWithNext(): LiveData<Pair<T, T>> = zipWithNext(::Pair)
@@ -426,7 +426,7 @@ fun <T> LiveData<T>.zipWithNext(): LiveData<Pair<T, T>> = zipWithNext(::Pair)
  * Note that the resulting [LiveData] will not emit an initial value until the receiver [LiveData]
  * emits at least two values.
  *
- * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.zipWithNext_transform
+ * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.testZipWithNext_transform
  */
 @MainThread
 inline fun <T, R> LiveData<T>.zipWithNext(crossinline transform: (a: T, b: T) -> R): LiveData<R> {

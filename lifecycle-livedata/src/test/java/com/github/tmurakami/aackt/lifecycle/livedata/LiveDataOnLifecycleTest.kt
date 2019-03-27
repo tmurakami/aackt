@@ -28,7 +28,7 @@ class LiveDataOnLifecycleTest {
     val instantTaskExecutorRule: InstantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Test
-    fun onActive() {
+    fun testOnActive() {
         val data = LiveDataOnLifecycle(MutableLiveData<Unit>())
         var count = 0
         repeat(3) { data.onActiveActions += Runnable { count++ } }
@@ -38,7 +38,7 @@ class LiveDataOnLifecycleTest {
     }
 
     @Test
-    fun onChanged() {
+    fun testOnChanged() {
         val data = MutableLiveData<Int>()
         val observer = LiveDataOnLifecycle(data).test()
         data.value = 0
@@ -46,7 +46,7 @@ class LiveDataOnLifecycleTest {
     }
 
     @Test
-    fun onInactive() {
+    fun testOnInactive() {
         val data = LiveDataOnLifecycle(MutableLiveData<Unit>())
         var count = 0
         repeat(3) { data.onInactiveActions += Runnable { count++ } }

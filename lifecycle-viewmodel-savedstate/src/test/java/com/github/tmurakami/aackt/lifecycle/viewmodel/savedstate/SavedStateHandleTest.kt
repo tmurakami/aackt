@@ -31,7 +31,7 @@ class SavedStateHandleTest {
     val instantTaskExecutorRule: InstantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Test
-    fun liveData() {
+    fun testLiveData() {
         val handle = SavedStateHandle()
         val data by handle.liveData<Int>()
         assertNull(data.value)
@@ -40,7 +40,7 @@ class SavedStateHandleTest {
     }
 
     @Test
-    fun getValue() {
+    fun testGetValue() {
         val handle = SavedStateHandle()
         handle["value"] = 0
         val value: Int by handle
@@ -48,7 +48,7 @@ class SavedStateHandleTest {
     }
 
     @Test
-    fun setValue() {
+    fun testSetValue() {
         val handle = SavedStateHandle()
         var value: Int? by handle
         assertNull(value)

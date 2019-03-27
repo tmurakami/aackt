@@ -29,7 +29,7 @@ import kotlin.test.assertEquals
 
 class RoomTest {
     @Test
-    fun createRoomDatabase() {
+    fun testCreateRoomDatabase() {
         val executor = Executor {}
         val db = Application().createRoomDatabase<TestDatabase>("test") {
             allowMainThreadQueries()
@@ -40,7 +40,7 @@ class RoomTest {
     }
 
     @Test
-    fun createInMemoryRoomDatabase() {
+    fun testCreateInMemoryRoomDatabase() {
         val executor = Executor {}
         val db = Application().createInMemoryRoomDatabase<TestDatabase> {
             allowMainThreadQueries()
