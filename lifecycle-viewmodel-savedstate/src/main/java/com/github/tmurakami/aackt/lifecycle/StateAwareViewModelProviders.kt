@@ -14,40 +14,55 @@
  * limitations under the License.
  */
 
+@file:Suppress("FunctionName")
+
 package com.github.tmurakami.aackt.lifecycle
 
+import android.app.Application
+import android.os.Bundle
 import androidx.annotation.MainThread
 import androidx.lifecycle.AbstractSavedStateVMFactory
+import androidx.lifecycle.SavedStateVMFactory
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.savedstate.SavedStateRegistryOwner
 
 /**
- * Represents a factory responsible for instantiating a new [ViewModelProvider].
+ * Represents the factory responsible for instantiating [ViewModelProvider].
  */
 interface StateAwareViewModelProviders {
     /**
      * Creates a [ViewModelProvider] of the given [owner].
+     *
+     * @param defaultArgs will be used to instantiate [AbstractSavedStateVMFactory].
      */
     @MainThread
-    fun <O> of(owner: O): ViewModelProvider
+    fun <O> of(owner: O, defaultArgs: Bundle? = null): ViewModelProvider
         where O : ViewModelStoreOwner, O : SavedStateRegistryOwner
 }
 
 /**
- * A template of [StateAwareViewModelProviders].
+ * Represents the factory responsible for instantiating [AbstractSavedStateVMFactory].
  */
-abstract class AbstractStateAwareViewModelProviders protected constructor() :
-    StateAwareViewModelProviders {
-    /**
-     * Creates a [ViewModelProvider] of the given [owner].
-     */
-    final override fun <O> of(owner: O): ViewModelProvider
-        where O : ViewModelStoreOwner, O : SavedStateRegistryOwner =
-        ViewModelProvider(owner, owner.createFactory())
+typealias SavedStateVMFactoryMaker =
+    SavedStateRegistryOwner.(defaultArgs: Bundle?) -> AbstractSavedStateVMFactory
 
-    /**
-     * Creates an instance of an [AbstractSavedStateVMFactory] subclass.
-     */
-    protected abstract fun SavedStateRegistryOwner.createFactory(): AbstractSavedStateVMFactory
+/**
+ * Creates a [StateAwareViewModelProviders] that calls [createSavedStateVMFactory] to instantiate
+ * [AbstractSavedStateVMFactory].
+ */
+inline fun StateAwareViewModelProviders(
+    crossinline createSavedStateVMFactory: SavedStateVMFactoryMaker
+): StateAwareViewModelProviders = object : StateAwareViewModelProviders {
+    override fun <O> of(owner: O, defaultArgs: Bundle?): ViewModelProvider
+        where O : ViewModelStoreOwner, O : SavedStateRegistryOwner =
+        ViewModelProvider(owner, owner.createSavedStateVMFactory(defaultArgs))
 }
+
+/**
+ * Creates a [StateAwareViewModelProviders] that uses [SavedStateVMFactory] to instantiate
+ * [ViewModel].
+ */
+fun StateAwareAndroidViewModelProviders(application: Application): StateAwareViewModelProviders =
+    StateAwareViewModelProviders { SavedStateVMFactory(application, this, it) }
