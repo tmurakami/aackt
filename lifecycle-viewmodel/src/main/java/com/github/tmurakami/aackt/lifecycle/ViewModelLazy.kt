@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+@file:Suppress("NOTHING_TO_INLINE")
+
 package com.github.tmurakami.aackt.lifecycle
 
 import androidx.annotation.MainThread
@@ -24,9 +26,8 @@ import androidx.lifecycle.ViewModelProvider
  * Creates a [Lazy] that calls [provide] to instantiate [ViewModel].
  */
 @MainThread
-inline fun <reified T : ViewModel> viewModel(
-    crossinline provide: (modelClass: Class<T>) -> T
-): Lazy<T> = lazy(LazyThreadSafetyMode.NONE) { provide(T::class.java) }
+inline fun <T : ViewModel> viewModel(noinline provide: () -> T): Lazy<T> =
+    lazy(LazyThreadSafetyMode.NONE, provide)
 
 /**
  * Creates a [Lazy] from the given [provider].
@@ -37,4 +38,4 @@ inline fun <reified T : ViewModel> viewModel(
 @MainThread
 inline fun <reified T : ViewModel> viewModels(
     crossinline provider: () -> ViewModelProvider
-): Lazy<T> = viewModel { provider().get(it) }
+): Lazy<T> = viewModel { provider().get(T::class.java) }

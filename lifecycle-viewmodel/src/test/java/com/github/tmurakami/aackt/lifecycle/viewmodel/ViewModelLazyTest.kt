@@ -27,7 +27,7 @@ import kotlin.test.assertSame
 class ViewModelLazyTest {
     @Test
     fun testViewModel() {
-        val viewModel: TestViewModel by viewModel { TestViewModel() }
+        val viewModel by viewModel { TestViewModel() }
         assertSame(viewModel, viewModel)
     }
 
