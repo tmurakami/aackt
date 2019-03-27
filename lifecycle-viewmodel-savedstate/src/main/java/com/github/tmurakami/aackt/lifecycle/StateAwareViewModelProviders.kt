@@ -49,15 +49,15 @@ typealias SavedStateVMFactoryMaker =
     SavedStateRegistryOwner.(defaultArgs: Bundle?) -> AbstractSavedStateVMFactory
 
 /**
- * Creates a [StateAwareViewModelProviders] that calls [createSavedStateVMFactory] to instantiate
+ * Creates a [StateAwareViewModelProviders] that calls the given [factory] function to instantiate
  * [AbstractSavedStateVMFactory].
  */
 inline fun StateAwareViewModelProviders(
-    crossinline createSavedStateVMFactory: SavedStateVMFactoryMaker
+    crossinline factory: SavedStateVMFactoryMaker
 ): StateAwareViewModelProviders = object : StateAwareViewModelProviders {
     override fun <O> of(owner: O, defaultArgs: Bundle?): ViewModelProvider
         where O : ViewModelStoreOwner, O : SavedStateRegistryOwner =
-        ViewModelProvider(owner, owner.createSavedStateVMFactory(defaultArgs))
+        ViewModelProvider(owner, owner.factory(defaultArgs))
 }
 
 /**
