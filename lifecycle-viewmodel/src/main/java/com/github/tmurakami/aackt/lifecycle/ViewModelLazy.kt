@@ -33,7 +33,8 @@ inline fun <T : ViewModel> viewModel(noinline provide: () -> T): Lazy<T> =
  * Creates a [Lazy] from the given [provider].
  *
  * The resulting [Lazy] calls [ViewModelProvider.get] without a key in order to instantiate
- * [ViewModel]. If you want to instantiate [ViewModel] with some key, use [viewModel] instead.
+ * [ViewModel]. If you want to instantiate [ViewModel] with some key, consider to use [viewModel]
+ * function instead.
  */
 @MainThread
 inline fun <reified T : ViewModel> viewModels(
