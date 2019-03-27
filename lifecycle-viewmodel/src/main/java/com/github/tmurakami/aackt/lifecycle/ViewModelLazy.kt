@@ -14,17 +14,27 @@
  * limitations under the License.
  */
 
-@file:Suppress("FunctionName")
-
 package com.github.tmurakami.aackt.lifecycle
 
+import androidx.annotation.MainThread
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.get
 
 /**
- * Creates a [Lazy] which will instantiate a [ViewModel] using the given [provider].
+ * Creates a [Lazy] that calls [provide] to instantiate [ViewModel].
  */
-inline fun <reified T : ViewModel> viewModelLazy(
+@MainThread
+inline fun <reified T : ViewModel> viewModel(
+    crossinline provide: (modelClass: Class<T>) -> T
+): Lazy<T> = lazy(LazyThreadSafetyMode.NONE) { provide(T::class.java) }
+
+/**
+ * Creates a [Lazy] from the given [provider].
+ *
+ * The resulting [Lazy] calls [ViewModelProvider.get] without a key in order to instantiate
+ * [ViewModel]. If you want to instantiate [ViewModel] with some key, use [viewModel] instead.
+ */
+@MainThread
+inline fun <reified T : ViewModel> viewModelFrom(
     crossinline provider: () -> ViewModelProvider
-): Lazy<T> = lazy(LazyThreadSafetyMode.NONE) { provider().get<T>() }
+): Lazy<T> = viewModel { provider().get(it) }
