@@ -21,4 +21,4 @@ import androidx.work.WorkManager
 /**
  * Returns the default singleton instance of [WorkManager].
  */
-inline val DefaultWorkManager: WorkManager get() = WorkManager.getInstance()
+inline val ProcessWorkManager: WorkManager get() = WorkManager.getInstance()
