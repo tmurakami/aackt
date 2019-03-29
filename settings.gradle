@@ -1,4 +1,5 @@
 include ':lifecycle-extensions'
+include ':lifecycle-process'
 include ':lifecycle-livedata'
 include ':lifecycle-viewmodel'
 include ':lifecycle-viewmodel-savedstate'

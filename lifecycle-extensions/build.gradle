@@ -2,6 +2,7 @@ apply from: "$rootDir/gradle/android-library.gradle"
 
 dependencies {
     api deps.androidx.lifecycle.extensions
+    api project(':lifecycle-process')
     api project(':lifecycle-livedata')
     api project(':lifecycle-viewmodel')
 }
