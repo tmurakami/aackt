@@ -26,36 +26,38 @@ import androidx.lifecycle.ViewModelStoreOwner
 import androidx.savedstate.SavedStateRegistryOwner
 
 /**
- * Represents the factory responsible for instantiating [AbstractSavedStateVMFactory].
+ * Provides instances of [AbstractSavedStateVMFactory].
  */
-typealias SavedStateVMFactoryMaker =
+typealias SavedStateVMFactoryProvider =
     SavedStateRegistryOwner.(defaultArgs: Bundle?) -> AbstractSavedStateVMFactory
 
 /**
- * Creates a [ViewModelProvider] with the given [factory].
+ * Creates a [ViewModelProvider] with the given [factoryProvider].
  *
- * This is equivalent to `createSavedStateVMProvider(null, factory)`
+ * This is equivalent to `createSavedStateVMProvider(null, factoryProvider)`
  */
 @MainThread
-inline fun <O> O.createSavedStateVMProvider(factory: SavedStateVMFactoryMaker): ViewModelProvider
-    where O : ViewModelStoreOwner, O : SavedStateRegistryOwner =
-    createSavedStateVMProvider(null, factory)
+inline fun <O> O.createSavedStateVMProvider(
+    factoryProvider: SavedStateVMFactoryProvider
+): ViewModelProvider where O : ViewModelStoreOwner, O : SavedStateRegistryOwner =
+    createSavedStateVMProvider(null, factoryProvider)
 
 /**
- * Creates a [ViewModelProvider] with the given [factory].
+ * Creates a [ViewModelProvider] with the given [factoryProvider].
  *
- * @param defaultArgs will be passed to [factory].
+ * @param defaultArgs will be passed to [factoryProvider].
  */
 @MainThread
 inline fun <O> O.createSavedStateVMProvider(
     defaultArgs: Bundle? = null,
-    factory: SavedStateVMFactoryMaker
+    factoryProvider: SavedStateVMFactoryProvider
 ): ViewModelProvider where O : ViewModelStoreOwner, O : SavedStateRegistryOwner =
-    ViewModelProvider(this, factory(defaultArgs))
+    ViewModelProvider(this, factoryProvider(defaultArgs))
 
 /**
- * Creates a [SavedStateVMFactoryMaker] that instantiates [SavedStateVMFactory].
+ * Creates a [SavedStateVMFactoryProvider] that instantiates [SavedStateVMFactory] with the given
+ * [application].
  */
 @Suppress("FunctionName")
-fun AndroidSavedStateVMFactoryMaker(application: Application): SavedStateVMFactoryMaker =
+fun AndroidSavedStateVMFactoryProvider(application: Application): SavedStateVMFactoryProvider =
     { SavedStateVMFactory(application, this, it) }

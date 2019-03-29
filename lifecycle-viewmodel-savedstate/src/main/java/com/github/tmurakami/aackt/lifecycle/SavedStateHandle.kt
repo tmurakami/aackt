@@ -36,11 +36,11 @@ fun <T> SavedStateHandle.liveData(): ReadOnlyProperty<Any?, LiveData<T>> =
 /**
  * Returns a value associated with the [property] name.
  */
-@[MainThread Suppress("RemoveExplicitTypeArguments")]
+@MainThread
 inline operator fun <reified T> SavedStateHandle.getValue(
     thisRef: Any?,
     property: KProperty<*>
-): T = get<T>(property.name) as T
+): T = get<Any>(property.name) as T
 
 /**
  * Associates the given value with the [property] name.

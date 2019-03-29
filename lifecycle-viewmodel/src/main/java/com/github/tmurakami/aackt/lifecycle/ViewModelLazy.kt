@@ -23,18 +23,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
 /**
- * Creates a [Lazy] that calls [provide] to instantiate [ViewModel].
+ * Creates a [Lazy] that calls [initializer] to get a [ViewModel].
  */
 @MainThread
-inline fun <T : ViewModel> viewModel(noinline provide: () -> T): Lazy<T> =
-    lazy(LazyThreadSafetyMode.NONE, provide)
+inline fun <T : ViewModel> viewModel(noinline initializer: () -> T): Lazy<T> =
+    lazy(LazyThreadSafetyMode.NONE, initializer)
 
 /**
  * Creates a [Lazy] from the given [provider].
  *
- * The resulting [Lazy] calls [ViewModelProvider.get] without a key in order to instantiate
- * [ViewModel]. If you want to instantiate [ViewModel] with some key, consider to use [viewModel]
- * function instead.
+ * The resulting [Lazy] calls [ViewModelProvider.get] without a key in order to retrieve a
+ * [ViewModel]. If you want to retrieve it with some key, use [viewModel] instead.
  */
 @MainThread
 inline fun <reified T : ViewModel> viewModels(
