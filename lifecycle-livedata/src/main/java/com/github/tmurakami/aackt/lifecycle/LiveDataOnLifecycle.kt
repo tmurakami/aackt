@@ -33,7 +33,7 @@ internal class LiveDataOnLifecycle<T>(source: LiveData<T>) : MediatorLiveData<T>
 
     override fun onActive() {
         super.onActive()
-        for (action in onActiveActions) action.run()
+        onActiveActions.forEach(Runnable::run)
     }
 
     override fun onChanged(t: T) {
@@ -42,6 +42,6 @@ internal class LiveDataOnLifecycle<T>(source: LiveData<T>) : MediatorLiveData<T>
 
     override fun onInactive() {
         super.onInactive()
-        for (action in onInactiveActions) action.run()
+        onInactiveActions.forEach(Runnable::run)
     }
 }

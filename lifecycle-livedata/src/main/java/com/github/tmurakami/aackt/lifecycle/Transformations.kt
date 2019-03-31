@@ -36,7 +36,7 @@ inline fun <T, R> LiveData<T>.map(crossinline transform: (T) -> R): LiveData<R> 
 @MainThread
 inline fun <T, R : Any> LiveData<T>.mapNotNull(crossinline transform: (T) -> R?): LiveData<R> {
     val result = MediatorLiveData<R>()
-    result.addSource(this) { transform(it)?.run { result.value = this } }
+    result.addSource(this) { transform(it)?.let(result::setValue) }
     return result
 }
 
@@ -155,7 +155,7 @@ inline fun <reified R> LiveData<*>.filterIsInstance(): LiveData<R> =
  * Note that structurally equivalent keys are regarded as identical. To treat structurally
  * equivalent values emitted by the receiver [LiveData] as different, you will need to give a
  * [selector] that calls [System.identityHashCode], for instance
- * `distinct { System.identityHashCode(it) }`.
+ * `distinct(System::identityHashCode)`.
  *
  * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.testDistinct
  */
@@ -181,7 +181,7 @@ fun <T> LiveData<T>.distinctUntilChanged(): LiveData<T> = distinctUntilChanged {
  * Note that structurally equivalent keys are regarded as identical. To treat structurally
  * equivalent values emitted by the receiver [LiveData] as different, you will need to give a
  * [selector] that calls [System.identityHashCode], for instance
- * `distinctUntilChanged { System.identityHashCode(it) }`.
+ * `distinctUntilChanged(System::identityHashCode)`.
  *
  * @sample com.github.tmurakami.aackt.lifecycle.livedata.TransformationsTest.testDistinctUntilChanged
  */

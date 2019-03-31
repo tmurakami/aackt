@@ -52,7 +52,7 @@ class TransformationsTest {
     fun testMapNotNull() {
         val data = MutableLiveData<Int>()
         val observer = data.mapNotNull { if (it % 2 == 0) null else it }.test()
-        repeat(5) { data.value = it }
+        repeat(5, data::setValue)
         observer.assertValuesOnly(1, 3)
     }
 
@@ -223,7 +223,7 @@ class TransformationsTest {
     @Test
     fun testDistinct_by_selector_using_identityHashCode() {
         val data = MutableLiveData<String>()
-        val observer = data.distinct { System.identityHashCode(it) }.test()
+        val observer = data.distinct(System::identityHashCode).test()
         val s1 = String()
         val s2 = String()
         assertEquals(s1, s2)
@@ -256,7 +256,7 @@ class TransformationsTest {
     @Test
     fun testDistinctUntilChanged_by_selector_using_identityHashCode() {
         val data = MutableLiveData<String>()
-        val observer = data.distinctUntilChanged { System.identityHashCode(it) }.test()
+        val observer = data.distinctUntilChanged(System::identityHashCode).test()
         val s1 = String()
         val s2 = String()
         assertEquals(s1, s2)
@@ -275,7 +275,7 @@ class TransformationsTest {
     fun testDrop() {
         val data = MutableLiveData<Int>()
         val observer = data.drop(3).test()
-        repeat(5) { data.value = it }
+        repeat(5, data::setValue)
         observer.assertValuesOnly(3, 4)
     }
 
@@ -283,8 +283,8 @@ class TransformationsTest {
     fun testDropWhile() {
         val data = MutableLiveData<Int>()
         val observer = data.dropWhile { it < 4 }.test()
-        repeat(5) { data.value = it }
-        (3 downTo 0).forEach { data.value = it }
+        repeat(5, data::setValue)
+        (3 downTo 0).forEach(data::setValue)
         observer.assertValuesOnly(4, 3, 2, 1, 0)
     }
 
@@ -292,7 +292,7 @@ class TransformationsTest {
     fun testTake() {
         val data = MutableLiveData<Int>()
         val observer = data.take(3).test()
-        repeat(5) { data.value = it }
+        repeat(5, data::setValue)
         observer.assertValuesOnly(0, 1, 2)
     }
 
@@ -300,8 +300,8 @@ class TransformationsTest {
     fun testTakeWhile() {
         val data = MutableLiveData<Int>()
         val observer = data.takeWhile { it < 4 }.test()
-        repeat(5) { data.value = it }
-        (3 downTo 0).forEach { data.value = it }
+        repeat(5, data::setValue)
+        (3 downTo 0).forEach(data::setValue)
         observer.assertValuesOnly(0, 1, 2, 3)
     }
 
@@ -332,8 +332,8 @@ class TransformationsTest {
         intData.value = 1
         charData.value = 'a'
         intData.value = 2
-        ('b'..'c').forEach { charData.value = it }
-        (3..4).forEach { intData.value = it }
+        ('b'..'c').forEach(charData::setValue)
+        (3..4).forEach(intData::setValue)
         observer.assertValuesOnly(1 to 'a', 2 to 'a', 2 to 'b', 2 to 'c', 3 to 'c', 4 to 'c')
     }
 
@@ -345,8 +345,8 @@ class TransformationsTest {
         intData.value = 1
         charData.value = 'a'
         intData.value = 2
-        ('b'..'c').forEach { charData.value = it }
-        (3..4).forEach { intData.value = it }
+        ('b'..'c').forEach(charData::setValue)
+        (3..4).forEach(intData::setValue)
         observer.assertValuesOnly("1a", "2a", "2b", "2c", "3c", "4c")
     }
 
@@ -358,8 +358,8 @@ class TransformationsTest {
         intData.value = 1
         charData.value = 'a'
         intData.value = 2
-        ('b'..'c').forEach { charData.value = it }
-        (3..4).forEach { intData.value = it }
+        ('b'..'c').forEach(charData::setValue)
+        (3..4).forEach(intData::setValue)
         observer.assertValuesOnly(2 to 'a', 3 to 'c', 4 to 'c')
     }
 
@@ -371,8 +371,8 @@ class TransformationsTest {
         intData.value = 1
         charData.value = 'a'
         intData.value = 2
-        ('b'..'c').forEach { charData.value = it }
-        (3..4).forEach { intData.value = it }
+        ('b'..'c').forEach(charData::setValue)
+        (3..4).forEach(intData::setValue)
         observer.assertValuesOnly("2a", "3c", "4c")
     }
 
@@ -384,8 +384,8 @@ class TransformationsTest {
         intData.value = 1
         charData.value = 'a'
         intData.value = 2
-        ('b'..'c').forEach { charData.value = it }
-        (3..4).forEach { intData.value = it }
+        ('b'..'c').forEach(charData::setValue)
+        (3..4).forEach(intData::setValue)
         observer.assertValuesOnly(1 to 'a', 2 to 'b', 3 to 'c')
     }
 
@@ -397,8 +397,8 @@ class TransformationsTest {
         intData.value = 1
         charData.value = 'a'
         intData.value = 2
-        ('b'..'c').forEach { charData.value = it }
-        (3..4).forEach { intData.value = it }
+        ('b'..'c').forEach(charData::setValue)
+        (3..4).forEach(intData::setValue)
         observer.assertValuesOnly("1a", "2b", "3c")
     }
 
