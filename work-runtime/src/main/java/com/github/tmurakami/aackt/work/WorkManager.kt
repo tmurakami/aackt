@@ -18,11 +18,11 @@ package com.github.tmurakami.aackt.work
 
 import androidx.work.WorkManager
 
-@Deprecated("", ReplaceWith("ProcessWorkManager"))
+@Deprecated("", ReplaceWith("WorkManager"))
 inline val DefaultWorkManager: WorkManager
-    get() = ProcessWorkManager
+    get() = WorkManager
 
 /**
- * Returns the default singleton instance of [WorkManager].
+ * Returns the singleton instance of [WorkManager].
  */
-inline val ProcessWorkManager: WorkManager get() = WorkManager.getInstance()
+inline val WorkManager: WorkManager get() = androidx.work.WorkManager.getInstance()
