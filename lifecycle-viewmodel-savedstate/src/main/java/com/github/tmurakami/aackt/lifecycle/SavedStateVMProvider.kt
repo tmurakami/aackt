@@ -32,27 +32,27 @@ typealias SavedStateVMFactoryProvider =
     SavedStateRegistryOwner.(defaultArgs: Bundle?) -> AbstractSavedStateVMFactory
 
 /**
- * Creates a [ViewModelProvider] with the given [factoryProvider].
+ * Creates a [ViewModelProvider] with the given [factory].
  *
- * This is equivalent to `createSavedStateVMProvider(null, factoryProvider)`
+ * This is equivalent to `createSavedStateVMProvider(null, factory)`
  */
 @MainThread
 inline fun <O> O.createSavedStateVMProvider(
-    factoryProvider: SavedStateVMFactoryProvider
+    factory: SavedStateVMFactoryProvider
 ): ViewModelProvider where O : ViewModelStoreOwner, O : SavedStateRegistryOwner =
-    createSavedStateVMProvider(null, factoryProvider)
+    createSavedStateVMProvider(null, factory)
 
 /**
- * Creates a [ViewModelProvider] with the given [factoryProvider].
+ * Creates a [ViewModelProvider] with the given [factory].
  *
- * @param defaultArgs will be passed to [factoryProvider].
+ * @param defaultArgs will be passed as an argument to the [factory] function.
  */
 @MainThread
 inline fun <O> O.createSavedStateVMProvider(
     defaultArgs: Bundle? = null,
-    factoryProvider: SavedStateVMFactoryProvider
+    factory: SavedStateVMFactoryProvider
 ): ViewModelProvider where O : ViewModelStoreOwner, O : SavedStateRegistryOwner =
-    ViewModelProvider(this, factoryProvider(defaultArgs))
+    ViewModelProvider(this, factory(defaultArgs))
 
 /**
  * Creates a [SavedStateVMFactoryProvider] that instantiates [SavedStateVMFactory] with the given
