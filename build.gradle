@@ -10,7 +10,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
         classpath 'org.jetbrains.dokka:dokka-android-gradle-plugin:0.9.18'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
-        classpath 'pl.allegro.tech.build:axion-release-plugin:1.10.0'
+        classpath 'pl.allegro.tech.build:axion-release-plugin:1.10.1'
         classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.8.6'
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.21.0'
     }
@@ -63,9 +63,9 @@ ext {
 
     def androidx = [:]
     deps.androidx = androidx
-    androidx.arch = [core: [testing: 'androidx.arch.core:core-testing:2.0.1',],]
+    androidx.arch = [core: [testing: 'androidx.arch.core:core-testing:2.1.0-alpha01',],]
 
-    def lifecycleVersion = '2.1.0-alpha03'
+    def lifecycleVersion = '2.1.0-alpha04'
     androidx.lifecycle = [runtime             : "androidx.lifecycle:lifecycle-runtime:$lifecycleVersion",
                           extensions          : "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion",
                           livedata            : "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion",
@@ -78,5 +78,5 @@ ext {
                      rxjava2 : "androidx.room:room-rxjava2:$roomVersion",
                      testing : "androidx.room:room-testing:$roomVersion",]
 
-    androidx.work = [runtime: "androidx.work:work-runtime-ktx:2.0.0"]
+    androidx.work = [runtime: "androidx.work:work-runtime-ktx:2.0.1-rc01"]
 }
