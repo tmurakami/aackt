@@ -25,5 +25,5 @@ import androidx.lifecycle.ViewModel
  * Creates a [Lazy] that calls [initializer] to get a [ViewModel].
  */
 @MainThread
-inline fun <T : ViewModel> viewModel(noinline initializer: () -> T): Lazy<T> =
+inline fun <T : ViewModel> viewModelLazy(noinline initializer: () -> T): Lazy<T> =
     lazy(LazyThreadSafetyMode.NONE, initializer)

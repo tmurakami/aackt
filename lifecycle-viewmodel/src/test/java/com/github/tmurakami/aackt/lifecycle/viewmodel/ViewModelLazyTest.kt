@@ -17,14 +17,14 @@
 package com.github.tmurakami.aackt.lifecycle.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.github.tmurakami.aackt.lifecycle.viewModel
+import com.github.tmurakami.aackt.lifecycle.viewModelLazy
 import kotlin.test.Test
 import kotlin.test.assertSame
 
 class ViewModelLazyTest {
     @Test
-    fun testViewModel() {
-        val viewModel by viewModel { TestViewModel() }
+    fun testViewModelLazy() {
+        val viewModel by viewModelLazy { TestViewModel() }
         assertSame(viewModel, viewModel)
     }
 
