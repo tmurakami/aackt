@@ -14,15 +14,6 @@
  * limitations under the License.
  */
 
-package com.github.tmurakami.aackt.work
+package androidx.work
 
-import androidx.work.Data
-import androidx.work.values
-import kotlin.reflect.KProperty
-
-/**
- * Returns a value associated with the [property] name.
- */
-@Suppress("UNCHECKED_CAST")
-operator fun <T> Data.getValue(thisRef: Any?, property: KProperty<*>): T =
-    values[property.name] as T
+internal val Data.values: Map<String, Any?> get() = mValues
