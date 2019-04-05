@@ -20,7 +20,6 @@ package com.github.tmurakami.aackt.lifecycle
 
 import androidx.annotation.MainThread
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 
 /**
  * Creates a [Lazy] that calls [initializer] to get a [ViewModel].
@@ -28,14 +27,3 @@ import androidx.lifecycle.ViewModelProvider
 @MainThread
 inline fun <T : ViewModel> viewModel(noinline initializer: () -> T): Lazy<T> =
     lazy(LazyThreadSafetyMode.NONE, initializer)
-
-/**
- * Creates a [Lazy] from the given [provider].
- *
- * The resulting [Lazy] calls [ViewModelProvider.get] without a key in order to retrieve a
- * [ViewModel]. If you want to retrieve it with some key, use [viewModel] instead.
- */
-@MainThread
-inline fun <reified T : ViewModel> viewModels(
-    crossinline provider: () -> ViewModelProvider
-): Lazy<T> = viewModel { provider().get(T::class.java) }
