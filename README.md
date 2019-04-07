@@ -67,16 +67,19 @@ assertEquals(listOf(1), updatedValues)
 ## ViewModel
 
 ```kotlin
-class FooActivity : FragmentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        val viewModelProvider = createViewModelProvider()
-        val fooViewModel: FooViewModel by viewModelProvider
-
-        /* ... */
+class MyFragment : Fragment() {
+    val viewModel by viewModelLazy {
+        ViewModelProviders.of(this).get<MyViewModel>()
     }
 }
+```
+
+## ViewModel-SavedState
+
+```kotlin
+val handle = SavedStateHandle()
+var intValue: Int by handle
+val stringValue: LiveData<String> by handle.liveData()
 ```
 
 ## Room
@@ -94,17 +97,8 @@ val db = context.createRoomDatabase<MyRoomDatabase>("app.db") {
 ## WorkManager
 
 ```kotlin
-class MyWorker(context: Context, params: WorkerParameters) : Worker(context, params) {
-    override fun doWork(): Result {
-        /* ... */
-    }
-}
-
-val workRequest = OneTimeWorkRequestBuilder<MyWorker>().build()
-
-// `DefaultWorkManager` is a top-level property that returns the
-// singleton instance of `WorkManager`.
-DefaultWorkManager.enqueue(workRequest)
+val data = workDataOf("intValue" to 0)
+val intValue: Int by data
 ```
 
 ## Installation
@@ -133,6 +127,9 @@ dependencies {
     // Alternatively, just ViewModel
     implementation "com.github.tmurakami.aackt:lifecycle-viewmodel:$aacktVersion"
 
+    // ViewModel-SavedState
+    implementation "com.github.tmurakami.aackt:lifecycle-viewmodel-savedstate:$aacktVersion"
+
     // Room
     implementation "com.github.tmurakami.aackt:room-runtime:$aacktVersion"
 
@@ -152,6 +149,7 @@ dependencies {
 - [Extensions](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-extensions/2.0.0-alpha07/javadoc/lifecycle-extensions/)
 - [LiveData](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-livedata/2.0.0-alpha07/javadoc/lifecycle-livedata/)
 - [ViewModel](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-viewmodel/2.0.0-alpha07/javadoc/lifecycle-viewmodel/)
+- [ViewModel-SavedState](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-viewmodel-savedstate/2.0.0-alpha07/javadoc/lifecycle-viewmodel-savedstate/)
 
 ### Room
 
