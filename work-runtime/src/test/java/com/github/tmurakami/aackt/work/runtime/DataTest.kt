@@ -27,4 +27,10 @@ class DataTest {
         val value: Int by workDataOf("value" to 0)
         assertSame(0, value)
     }
+
+    @Test(NoSuchElementException::class)
+    fun testGetValue_noSuchElement() {
+        val value: Int by workDataOf()
+        value.toString()
+    }
 }

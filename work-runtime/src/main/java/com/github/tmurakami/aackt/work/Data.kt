@@ -23,6 +23,8 @@ import kotlin.reflect.KProperty
 /**
  * Returns a value associated with the [property] name.
  */
-@Suppress("UNCHECKED_CAST")
-operator fun <T> Data.getValue(thisRef: Any?, property: KProperty<*>): T =
-    values[property.name] as T
+operator fun <T> Data.getValue(thisRef: Any?, property: KProperty<*>): T {
+    val name = property.name
+    @Suppress("UNCHECKED_CAST")
+    return if (values.containsKey(name)) values[name] as T else throw NoSuchElementException(name)
+}
