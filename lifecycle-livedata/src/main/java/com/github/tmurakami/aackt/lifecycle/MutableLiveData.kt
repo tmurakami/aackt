@@ -22,9 +22,7 @@ import androidx.annotation.MainThread
 import androidx.lifecycle.MutableLiveData
 import kotlin.reflect.KProperty
 
-/**
- * Sets the [value].
- */
+@Deprecated("", ReplaceWith(""))
 @MainThread
 inline operator fun <T> MutableLiveData<T>.setValue(
     thisRef: Any?,

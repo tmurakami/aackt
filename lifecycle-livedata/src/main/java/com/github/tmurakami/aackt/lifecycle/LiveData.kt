@@ -26,9 +26,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import kotlin.reflect.KProperty
 
-/**
- * Returns the current value.
- */
+@Deprecated("", ReplaceWith(""))
 @MainThread
 inline operator fun <reified T> LiveData<T>.getValue(thisRef: Any?, property: KProperty<*>): T =
     value as T
