@@ -47,13 +47,21 @@ class SavedStateHandleTest {
         assertSame(0, value)
     }
 
+    @Test(NoSuchElementException::class)
+    fun testGetValue_noSuchElement() {
+        val handle = SavedStateHandle()
+        val value: Int by handle
+        value.toString()
+    }
+
     @Test
     fun testSetValue() {
         val handle = SavedStateHandle()
-        var value: Int? by handle
-        assertNull(value)
-        value = 0
+        handle["value"] = 0
+        var value: Int by handle
         assertSame(0, value)
-        assertSame<Int?>(0, handle["value"])
+        value = 1
+        assertSame(1, value)
+        assertSame<Int?>(1, handle["value"])
     }
 }

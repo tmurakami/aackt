@@ -40,7 +40,10 @@ fun <T> SavedStateHandle.liveData(): ReadOnlyProperty<Any?, LiveData<T>> =
 inline operator fun <reified T> SavedStateHandle.getValue(
     thisRef: Any?,
     property: KProperty<*>
-): T = get<Any>(property.name) as T
+): T {
+    val name = property.name
+    return if (contains(name)) get<Any?>(name) as T else throw NoSuchElementException(name)
+}
 
 /**
  * Associates the given value with the [property] name.
