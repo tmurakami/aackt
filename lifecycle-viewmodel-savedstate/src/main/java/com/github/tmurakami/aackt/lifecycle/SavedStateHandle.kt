@@ -37,11 +37,12 @@ fun <T> SavedStateHandle.liveData(): ReadOnlyProperty<Any?, LiveData<T>> =
  * Returns a value associated with the [property] name.
  */
 @MainThread
-inline operator fun <reified T> SavedStateHandle.getValue(
+inline operator fun <T> SavedStateHandle.getValue(
     thisRef: Any?,
     property: KProperty<*>
 ): T {
     val name = property.name
+    @Suppress("UNCHECKED_CAST")
     return if (contains(name)) get<Any?>(name) as T else throw NoSuchElementException(name)
 }
 

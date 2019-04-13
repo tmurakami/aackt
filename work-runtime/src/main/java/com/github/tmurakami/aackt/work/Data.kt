@@ -25,6 +25,7 @@ import kotlin.reflect.KProperty
  */
 operator fun <T> Data.getValue(thisRef: Any?, property: KProperty<*>): T {
     val name = property.name
+    val values = values
     @Suppress("UNCHECKED_CAST")
     return if (values.containsKey(name)) values[name] as T else throw NoSuchElementException(name)
 }
