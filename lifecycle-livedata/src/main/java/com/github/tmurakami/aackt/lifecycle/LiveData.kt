@@ -24,12 +24,6 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import kotlin.reflect.KProperty
-
-@Deprecated("", ReplaceWith(""))
-@MainThread
-inline operator fun <reified T> LiveData<T>.getValue(thisRef: Any?, property: KProperty<*>): T =
-    value as T
 
 @Deprecated("", ReplaceWith("MutableLiveData(value)", "androidx.lifecycle.MutableLiveData"))
 @MainThread

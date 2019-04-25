@@ -20,15 +20,6 @@ package com.github.tmurakami.aackt.lifecycle
 
 import androidx.annotation.MainThread
 import androidx.lifecycle.MutableLiveData
-import kotlin.reflect.KProperty
-
-@Deprecated("", ReplaceWith(""))
-@MainThread
-inline operator fun <T> MutableLiveData<T>.setValue(
-    thisRef: Any?,
-    property: KProperty<*>,
-    value: T
-) = setValue(value)
 
 @Deprecated("", ReplaceWith("MutableLiveData(value)", "androidx.lifecycle.MutableLiveData"))
 @MainThread
