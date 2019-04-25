@@ -78,5 +78,5 @@ ext {
                      rxjava2 : "androidx.room:room-rxjava2:$roomVersion",
                      testing : "androidx.room:room-testing:$roomVersion",]
 
-    androidx.work = [runtime: 'androidx.work:work-runtime-ktx:2.0.1',]
+    androidx.work = [runtime: 'androidx.work:work-runtime-ktx:2.1.0-alpha01',]
 }

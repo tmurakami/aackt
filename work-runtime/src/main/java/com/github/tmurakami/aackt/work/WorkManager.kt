@@ -18,6 +18,7 @@ package com.github.tmurakami.aackt.work
 
 import androidx.work.WorkManager
 
+@Suppress("DEPRECATION")
 @Deprecated("", ReplaceWith("WorkManager.getInstance()", "androidx.work.WorkManager"))
 inline val DefaultWorkManager: WorkManager
     get() = WorkManager.getInstance()
