@@ -63,7 +63,7 @@ ext {
 
     def androidx = [:]
     deps.androidx = androidx
-    androidx.arch = [core: [testing: 'androidx.arch.core:core-testing:2.1.0-alpha01',],]
+    androidx.arch = [core: [testing: 'androidx.arch.core:core-testing:2.1.0-alpha02',],]
 
     def lifecycleVersion = '2.1.0-alpha04'
     androidx.lifecycle = [runtime             : "androidx.lifecycle:lifecycle-runtime:$lifecycleVersion",
@@ -72,7 +72,7 @@ ext {
                           viewmodel           : "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion",
                           viewmodel_savedstate: 'androidx.lifecycle:lifecycle-viewmodel-savedstate:1.0.0-alpha01',]
 
-    def roomVersion = '2.1.0-alpha06'
+    def roomVersion = '2.1.0-alpha07'
     androidx.room = [runtime : "androidx.room:room-ktx:$roomVersion",
                      compiler: "androidx.room:room-compiler:$roomVersion",
                      rxjava2 : "androidx.room:room-rxjava2:$roomVersion",
