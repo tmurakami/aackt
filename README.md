@@ -116,7 +116,7 @@ repositories {
 
 dependencies {
 
-    def aacktVersion = '2.0.0-alpha07'
+    def aacktVersion = '2.0.0-alpha08'
 
     // LiveData and ViewModel
     implementation "com.github.tmurakami.aackt:lifecycle-extensions:$aacktVersion"
@@ -146,19 +146,19 @@ dependencies {
 
 ### Lifecycle
 
-- [Extensions](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-extensions/2.0.0-alpha07/javadoc/lifecycle-extensions/)
-- [LiveData](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-livedata/2.0.0-alpha07/javadoc/lifecycle-livedata/)
-- [ViewModel](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-viewmodel/2.0.0-alpha07/javadoc/lifecycle-viewmodel/)
-- [ViewModel-SavedState](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-viewmodel-savedstate/2.0.0-alpha07/javadoc/lifecycle-viewmodel-savedstate/)
+- [Extensions](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-extensions/2.0.0-alpha08/javadoc/lifecycle-extensions/)
+- [LiveData](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-livedata/2.0.0-alpha08/javadoc/lifecycle-livedata/)
+- [ViewModel](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-viewmodel/2.0.0-alpha08/javadoc/lifecycle-viewmodel/)
+- [ViewModel-SavedState](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-viewmodel-savedstate/2.0.0-alpha08/javadoc/lifecycle-viewmodel-savedstate/)
 
 ### Room
 
-- [Runtime](https://jitpack.io/com/github/tmurakami/aackt/room-runtime/2.0.0-alpha07/javadoc/room-runtime/)
-- [RxJava2](https://jitpack.io/com/github/tmurakami/aackt/room-rxjava2/2.0.0-alpha07/javadoc/room-rxjava2/)
+- [Runtime](https://jitpack.io/com/github/tmurakami/aackt/room-runtime/2.0.0-alpha08/javadoc/room-runtime/)
+- [RxJava2](https://jitpack.io/com/github/tmurakami/aackt/room-rxjava2/2.0.0-alpha08/javadoc/room-rxjava2/)
 
 ### WorkManager
 
-- [Runtime](https://jitpack.io/com/github/tmurakami/aackt/work-runtime/2.0.0-alpha07/javadoc/work-runtime/)
+- [Runtime](https://jitpack.io/com/github/tmurakami/aackt/work-runtime/2.0.0-alpha08/javadoc/work-runtime/)
 
 ## License
 
