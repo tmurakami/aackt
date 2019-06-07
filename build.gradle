@@ -38,8 +38,6 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        // TODO https://youtrack.jetbrains.com/issue/KT-27991
-        maven { url 'https://kotlin.bintray.com/kotlinx/' }
         jcenter()
     }
 }
