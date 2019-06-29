@@ -37,7 +37,7 @@ fun <T> SavedStateHandle.liveData(): ReadOnlyProperty<Any?, LiveData<T>> =
  * Returns a value associated with the [property] name.
  */
 @MainThread
-inline operator fun <T> SavedStateHandle.getValue(
+operator fun <T> SavedStateHandle.getValue(
     thisRef: Any?,
     property: KProperty<*>
 ): T {
