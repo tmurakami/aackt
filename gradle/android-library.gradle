@@ -13,6 +13,7 @@ android {
         check 'Interoperability'
     }
     kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
         allWarningsAsErrors = true
         freeCompilerArgs += ['-Xno-param-assertions']
     }
