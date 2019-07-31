@@ -23,16 +23,12 @@ import androidx.lifecycle.Observer
 /**
  * An interface representing a subscription to a [LiveData].
  */
-@Suppress("DEPRECATION")
-interface Subscription : Observation {
+interface Subscription {
     /**
      * Unsubscribe from the target [LiveData].
      */
     @MainThread
     fun unsubscribe()
-
-    @Deprecated("", ReplaceWith("unsubscribe()"))
-    override fun dispose() = unsubscribe()
 }
 
 internal class SubscriptionImpl<T>(

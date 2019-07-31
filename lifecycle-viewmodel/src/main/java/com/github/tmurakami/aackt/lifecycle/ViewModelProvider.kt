@@ -19,7 +19,6 @@ package com.github.tmurakami.aackt.lifecycle
 import androidx.annotation.MainThread
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import kotlin.reflect.KProperty
 
 /**
  * Returns an existing [ViewModel] with the given [key], or creates a new one.
@@ -27,10 +26,3 @@ import kotlin.reflect.KProperty
 @MainThread
 inline operator fun <reified T : ViewModel> ViewModelProvider.get(key: String): T =
     get(key, T::class.java)
-
-@Deprecated("", ReplaceWith(""))
-@MainThread
-inline operator fun <reified T : ViewModel> ViewModelProvider.getValue(
-    thisRef: Any?,
-    property: KProperty<*>
-): T = get(property.name, T::class.java)
