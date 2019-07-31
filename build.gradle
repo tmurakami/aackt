@@ -63,18 +63,18 @@ ext {
     deps.androidx = androidx
     androidx.arch = [core: [testing: 'androidx.arch.core:core-testing:2.1.0',],]
 
-    def lifecycleVersion = '2.1.0'
+    def lifecycleVersion = '2.2.0'
     androidx.lifecycle = [runtime             : "androidx.lifecycle:lifecycle-runtime:$lifecycleVersion",
                           extensions          : "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion",
                           livedata            : "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion",
                           viewmodel           : "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion",
-                          viewmodel_savedstate: 'androidx.lifecycle:lifecycle-viewmodel-savedstate:1.0.0-alpha01',]
+                          viewmodel_savedstate: "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycleVersion",]
 
-    def roomVersion = '2.1.0'
+    def roomVersion = '2.2.3'
     androidx.room = [runtime : "androidx.room:room-ktx:$roomVersion",
                      compiler: "androidx.room:room-compiler:$roomVersion",
                      rxjava2 : "androidx.room:room-rxjava2:$roomVersion",
                      testing : "androidx.room:room-testing:$roomVersion",]
 
-    androidx.work = [runtime: 'androidx.work:work-runtime-ktx:2.1.0',]
+    androidx.work = [runtime: 'androidx.work:work-runtime-ktx:2.3.1',]
 }

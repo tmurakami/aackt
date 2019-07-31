@@ -18,7 +18,6 @@ package com.github.tmurakami.aackt.lifecycle.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.NewInstanceFactory
 import com.github.tmurakami.aackt.lifecycle.get
 import kotlin.test.Test
 import kotlin.test.assertSame
@@ -26,7 +25,7 @@ import kotlin.test.assertSame
 class ViewModelProviderTest {
     @Test
     fun testGet() {
-        val provider = ViewModelProvider(FakeViewModelStoreOwner(), NewInstanceFactory())
+        val provider = ViewModelProvider(FakeViewModelStoreOwner())
         assertSame<TestViewModel>(provider["test"], provider["test"])
     }
 
