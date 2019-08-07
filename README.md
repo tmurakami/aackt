@@ -142,24 +142,6 @@ dependencies {
 }
 ```
 
-## API references
-
-### Lifecycle
-
-- [Extensions](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-extensions/2.0.0-rc01/javadoc/lifecycle-extensions/)
-- [LiveData](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-livedata/2.0.0-rc01/javadoc/lifecycle-livedata/)
-- [ViewModel](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-viewmodel/2.0.0-rc01/javadoc/lifecycle-viewmodel/)
-- [ViewModel-SavedState](https://jitpack.io/com/github/tmurakami/aackt/lifecycle-viewmodel-savedstate/2.0.0-rc01/javadoc/lifecycle-viewmodel-savedstate/)
-
-### Room
-
-- [Runtime](https://jitpack.io/com/github/tmurakami/aackt/room-runtime/2.0.0-rc01/javadoc/room-runtime/)
-- [RxJava2](https://jitpack.io/com/github/tmurakami/aackt/room-rxjava2/2.0.0-rc01/javadoc/room-rxjava2/)
-
-### WorkManager
-
-- [Runtime](https://jitpack.io/com/github/tmurakami/aackt/work-runtime/2.0.0-rc01/javadoc/work-runtime/)
-
 ## License
 
 ```
