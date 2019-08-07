@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package com.github.tmurakami.aackt.lifecycle.livedata
+package com.github.tmurakami.aackt.lifecycle.livedata.core
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import java.util.LinkedList
 import kotlin.test.assertEquals
@@ -28,6 +27,3 @@ class TestObserver<T> : Observer<T> {
     fun assertNoValues() = assertTrue(received.isEmpty())
     fun assertValuesOnly(vararg values: T) = assertEquals(listOf(*values), received)
 }
-
-@Suppress("NOTHING_TO_INLINE")
-inline fun <T> LiveData<T>.test(): TestObserver<T> = TestObserver<T>().also { observeForever(it) }

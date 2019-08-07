@@ -2,8 +2,8 @@ apply from: "$rootDir/gradle/android-library.gradle"
 
 dependencies {
     api deps.androidx.lifecycle.livedata
+    api project(':lifecycle-livedata-core')
     testImplementation deps.androidx.arch.core.testing
-    testImplementation deps.androidx.lifecycle.runtime
 }
 
 dokka.samples = android.sourceSets.test.java.srcDirs.collect { it.path }
