@@ -65,7 +65,6 @@ ext {
 
     def lifecycleVersion = '2.2.0'
     androidx.lifecycle = [runtime             : "androidx.lifecycle:lifecycle-runtime:$lifecycleVersion",
-                          extensions          : "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion",
                           livedata_core       : "androidx.lifecycle:lifecycle-livedata-core-ktx:$lifecycleVersion",
                           livedata            : "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion",
                           viewmodel           : "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion",

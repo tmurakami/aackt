@@ -1,4 +1,3 @@
-include ':lifecycle-extensions'
 include ':lifecycle-livedata-core'
 include ':lifecycle-livedata'
 include ':lifecycle-viewmodel'

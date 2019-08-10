@@ -24,8 +24,6 @@ jobs:
             - ~/.gradle/caches
             - ~/.gradle/wrapper
       - store_artifacts:
-          path: lifecycle-extensions/build/reports
-      - store_artifacts:
           path: lifecycle-livedata/build/reports
       - store_artifacts:
           path: lifecycle-viewmodel/build/reports
@@ -37,8 +35,6 @@ jobs:
           path: room-rxjava2/build/reports
       - store_artifacts:
           path: work-runtime/build/reports
-      - store_test_results:
-          path: lifecycle-extensions/build/test-results
       - store_test_results:
           path: lifecycle-livedata/build/test-results
       - store_test_results:
