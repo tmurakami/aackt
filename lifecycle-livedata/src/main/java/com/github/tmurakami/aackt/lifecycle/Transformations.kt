@@ -255,8 +255,7 @@ operator fun <T> LiveData<T>.plus(other: LiveData<out T>): LiveData<T> {
     val result = MediatorLiveData<T>()
     val observer = Observer<T> { result.value = it }
     result.addSource(this, observer)
-    @Suppress("UNCHECKED_CAST")
-    result.addSource(other as LiveData<T>, observer)
+    result.addSource(other, observer)
     return result
 }
 
