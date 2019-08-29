@@ -21,9 +21,7 @@ package com.github.tmurakami.aackt.lifecycle
 import androidx.annotation.MainThread
 import androidx.lifecycle.ViewModel
 
-/**
- * Creates a [Lazy] that calls [initializer] to get a [ViewModel].
- */
+@Deprecated("", ReplaceWith("lazy(LazyThreadSafetyMode.NONE, initializer)"))
 @MainThread
 inline fun <T : ViewModel> viewModelLazy(noinline initializer: () -> T): Lazy<T> =
     lazy(LazyThreadSafetyMode.NONE, initializer)
