@@ -20,9 +20,7 @@ import androidx.annotation.MainThread
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
-/**
- * Returns an existing [ViewModel] with the given [key], or creates a new one.
- */
+@Deprecated("", ReplaceWith("get(key, T::class.java)"))
 @MainThread
 inline operator fun <reified T : ViewModel> ViewModelProvider.get(key: String): T =
     get(key, T::class.java)
