@@ -19,7 +19,7 @@ package com.github.tmurakami.aackt.lifecycle.viewmodel
 import androidx.lifecycle.ViewModelStore
 import androidx.lifecycle.ViewModelStoreOwner
 
-class FakeViewModelStoreOwner(private val viewModelStore: ViewModelStore = ViewModelStore()) :
-    ViewModelStoreOwner {
-    override fun getViewModelStore(): ViewModelStore = viewModelStore
+class FakeViewModelStoreOwner : ViewModelStoreOwner {
+    private val store = ViewModelStore()
+    override fun getViewModelStore(): ViewModelStore = store
 }
