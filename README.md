@@ -109,8 +109,6 @@ Add the following to your `build.gradle`:
 repositories {
     google()
     maven { url 'https://jitpack.io' }
-    // https://youtrack.jetbrains.com/issue/KT-27991
-    maven { url 'https://kotlin.bintray.com/kotlinx/' }
     jcenter()
 }
 
