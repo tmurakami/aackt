@@ -17,7 +17,7 @@ jobs:
           key: *cache_key
       - run:
           name: Run Lint and Tests
-          command: ./gradlew lintDebug ktlint testDebug
+          command: ./gradlew check testDebug
       - save_cache:
           key: *cache_key
           paths:
@@ -30,9 +30,13 @@ jobs:
       - store_artifacts:
           path: lifecycle-viewmodel/build/reports
       - store_artifacts:
+          path: lifecycle-viewmodel-savedstate/build/reports
+      - store_artifacts:
           path: room-runtime/build/reports
       - store_artifacts:
           path: room-rxjava2/build/reports
+      - store_artifacts:
+          path: work-runtime/build/reports
       - store_test_results:
           path: lifecycle-extensions/build/test-results
       - store_test_results:
@@ -40,6 +44,10 @@ jobs:
       - store_test_results:
           path: lifecycle-viewmodel/build/test-results
       - store_test_results:
+          path: lifecycle-viewmodel-savedstate/build/test-results
+      - store_test_results:
           path: room-runtime/build/test-results
       - store_test_results:
           path: room-rxjava2/build/test-results
+      - store_test_results:
+          path: work-runtime/build/test-results
