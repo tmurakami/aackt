@@ -1,6 +1,8 @@
 apply from: "$rootDir/gradle/android-library.gradle"
+apply plugin: 'de.mobilej.unmock'
 
 dependencies {
     api deps.androidx.lifecycle.viewmodel_savedstate
     testImplementation deps.androidx.arch.core.testing
+    testImplementation deps.androidx.lifecycle.runtime
 }
