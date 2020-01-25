@@ -36,7 +36,7 @@ task ktlint(type: JavaExec, group: 'verification') {
     outputs.dir 'src'
     description = 'Check Kotlin code style.'
     classpath = configurations.ktlint
-    main = 'com.github.shyiko.ktlint.Main'
+    main = 'com.pinterest.ktlint.Main'
     args '--android', 'src/**/*.kt'
 }
 check.dependsOn ktlint
@@ -46,7 +46,7 @@ task ktlintFormat(type: JavaExec, group: 'formatting') {
     outputs.dir 'src'
     description = 'Fix Kotlin code style deviations.'
     classpath = configurations.ktlint
-    main = 'com.github.shyiko.ktlint.Main'
+    main = 'com.pinterest.ktlint.Main'
     args '--android', '-F', 'src/**/*.kt'
 }
 
