@@ -1,7 +1,7 @@
 # AAC.kt
 
 ![Android](https://img.shields.io/badge/Android-4.0%2B-blue.svg)
-![Kotlin](https://img.shields.io/badge/Kotlin-1.3.50%2B-blue.svg)
+![Kotlin](https://img.shields.io/badge/Kotlin-1.3.61%2B-blue.svg)
 [![CircleCI](https://circleci.com/gh/tmurakami/aackt.svg?style=shield)](https://circleci.com/gh/tmurakami/aackt)
 [![Release](https://jitpack.io/v/tmurakami/aackt.svg)](https://jitpack.io/#tmurakami/aackt)
 
@@ -177,7 +177,7 @@ repositories {
 
 dependencies {
 
-    def aacktVersion = '2.0.0'
+    def aacktVersion = '2.1.0'
 
     // LiveData
     implementation "com.github.tmurakami.aackt:lifecycle-livedata:$aacktVersion"
