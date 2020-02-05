@@ -14,13 +14,26 @@
  * limitations under the License.
  */
 
-@file:Suppress("NOTHING_TO_INLINE")
-
 package com.github.tmurakami.aackt.lifecycle
 
 import androidx.annotation.MainThread
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 
-@Deprecated("", ReplaceWith("MutableLiveData(value)", "androidx.lifecycle.MutableLiveData"))
-@MainThread
-inline fun <T> mutableLiveData(value: T): MutableLiveData<T> = MutableLiveData(value)
+/**
+ * An interface representing a subscription to a [LiveData].
+ */
+interface Subscription {
+    /**
+     * Unsubscribe from the target [LiveData].
+     */
+    @MainThread
+    fun unsubscribe()
+}
+
+internal class SubscriptionImpl<T>(
+    private val data: LiveData<T>,
+    private val observer: Observer<in T>
+) : Subscription {
+    override fun unsubscribe() = data.removeObserver(observer)
+}

@@ -14,21 +14,6 @@
  * limitations under the License.
  */
 
-package com.github.tmurakami.aackt.lifecycle.viewmodel
+package androidx.lifecycle
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.NewInstanceFactory
-import com.github.tmurakami.aackt.lifecycle.get
-import kotlin.test.Test
-import kotlin.test.assertSame
-
-class ViewModelProviderTest {
-    @Test
-    fun testGet() {
-        val provider = ViewModelProvider(FakeViewModelStoreOwner(), NewInstanceFactory())
-        assertSame<TestViewModel>(provider["test"], provider["test"])
-    }
-
-    class TestViewModel : ViewModel()
-}
+fun ViewModelStore.keys(): Set<String> = keys()

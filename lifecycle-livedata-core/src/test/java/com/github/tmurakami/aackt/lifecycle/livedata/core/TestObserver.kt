@@ -14,11 +14,16 @@
  * limitations under the License.
  */
 
-package com.github.tmurakami.aackt.work
+package com.github.tmurakami.aackt.lifecycle.livedata.core
 
-import androidx.work.WorkManager
+import androidx.lifecycle.Observer
+import java.util.LinkedList
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
-@Suppress("DEPRECATION")
-@Deprecated("", ReplaceWith("WorkManager.getInstance()", "androidx.work.WorkManager"))
-inline val DefaultWorkManager: WorkManager
-    get() = WorkManager.getInstance()
+class TestObserver<T> : Observer<T> {
+    private val received = LinkedList<T>()
+    override fun onChanged(t: T) = received.plusAssign(t)
+    fun assertNoValues() = assertTrue(received.isEmpty())
+    fun assertValuesOnly(vararg values: T) = assertEquals(listOf(*values), received)
+}

@@ -22,21 +22,7 @@ import androidx.annotation.MainThread
 import androidx.lifecycle.ChangesOnlySubscriptionImpl
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-
-@Deprecated("", ReplaceWith("MutableLiveData(value)", "androidx.lifecycle.MutableLiveData"))
-@MainThread
-inline fun <T> liveData(value: T): LiveData<T> {
-    // To save methods count, we prefer MutableLiveData rather than `object : LiveData<T>() {}`.
-    return MutableLiveData(value)
-}
-
-@Suppress("DEPRECATION")
-@Deprecated("", ReplaceWith("subscribe(observer)"))
-@MainThread
-inline fun <T> LiveData<T>.observe(crossinline observer: (T) -> Unit): Observation =
-    subscribe(observer)
 
 /**
  * Adds the given [action] to the receiver. If the receiver already has a value, it will be
@@ -59,12 +45,6 @@ inline fun <T> LiveData<T>.subscribe(crossinline action: (T) -> Unit): Subscript
 @MainThread
 fun <T> LiveData<T>.subscribe(observer: Observer<in T>): Subscription =
     SubscriptionImpl(this, observer).also { observeForever(observer) }
-
-@Suppress("DEPRECATION")
-@Deprecated("", ReplaceWith("subscribeChanges(onChanged)"))
-@MainThread
-inline fun <T> LiveData<T>.observeChanges(crossinline onChanged: (T) -> Unit): Observation =
-    subscribeChanges(onChanged)
 
 /**
  * Adds the given [action] to the receiver. Unlike [subscribe] extension, the cached value won't be
@@ -90,14 +70,6 @@ inline fun <T> LiveData<T>.subscribeChanges(crossinline action: (T) -> Unit): Su
 fun <T> LiveData<T>.subscribeChanges(observer: Observer<in T>): Subscription =
     ChangesOnlySubscriptionImpl(this, observer).also { observeForever(it) }
 
-@Suppress("DEPRECATION")
-@Deprecated("", ReplaceWith("subscribe(owner, observer)"))
-@MainThread
-inline fun <T> LiveData<T>.observe(
-    owner: LifecycleOwner,
-    crossinline observer: (T) -> Unit
-): Observation = subscribe(owner, observer)
-
 /**
  * Adds the given [action] to the receiver. If the receiver already has a value, it will be
  * delivered to the [action].
@@ -121,14 +93,6 @@ inline fun <T> LiveData<T>.subscribe(
 @MainThread
 fun <T> LiveData<T>.subscribe(owner: LifecycleOwner, observer: Observer<in T>): Subscription =
     SubscriptionImpl(this, observer).also { observe(owner, observer) }
-
-@Suppress("DEPRECATION")
-@Deprecated("", ReplaceWith("subscribeChanges(owner, onChanged)"))
-@MainThread
-inline fun <T> LiveData<T>.observeChanges(
-    owner: LifecycleOwner,
-    crossinline onChanged: (T) -> Unit
-): Observation = subscribeChanges(owner, onChanged)
 
 /**
  * Adds the given [action] to the receiver. Unlike [subscribe] extension, the cached value won't be

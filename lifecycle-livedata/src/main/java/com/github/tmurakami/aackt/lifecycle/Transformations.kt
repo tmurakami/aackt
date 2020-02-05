@@ -20,13 +20,7 @@ import androidx.annotation.MainThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Observer
-import androidx.lifecycle.Transformations
 import java.util.LinkedList
-
-@Deprecated("", ReplaceWith("map(transform)", "androidx.lifecycle.map"))
-@MainThread
-inline fun <T, R> LiveData<T>.map(crossinline transform: (T) -> R): LiveData<R> =
-    Transformations.map(this) { transform(it) }
 
 /**
  * Returns a [LiveData] that emits the non-null results of applying the given [transform] function.
@@ -39,11 +33,6 @@ inline fun <T, R : Any> LiveData<T>.mapNotNull(crossinline transform: (T) -> R?)
     result.addSource(this) { transform(it)?.let(result::setValue) }
     return result
 }
-
-@Deprecated("", ReplaceWith("switchMap(transform)", "androidx.lifecycle.switchMap"))
-@MainThread
-inline fun <T, R> LiveData<T>.switchMap(crossinline transform: (T) -> LiveData<R>?): LiveData<R> =
-    Transformations.switchMap(this) { transform(it) }
 
 /**
  * Returns a [LiveData] with the given [action] which will be called when the resulting [LiveData]
@@ -165,15 +154,6 @@ inline fun <T> LiveData<T>.distinct(crossinline selector: (T) -> Any? = { it }):
     return filter { set.add(selector(it)) }
 }
 
-@Deprecated("", ReplaceWith("distinct(selector)"))
-@MainThread
-inline fun <T, K> LiveData<T>.distinctBy(crossinline selector: (T) -> K): LiveData<T> =
-    distinct(selector)
-
-@Deprecated("", ReplaceWith("distinctUntilChanged()", "androidx.lifecycle.distinctUntilChanged"))
-@MainThread
-fun <T> LiveData<T>.distinctUntilChanged(): LiveData<T> = distinctUntilChanged { it }
-
 /**
  * Returns a [LiveData] that emits only distinct contiguous values according to the given [selector]
  * function.
@@ -198,11 +178,6 @@ inline fun <T> LiveData<T>.distinctUntilChanged(crossinline selector: (T) -> Any
     })
     return result
 }
-
-@Deprecated("", ReplaceWith("distinctUntilChanged(selector)"))
-@MainThread
-inline fun <T, K> LiveData<T>.distinctUntilChangedBy(crossinline selector: (T) -> K): LiveData<T> =
-    distinctUntilChanged(selector)
 
 /**
  * Returns a [LiveData] that emits values except first [n] items.
@@ -280,8 +255,7 @@ operator fun <T> LiveData<T>.plus(other: LiveData<out T>): LiveData<T> {
     val result = MediatorLiveData<T>()
     val observer = Observer<T> { result.value = it }
     result.addSource(this, observer)
-    @Suppress("UNCHECKED_CAST")
-    result.addSource(other as LiveData<T>, observer)
+    result.addSource(other, observer)
     return result
 }
 

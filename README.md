@@ -66,18 +66,81 @@ assertEquals(listOf(1), updatedValues)
 
 ## ViewModel
 
+Since `ViewModelProvider` doesn't manage keys for each ViewModel
+class, for example, the following test code will fail.
+
+```kotlin
+// Create a ViewModelProvider.
+val provider = ViewModelProvider(fragment)
+
+// Fetch a FooViewModel with the key `a`.
+val fooViewModel = provider.get("a", FooViewModel::class.java)
+
+// Fetch a BarViewModel with the same key.
+provider.get("a", BarViewModel::class.java)
+
+// This test will fail because the above code overwrites that key.
+assertSame(fooViewModel, provider.get("a", FooViewModel::class.java))
+```
+
+To avoid the above problem, you can use `TypedViewModelProvider`, which
+manages ViewModel instances by both class and name.
+
+```kotlin
+// Create TypedViewModelProviders for each ViewModel.
+val fooProvider = fragment.viewModelProvider<FooViewModel>()
+val barProvider = fragment.viewModelProvider<BarViewModel>()
+
+// Fetch a FooViewModel with the name `a`.
+val fooViewModel = fooProvider["a"]
+
+// Fetch a BarViewModel with the same name.
+barProvider["a"]
+
+// This test will pass.
+assertSame(fooViewModel, fooProvider["a"])
+```
+
+In addition, you can use `ViewModelStoreOwner.viewModelLazy` function to
+retrieve ViewModels lazily in a type-safe manner.
+
 ```kotlin
 class MyFragment : Fragment() {
-    val viewModel by viewModelLazy {
-        ViewModelProviders.of(this).get<MyViewModel>()
+    private val viewModel by viewModelLazy {
+        viewModelProvider { MyViewModel(/* ... */) }
     }
 }
 ```
 
-## ViewModel-SavedState
+You can also use it as follows:
 
 ```kotlin
-val handle = SavedStateHandle()
+// Use the default factory
+viewModelLazy<MyViewModel>()
+viewModelLazy<MyViewModel> { viewModelProvider() }
+```
+
+```kotlin
+val factory = object : ViewModelProvider.Factory { /* ... */ }
+
+// Use a ViewModelProvider.Factory instead of the default factory
+viewModelLazy<MyViewModel> { viewModelProvider(factory) }
+```
+
+```kotlin
+// Cache an activity-scoped ViewModel created by the default factory
+viewModelLazy<MyViewModel> { requireActivity().viewModelProvider() }
+```
+
+## ViewModel-SavedState
+
+You can use the `SavedStateHandleProvider` utility to provide
+SavedStateHandle instances as shown below:
+
+```kotlin
+val provider = SavedStateHandleProvider(fragment, fragment.arguments)
+val handle = provider["myHandleKey"]
+
 var intValue: Int by handle
 val stringValue: LiveData<String> by handle.liveData()
 ```
@@ -116,13 +179,10 @@ dependencies {
 
     def aacktVersion = '2.0.0'
 
-    // LiveData and ViewModel
-    implementation "com.github.tmurakami.aackt:lifecycle-extensions:$aacktVersion"
-
-    // Alternatively, just LiveData
+    // LiveData
     implementation "com.github.tmurakami.aackt:lifecycle-livedata:$aacktVersion"
 
-    // Alternatively, just ViewModel
+    // ViewModel
     implementation "com.github.tmurakami.aackt:lifecycle-viewmodel:$aacktVersion"
 
     // ViewModel-SavedState

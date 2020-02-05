@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-package com.github.tmurakami.aackt.lifecycle.livedata
+package com.github.tmurakami.aackt.lifecycle.livedata.core
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.github.tmurakami.aackt.lifecycle.subscribe
@@ -107,15 +106,6 @@ class LiveDataTest {
     }
 
     @Test
-    fun testSubscribeChanges_subscribe_MediatorLiveData() {
-        val data = MediatorLiveData<Int>().apply { addSource(MutableLiveData(-1), this::setValue) }
-        data.value = 0
-        val observer = TestObserver<Int>()
-        data.subscribeChanges(observer::onChanged)
-        observer.assertValuesOnly(-1)
-    }
-
-    @Test
     fun testSubscribeChanges_Observer() {
         val data = MutableLiveData(-1)
         val observer = TestObserver<Int>()
@@ -138,15 +128,6 @@ class LiveDataTest {
             assertFalse(hasObservers())
             assertFalse(hasActiveObservers())
         }
-    }
-
-    @Test
-    fun testSubscribeChanges_Observer_subscribe_MediatorLiveData() {
-        val data = MediatorLiveData<Int>().apply { addSource(MutableLiveData(-1), this::setValue) }
-        data.value = 0
-        val observer = TestObserver<Int>()
-        data.subscribeChanges(observer)
-        observer.assertValuesOnly(-1)
     }
 
     @Test
@@ -243,16 +224,6 @@ class LiveDataTest {
     }
 
     @Test
-    fun testSubscribeChanges_LifecycleOwner_subscribe_MediatorLiveData() {
-        val owner = FakeLifecycleOwner()
-        val data = MediatorLiveData<Int>().apply { addSource(MutableLiveData(-1), this::setValue) }
-        data.value = 0
-        val observer = TestObserver<Int>()
-        data.subscribeChanges(owner, observer::onChanged)
-        owner.resume().use { observer.assertValuesOnly(-1) }
-    }
-
-    @Test
     fun testSubscribeChanges_LifecycleOwner_Observer() {
         val owner = FakeLifecycleOwner()
         val data = MutableLiveData(-1)
@@ -281,15 +252,5 @@ class LiveDataTest {
                 assertFalse(hasActiveObservers())
             }
         }
-    }
-
-    @Test
-    fun testSubscribeChanges_LifecycleOwner_Observer_subscribe_MediatorLiveData() {
-        val owner = FakeLifecycleOwner()
-        val data = MediatorLiveData<Int>().apply { addSource(MutableLiveData(-1), this::setValue) }
-        data.value = 0
-        val observer = TestObserver<Int>()
-        data.subscribeChanges(owner, observer)
-        owner.resume().use { observer.assertValuesOnly(-1) }
     }
 }
