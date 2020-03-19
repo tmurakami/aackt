@@ -71,11 +71,11 @@ ext {
                           viewmodel           : "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion",
                           viewmodel_savedstate: "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycleVersion",]
 
-    def roomVersion = '2.2.4'
+    def roomVersion = '2.2.5'
     androidx.room = [runtime : "androidx.room:room-ktx:$roomVersion",
                      compiler: "androidx.room:room-compiler:$roomVersion",
                      rxjava2 : "androidx.room:room-rxjava2:$roomVersion",
                      testing : "androidx.room:room-testing:$roomVersion",]
 
-    androidx.work = [runtime: 'androidx.work:work-runtime-ktx:2.3.3',]
+    androidx.work = [runtime: 'androidx.work:work-runtime-ktx:2.3.4',]
 }
