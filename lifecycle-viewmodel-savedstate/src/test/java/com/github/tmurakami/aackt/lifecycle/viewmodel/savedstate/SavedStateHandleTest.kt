@@ -34,9 +34,9 @@ class SavedStateHandleTest {
     fun testLiveData() {
         val handle = SavedStateHandle()
         val data by handle.liveData<Int>()
-        assertNull(data.value)
-        handle["data"] = 0
-        assertSame(0, data.value)
+        assertNull(handle["data"])
+        data.value = 0
+        assertSame(0, handle.get<Int?>("data"))
     }
 
     @Test

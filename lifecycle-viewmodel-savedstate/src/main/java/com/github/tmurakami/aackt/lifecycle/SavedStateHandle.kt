@@ -19,17 +19,17 @@
 package com.github.tmurakami.aackt.lifecycle
 
 import androidx.annotation.MainThread
-import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
 /**
- * Creates a [ReadOnlyProperty] to access a [LiveData] associated with the property name.
+ * Creates a [ReadOnlyProperty] to access a [MutableLiveData] associated with the property name.
  */
 @MainThread
-fun <T> SavedStateHandle.liveData(): ReadOnlyProperty<Any?, LiveData<T>> =
-    object : ReadOnlyProperty<Any?, LiveData<T>> {
+fun <T> SavedStateHandle.liveData(): ReadOnlyProperty<Any?, MutableLiveData<T>> =
+    object : ReadOnlyProperty<Any?, MutableLiveData<T>> {
         override fun getValue(thisRef: Any?, property: KProperty<*>) = getLiveData<T>(property.name)
     }
 
