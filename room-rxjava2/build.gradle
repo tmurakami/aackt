@@ -6,7 +6,9 @@ dependencies {
 }
 
 dokka {
-    externalDocumentationLink {
-        url = 'http://reactivex.io/RxJava/2.x/javadoc/'.toURL()
+    configuration {
+        externalDocumentationLink {
+            url = 'http://reactivex.io/RxJava/2.x/javadoc/'.toURL()
+        }
     }
 }

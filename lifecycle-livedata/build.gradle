@@ -6,4 +6,8 @@ dependencies {
     testImplementation deps.androidx.arch.core.testing
 }
 
-dokka.samples = android.sourceSets.test.java.srcDirs.collect { it.path }
+dokka {
+    configuration {
+        samples = android.sourceSets.test.java.srcDirs.collect { it.path }
+    }
+}
