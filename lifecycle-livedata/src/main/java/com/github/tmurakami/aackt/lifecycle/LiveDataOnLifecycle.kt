@@ -24,6 +24,7 @@ import java.util.LinkedList
 internal class LiveDataOnLifecycle<T>(source: LiveData<T>) : MediatorLiveData<T>(), Observer<T> {
     @JvmField // Not to increase methods count
     internal val onActiveActions = LinkedList<Runnable>()
+
     @JvmField // Not to increase methods count
     internal val onInactiveActions = LinkedList<Runnable>()
 
