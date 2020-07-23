@@ -6,13 +6,13 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.6.3'
+        classpath 'com.android.tools.build:gradle:4.0.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
         classpath 'org.jetbrains.dokka:dokka-gradle-plugin:0.10.1'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
-        classpath 'pl.allegro.tech.build:axion-release-plugin:1.11.0'
-        classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:1.0.2'
-        classpath 'com.github.ben-manes:gradle-versions-plugin:0.28.0'
+        classpath 'pl.allegro.tech.build:axion-release-plugin:1.12.0'
+        classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:1.0.4'
+        classpath 'com.github.ben-manes:gradle-versions-plugin:0.29.0'
         classpath 'de.mobilej.unmock:UnMockPlugin:0.7.6'
     }
 }
@@ -67,7 +67,7 @@ dependencyUpdates {
 ext {
     deps = [:]
 
-    deps.ktlint = 'com.pinterest:ktlint:0.36.0'
+    deps.ktlint = 'com.pinterest:ktlint:0.37.2'
 
     deps.kotlin = [stdlib: 'org.jetbrains.kotlin:kotlin-stdlib',
                    junit4: 'org.jetbrains.kotlin:kotlin-test-junit',]
@@ -89,5 +89,5 @@ ext {
                      rxjava2 : "androidx.room:room-rxjava2:$roomVersion",
                      testing : "androidx.room:room-testing:$roomVersion",]
 
-    androidx.work = [runtime: 'androidx.work:work-runtime-ktx:2.3.4',]
+    androidx.work = [runtime: 'androidx.work:work-runtime-ktx:2.4.0',]
 }
