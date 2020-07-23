@@ -168,14 +168,17 @@ inline fun <T> LiveData<T>.distinct(crossinline selector: (T) -> Any? = { it }):
 @MainThread
 inline fun <T> LiveData<T>.distinctUntilChanged(crossinline selector: (T) -> Any?): LiveData<T> {
     val result = MediatorLiveData<T>()
-    result.addSource(this, object : Observer<T> {
-        private var lastKey: Any? = /* NOT_SET */ this
-        override fun onChanged(t: T) {
-            val key = selector(t)
-            if (key != lastKey) result.value = t
-            lastKey = key
+    result.addSource(
+        this,
+        object : Observer<T> {
+            private var lastKey: Any? = /* NOT_SET */ this
+            override fun onChanged(t: T) {
+                val key = selector(t)
+                if (key != lastKey) result.value = t
+                lastKey = key
+            }
         }
-    })
+    )
     return result
 }
 
@@ -187,12 +190,15 @@ inline fun <T> LiveData<T>.distinctUntilChanged(crossinline selector: (T) -> Any
 @MainThread
 fun <T> LiveData<T>.drop(n: Int): LiveData<T> {
     val result = MediatorLiveData<T>()
-    result.addSource(this, object : Observer<T> {
-        private var count = 0
-        override fun onChanged(t: T) {
-            if (++count > n) result.value = t
+    result.addSource(
+        this,
+        object : Observer<T> {
+            private var count = 0
+            override fun onChanged(t: T) {
+                if (++count > n) result.value = t
+            }
         }
-    })
+    )
     return result
 }
 
@@ -205,14 +211,17 @@ fun <T> LiveData<T>.drop(n: Int): LiveData<T> {
 @MainThread
 inline fun <T> LiveData<T>.dropWhile(crossinline predicate: (T) -> Boolean): LiveData<T> {
     val result = MediatorLiveData<T>()
-    result.addSource(this, object : Observer<T> {
-        private var drop = true
-        override fun onChanged(t: T) {
-            var drop = drop
-            if (drop) drop = predicate(t).also { this.drop = it }
-            if (drop.not()) result.value = t
+    result.addSource(
+        this,
+        object : Observer<T> {
+            private var drop = true
+            override fun onChanged(t: T) {
+                var drop = drop
+                if (drop) drop = predicate(t).also { this.drop = it }
+                if (drop.not()) result.value = t
+            }
         }
-    })
+    )
     return result
 }
 
@@ -224,12 +233,15 @@ inline fun <T> LiveData<T>.dropWhile(crossinline predicate: (T) -> Boolean): Liv
 @MainThread
 fun <T> LiveData<T>.take(n: Int): LiveData<T> {
     val result = MediatorLiveData<T>()
-    result.addSource(this, object : Observer<T> {
-        private var count = 0
-        override fun onChanged(t: T) {
-            if (count++ < n) result.value = t else result.removeSource(this@take)
+    result.addSource(
+        this,
+        object : Observer<T> {
+            private var count = 0
+            override fun onChanged(t: T) {
+                if (count++ < n) result.value = t else result.removeSource(this@take)
+            }
         }
-    })
+    )
     return result
 }
 
@@ -405,13 +417,16 @@ fun <T> LiveData<T>.zipWithNext(): LiveData<Pair<T, T>> = zipWithNext(::Pair)
 @MainThread
 inline fun <T, R> LiveData<T>.zipWithNext(crossinline transform: (a: T, b: T) -> R): LiveData<R> {
     val result = MediatorLiveData<R>()
-    result.addSource(this, object : Observer<T> {
-        private var lastValue: Any? = /* NOT_SET */ this
-        override fun onChanged(t: T) {
-            val lastValue = lastValue.apply { lastValue = t }
-            @Suppress("UNCHECKED_CAST")
-            if (lastValue !== /* NOT_SET */ this) result.value = transform(lastValue as T, t)
+    result.addSource(
+        this,
+        object : Observer<T> {
+            private var lastValue: Any? = /* NOT_SET */ this
+            override fun onChanged(t: T) {
+                val lastValue = lastValue.apply { lastValue = t }
+                @Suppress("UNCHECKED_CAST")
+                if (lastValue !== /* NOT_SET */ this) result.value = transform(lastValue as T, t)
+            }
         }
-    })
+    )
     return result
 }
